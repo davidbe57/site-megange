@@ -13,6 +13,9 @@ jobs:
       - name: Install lftp
         run: sudo apt-get update -qq && sudo apt-get install -y -qq lftp
 
+      - name: List local files
+        run: ls -la
+
       - name: Deploy via SFTP
         env:
           LFTP_PASSWORD: ${{ secrets.SFTP_PASSWORD }}
@@ -22,4 +25,5 @@ jobs:
             -e "set sftp:auto-confirm yes; \
             mirror -R --delete --verbose \
             --exclude .git/ --exclude .github/ \
-            . ${{ secrets.SFTP_TARGET }}; quit"
+            . ${{ secrets.SFTP_TARGET }}; \
+            ls -la ${{ secrets.SFTP_TARGET }}; quit"
