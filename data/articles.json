@@ -1,0 +1,38 @@
+[
+    {
+        "id": 1,
+        "title": "Fête de la Saint-Martin 2026",
+        "date": "2026-06-15",
+        "author": "La mairie",
+        "image": "",
+        "content": "La traditionnelle fête de la Saint-Martin aura lieu le dimanche 10 novembre 2026. Au programme : messe, dépôt de gerbe, vin d'honneur à la salle polyvalente et repas dansant. Les inscriptions sont ouvertes jusqu'au 1er novembre en mairie.",
+        "excerpt": "La traditionnelle fête de la Saint-Martin aura lieu le dimanche 10 novembre 2026."
+    },
+    {
+        "id": 2,
+        "title": "Inauguration du nouveau city-stade",
+        "date": "2026-05-20",
+        "author": "La mairie",
+        "image": "",
+        "content": "Le nouveau city-stade de Mégange est officiellement ouvert ! Après plusieurs mois de travaux, les jeunes et moins jeunes peuvent désormais profiter de ce bel équipement sportif situé rue des Jardins. Basket, football, handball : à vous de jouer !",
+        "excerpt": "Le nouveau city-stade de Mégange est officiellement ouvert !"
+    },
+    {
+        "id": 3,
+        "title": "Atelier nichoirs : un succès !",
+        "date": "2026-04-08",
+        "author": "Club de l'Amitié",
+        "image": "",
+        "content": "L'atelier de construction de nichoirs organisé par le Club de l'Amitié a rassemblé une vingtaine de participants. Petits et grands ont fabriqué des nichoirs qui seront installés dans le parc de la mairie. Une belle matinée conviviale et écologique !",
+        "excerpt": "L'atelier de construction de nichoirs a rassemblé une vingtaine de participants."
+    },
+    {
+        "id": 4,
+        "title": "Test David",
+        "date": "2026-07-02",
+        "author": "David",
+        "image": "assets\/images\/blog\/blog_1783002809_3f153dd1.png",
+        "content": "Test David",
+        "excerpt": "Test David"
+    }
+]
