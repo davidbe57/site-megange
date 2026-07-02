@@ -16,7 +16,7 @@
     <header class="site-header" role="banner">
         <div class="container header-inner">
             <a href="index.php" class="logo">
-                <span class="logo-icon"><i class="fas fa-tree"></i></span>
+                <span class="logo-icon"><img src="assets/images/blason.svg" alt="Blason de Mégange" class="logo-blason"></span>
                 <div class="logo-text">
                     <span class="logo-title"><?= $site_name ?></span>
                     <span class="logo-subtitle"><?= $site_tagline ?></span>

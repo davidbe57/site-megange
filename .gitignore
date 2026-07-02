@@ -2,3 +2,11 @@
 Thumbs.db
 .DS_Store
 Desktop.ini
+
+# IDE
+.vscode/
+.idea/
+*.sublime-*
+
+# PanneauPocket cache (auto-generated)
+data/panneaupocket_cache.json

@@ -8,15 +8,6 @@
             </div>
 
             <div class="footer-col">
-                <h3>Horaires d'ouverture</h3>
-                <ul class="hours-list">
-                    <?php foreach ($mairie_hours as $day => $hours): ?>
-                    <li><span class="day"><?= $day ?></span><span class="hours"><?= $hours ?></span></li>
-                    <?php endforeach; ?>
-                </ul>
-            </div>
-
-            <div class="footer-col">
                 <h3>Contact</h3>
                 <address>
                     <p><i class="fas fa-location-dot"></i> <?= $site_address ?></p>
@@ -46,6 +37,41 @@
 
     <button class="back-to-top" aria-label="Retour en haut"><i class="fas fa-arrow-up"></i></button>
 
+    <div class="side-actions">
+        <button class="side-btn" id="mapBtn" aria-label="Voir la carte" title="Carte">
+            <i class="fas fa-map-marked-alt"></i>
+            <span class="side-btn-label">Carte</span>
+        </button>
+        <button class="side-btn" id="weatherBtn" aria-label="Voir la météo" title="Météo">
+            <i class="fas fa-cloud-sun"></i>
+            <span class="side-btn-label">Météo</span>
+        </button>
+    </div>
+
+    <!-- Map Modal -->
+    <div class="modal" id="mapModal" role="dialog" aria-modal="true" aria-label="Carte de Mégange">
+        <div class="modal-overlay"></div>
+        <div class="modal-content modal-content--large">
+            <button class="modal-close" aria-label="Fermer">&times;</button>
+            <h3><i class="fas fa-map-marked-alt"></i> Mairie de Mégange</h3>
+            <p style="font-size:0.9rem;color:var(--gray-400);margin-bottom:1rem;">25 rue Principale, 57220 Mégange</p>
+            <div id="map" style="height:400px;border-radius:var(--radius-sm);"></div>
+        </div>
+    </div>
+
+    <!-- Weather Modal -->
+    <div class="modal" id="weatherModal" role="dialog" aria-modal="true" aria-label="Météo à Mégange">
+        <div class="modal-overlay"></div>
+        <div class="modal-content">
+            <button class="modal-close" aria-label="Fermer">&times;</button>
+            <h3><i class="fas fa-cloud-sun"></i> Météo à Mégange</h3>
+            <div id="weatherContent" style="text-align:center;padding:1.5rem 0;">
+                <p style="color:var(--gray-400);"><i class="fas fa-spinner fa-spin"></i> Chargement…</p>
+            </div>
+        </div>
+    </div>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" id="leaflet-css">
     <script src="assets/js/main.js"></script>
 </body>
 </html>

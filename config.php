@@ -37,6 +37,12 @@ $mairie_hours = [
 // Admin
 $admin_password = 'megange2026'; // Changez ce mot de passe !
 
+// PanneauPocket
+$panneaupocket_enabled = true;
+$panneaupocket_widget_url = 'https://app.panneaupocket.com/embeded/250252113'; // URL du widget iframe
+$panneaupocket_commune_id = '250252113'; // ID de la commune sur PanneauPocket
+$panneaupocket_public_url = 'https://app.panneaupocket.com/ville/250252113-megange-57220';
+
 // Équipe municipale
 $municipal_team = [
     ['name' => 'Nom du Maire', 'role' => 'Maire', 'delegation' => ''],
