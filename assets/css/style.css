@@ -1380,11 +1380,13 @@ textarea.form-control {
         background: rgba(0,0,0,0.5);
         z-index: -1;
         opacity: 0;
+        pointer-events: none;
         transition: var(--transition);
     }
 
     .main-nav.open::before {
         opacity: 1;
+        pointer-events: auto;
     }
 
     .main-nav ul {
