@@ -27,19 +27,28 @@
                             'autre'        => 'Autre demande',
                         ];
                         $subjectLabel = $subjects[$subj] ?? 'Contact';
-                        $headers = 'From: ' . $email . "\r\n" .
-                                   'Reply-To: ' . $email . "\r\n" .
-                                   'Content-Type: text/plain; charset=utf-8' . "\r\n" .
-                                   'X-Mailer: PHP/' . phpversion();
+                        $entry = [
+                            'date'    => date('Y-m-d H:i:s'),
+                            'name'    => $name,
+                            'email'   => $email,
+                            'subject' => $subjectLabel,
+                            'message' => $msg,
+                        ];
+                        $file = __DIR__ . '/../data/contact_messages.json';
+                        $msgs = file_exists($file) ? (json_decode(file_get_contents($file), true) ?: []) : [];
+                        array_unshift($msgs, $entry);
+                        file_put_contents($file, json_encode($msgs, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+                        $headers = 'From: ' . $site_email . "\r\n"
+                                 . 'Reply-To: ' . $email . "\r\n"
+                                 . 'Return-Path: ' . $site_email . "\r\n"
+                                 . 'Content-Type: text/plain; charset=utf-8' . "\r\n"
+                                 . 'X-Mailer: PHP/' . phpversion();
                         $body = "Nom : $name\n"
                               . "Email : $email\n"
                               . "Sujet : $subjectLabel\n\n"
                               . "Message :\n$msg";
-                        if (@mail($contact_email, '[Mégange] ' . $subjectLabel, $body, $headers)) {
-                            echo '<div class="form-success" style="display: block;">Merci pour votre message ! Nous vous répondrons dans les plus brefs délais.</div>';
-                        } else {
-                            echo '<div class="form-success" style="display: block; background: #fde8e8; color: #c00;">Erreur lors de l\'envoi. Veuillez réessayer ou nous contacter par téléphone.</div>';
-                        }
+                        @mail($contact_email, '[Mégange] ' . $subjectLabel, $body, $headers);
+                        echo '<div class="form-success" style="display: block;">Merci pour votre message ! Nous vous répondrons dans les plus brefs délais.</div>';
                     }
                     ?>
                     <div class="form-group">
