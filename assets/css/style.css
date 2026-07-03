@@ -1353,6 +1353,7 @@ textarea.form-control {
 
 @media (max-width: 768px) {
     .menu-toggle { display: flex; }
+    .site-header .header-inner > div:has(.theme-toggle) { position: relative; z-index: 1002; }
 
     .main-nav {
         position: fixed;
