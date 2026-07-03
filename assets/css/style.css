@@ -728,17 +728,46 @@ img { max-width: 100%; height: auto; display: block; }
     transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), color 0.25s ease;
 }
 
+.home-link-card {
+    position: relative;
+    overflow: hidden;
+}
+
+.home-link-card::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: linear-gradient(135deg, var(--terracotta), var(--terracotta-light));
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 0;
+}
+
+.home-link-card:hover::after {
+    opacity: 1;
+}
+
 .home-link-card:hover {
-    background: var(--terracotta);
     color: var(--white);
-    transform: translateY(-10px) scale(1.07);
-    box-shadow: 0 16px 32px rgba(0,0,0,0.18);
+    transform: translateY(-12px) scale(1.08);
+    box-shadow: 0 20px 40px rgba(200, 103, 61, 0.25);
     border-color: var(--terracotta);
+}
+
+.home-link-card:hover i,
+.home-link-card:hover span {
+    position: relative;
+    z-index: 1;
 }
 
 .home-link-card:hover i {
     color: var(--white);
-    transform: scale(1.35) rotate(-8deg);
+    transform: scale(1.4) rotate(-10deg);
+}
+
+.home-link-card:hover span {
+    color: var(--white);
 }
 
 @media (max-width: 860px) {
