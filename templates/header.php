@@ -34,12 +34,22 @@
 
             <nav class="main-nav" role="navigation" aria-label="Navigation principale">
                 <ul>
-                    <?php foreach ($nav as $key => $item): ?>
-                    <li>
+                    <?php foreach ($nav as $key => $item):
+                        $hasChildren = isset($item['children']) && count($item['children']) > 0;
+                    ?>
+                    <li class="nav-item<?= $hasChildren ? ' has-dropdown' : '' ?>">
                         <a href="index.php?p=<?= $key ?>" class="<?= $page === $key ? 'active' : '' ?>">
                             <i class="fas <?= $item['icon'] ?>"></i>
                             <span><?= $item['label'] ?></span>
+                            <?php if ($hasChildren): ?><i class="fas fa-chevron-down dropdown-arrow"></i><?php endif; ?>
                         </a>
+                        <?php if ($hasChildren): ?>
+                        <ul class="dropdown">
+                            <?php foreach ($item['children'] as $child): ?>
+                            <li><a href="<?= $child['href'] ?>"><?= $child['label'] ?></a></li>
+                            <?php endforeach; ?>
+                        </ul>
+                        <?php endif; ?>
                     </li>
                     <?php endforeach; ?>
                 </ul>

@@ -9,11 +9,11 @@
     <div class="container">
         <div class="content-grid">
             <div class="content-main">
-                <h2>Le conseil municipal</h2>
+                <h2 id="conseil">Le conseil municipal</h2>
                 <p>Le conseil municipal de Mégange est composé d'élus dévoués au service de la commune et de ses habitants. Il se réunit régulièrement pour discuter et voter les décisions qui façonnent l'avenir du village.</p>
                 <p>Les séances du conseil municipal sont publiques. Vous êtes invités à y assister pour suivre la vie démocratique de votre commune.</p>
 
-                <h2>L'équipe municipale</h2>
+                <h2 id="equipe">L'équipe municipale</h2>
                 <div class="team-grid">
                     <?php foreach ($municipal_team as $member): ?>
                     <div class="team-card">
@@ -27,10 +27,10 @@
                     <?php endforeach; ?>
                 </div>
 
-                <h2>Les comptes-rendus</h2>
+                <h2 id="comptes">Les comptes-rendus</h2>
                 <p>Les comptes-rendus des conseils municipaux sont disponibles en mairie et peuvent être consultés sur demande. Ils retracent les délibérations et les décisions prises pour la gestion de la commune.</p>
 
-                <h2>Budget communal</h2>
+                <h2 id="budget">Budget communal</h2>
                 <p>La transparence budgétaire est une priorité. Le budget de la commune est voté chaque année par le conseil municipal et peut être consulté par tout citoyen qui en fait la demande en mairie.</p>
             </div>
 

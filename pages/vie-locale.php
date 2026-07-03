@@ -23,7 +23,7 @@ $associations = [
     <div class="container">
         <?php if (!empty($articles)): ?>
         <div class="section-header">
-            <h2>Le blog de Mégange</h2>
+            <h2 id="blog">Le blog de Mégange</h2>
             <p>Toutes les actualités du village</p>
         </div>
 
@@ -49,7 +49,7 @@ $associations = [
         <?php endif; ?>
 
         <div class="section-header" style="margin-top: <?= empty($articles) ? '0' : '4rem' ?>;">
-            <h2>Associations</h2>
+            <h2 id="associations">Associations</h2>
             <p>Les associations qui animent notre village</p>
         </div>
 

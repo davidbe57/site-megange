@@ -15,7 +15,31 @@
                 <form method="POST" action="index.php?p=contact" class="contact-form">
                     <?php
                     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                        echo '<div class="form-success" style="display: block;">Merci pour votre message ! Nous vous répondrons dans les plus brefs délais.</div>';
+                        $name  = trim($_POST['name'] ?? '');
+                        $email = trim($_POST['email'] ?? '');
+                        $subj  = $_POST['subject'] ?? '';
+                        $msg   = trim($_POST['message'] ?? '');
+                        $subjects = [
+                            'etat-civil'   => 'État civil',
+                            'urbanisme'    => 'Urbanisme / Permis de construire',
+                            'associations' => 'Vie associative',
+                            'evenement'    => 'Proposer un événement',
+                            'autre'        => 'Autre demande',
+                        ];
+                        $subjectLabel = $subjects[$subj] ?? 'Contact';
+                        $headers = 'From: ' . $email . "\r\n" .
+                                   'Reply-To: ' . $email . "\r\n" .
+                                   'Content-Type: text/plain; charset=utf-8' . "\r\n" .
+                                   'X-Mailer: PHP/' . phpversion();
+                        $body = "Nom : $name\n"
+                              . "Email : $email\n"
+                              . "Sujet : $subjectLabel\n\n"
+                              . "Message :\n$msg";
+                        if (@mail($contact_email, '[Mégange] ' . $subjectLabel, $body, $headers)) {
+                            echo '<div class="form-success" style="display: block;">Merci pour votre message ! Nous vous répondrons dans les plus brefs délais.</div>';
+                        } else {
+                            echo '<div class="form-success" style="display: block; background: #fde8e8; color: #c00;">Erreur lors de l\'envoi. Veuillez réessayer ou nous contacter par téléphone.</div>';
+                        }
                     }
                     ?>
                     <div class="form-group">
