@@ -716,7 +716,7 @@ img { max-width: 100%; height: auto; display: block; }
     border-radius: var(--radius-sm);
     border: 1px solid var(--border);
     text-decoration: none;
-    transition: var(--transition);
+    transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
     color: var(--text);
     font-size: 0.9rem;
     font-weight: 500;
@@ -725,20 +725,20 @@ img { max-width: 100%; height: auto; display: block; }
 .home-link-card i {
     font-size: 1.5rem;
     color: var(--terracotta);
-    transition: transform 0.3s ease, color 0.3s ease;
+    transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), color 0.25s ease;
 }
 
 .home-link-card:hover {
     background: var(--terracotta);
     color: var(--white);
-    transform: translateY(-6px) scale(1.04);
-    box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+    transform: translateY(-10px) scale(1.07);
+    box-shadow: 0 16px 32px rgba(0,0,0,0.18);
     border-color: var(--terracotta);
 }
 
 .home-link-card:hover i {
     color: var(--white);
-    transform: scale(1.25);
+    transform: scale(1.35) rotate(-8deg);
 }
 
 @media (max-width: 860px) {
