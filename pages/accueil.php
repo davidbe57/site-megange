@@ -11,7 +11,7 @@
 
     <div class="container hero-content">
         <h1>Bienvenue à <?= $site_name ?></h1>
-        <p>Situé au c&#339;ur du Pays Messin, Mégange est un charmant village mosellan d'environ 300 habitants. Entre traditions et modernité, notre commune offre un cadre de vie paisible et convivial à ses résidents.</p>
+        <p>Mégange est un charmant village mosellan, où convivialité et qualité de vie sont au cœur de notre identité. Entre traditions et modernité, notre commune offre un cadre de vie paisible à ses résidents.</p>
         <div class="hero-actions">
             <a href="index.php?p=la-commune" class="btn btn-primary"><i class="fas fa-tree"></i> Découvrir le village</a>
             <a href="index.php?p=contact" class="btn btn-secondary"><i class="fas fa-envelope"></i> Nous contacter</a>
@@ -25,7 +25,7 @@
             <div class="home-main">
                 <article class="home-article home-article--featured">
                     <h2 class="home-article-title">Bienvenue à Mégange</h2>
-                    <p>Niché au c&#339;ur du Pays Messin, notre village de 300 habitants allie le charme de la campagne mosellane à la proximité des commodités urbaines. Entre ses sentiers verdoyants, son église Saint-Martin et la convivialité de ses habitants, Mégange est un lieu de vie où il fait bon s'installer.</p>
+                    <p>Notre village de la campagne mosellane allie le charme de la vie rurale à la convivialité de ses habitants. Entre ses sentiers verdoyants, sa chapelle de l'Immaculée-Conception et la richesse de son patrimoine, Mégange est un lieu de vie où il fait bon s'installer.</p>
                     <p>La commune s'engage au quotidien pour améliorer le cadre de vie de ses résidents, préserver son patrimoine et dynamiser la vie locale. Consultez cette page pour suivre l'actualité de votre village.</p>
                 </article>
 
