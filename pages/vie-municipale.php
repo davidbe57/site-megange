@@ -27,6 +27,8 @@
                     <?php endforeach; ?>
                 </div>
 
+                <h2 id="comptes">Les comptes-rendus</h2>
+                <p>Consultez les comptes-rendus des conseils municipaux.</p>
                 <?php
                 $crFile = __DIR__ . '/../data/comptes_rendus.json';
                 $crs = file_exists($crFile) ? (json_decode(file_get_contents($crFile), true) ?: []) : [];
@@ -45,17 +47,18 @@
                         <div class="cr-grid">
                             <?php foreach ($items as $cr): ?>
                             <a href="<?= htmlspecialchars($cr['file']) ?>" class="cr-card" target="_blank">
-                                <div class="cr-thumb">
+                                <span class="cr-thumb">
                                     <?php if (!empty($cr['thumbnail'])): ?>
                                     <img src="<?= htmlspecialchars($cr['thumbnail']) ?>" alt="" loading="lazy">
                                     <?php else: ?>
                                     <i class="fas fa-file-pdf"></i>
                                     <?php endif; ?>
-                                </div>
-                                <div class="cr-info">
-                                    <span class="cr-date"><?= date('d/m/Y', strtotime($cr['date'])) ?></span>
-                                    <span class="cr-title"><?= htmlspecialchars($cr['title']) ?></span>
-                                </div>
+                                </span>
+                                <span class="cr-label"><?php
+                    $ts = strtotime($cr['date']);
+                    $months = ['','JANVIER','FÉVRIER','MARS','AVRIL','MAI','JUIN','JUILLET','AOÛT','SEPTEMBRE','OCTOBRE','NOVEMBRE','DÉCEMBRE'];
+                    echo str_pad(date('d', $ts), 2, '0', STR_PAD_LEFT) . ' ' . $months[(int)date('m', $ts)] . ' ' . date('Y', $ts);
+                ?></span>
                             </a>
                             <?php endforeach; ?>
                         </div>

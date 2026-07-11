@@ -26,6 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $tName = 'cr_' . date('Ymd_His') . '_' . bin2hex(random_bytes(4)) . '.jpg';
             $tFull = __DIR__ . '/../assets/images/cr/' . $tName;
 
+            // 1) Imagick PHP extension
             if (extension_loaded('imagick')) {
                 try {
                     $img = new Imagick();
@@ -41,6 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 } catch (Exception $e) {}
             }
 
+            // 2) Ghostscript CLI
             if ($thumbPath === '') {
                 $gsBin = PHP_OS_FAMILY === 'Windows' ? 'gswin64c' : 'gs';
                 $cmd = sprintf('"%s" -dNOPAUSE -dBATCH -dSAFER -sDEVICE=jpeg -r150 -dFirstPage=1 -dLastPage=1 -sOutputFile="%s" "%s" 2>&1', $gsBin, $tFull, $pdfPath);
@@ -50,10 +52,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }
             }
 
-            if ($thumbPath === '' && $thumb && $thumb['error'] === UPLOAD_ERR_OK) {
-                $tExt = strtolower(pathinfo($thumb['name'], PATHINFO_EXTENSION));
-                if (in_array($tExt, ['jpg','jpeg','png','webp'])) {
-                    move_uploaded_file($thumb['tmp_name'], $tFull);
+            // 3) ImageMagick CLI (convert)
+            if ($thumbPath === '') {
+                $cmd = sprintf('convert -density 150 "%s"[0] -quality 85 -strip "%s" 2>&1', $pdfPath, $tFull);
+                exec($cmd, $out, $code);
+                if ($code === 0 && file_exists($tFull) && filesize($tFull) > 1000) {
+                    $thumbPath = 'assets/images/cr/' . $tName;
+                }
+            }
+
+            // 4) pdftoppm CLI (poppler)
+            if ($thumbPath === '') {
+                $ppmBase = preg_replace('/\.jpg$/', '', $tFull);
+                $cmd = sprintf('pdftoppm -f 1 -l 1 -r 150 -jpeg "%s" "%s" 2>&1', $pdfPath, $ppmBase);
+                exec($cmd, $out, $code);
+                $ppmFile = $ppmBase . '-1.jpg';
+                if ($code === 0 && file_exists($ppmFile) && filesize($ppmFile) > 1000) {
+                    rename($ppmFile, $tFull);
                     $thumbPath = 'assets/images/cr/' . $tName;
                 }
             }

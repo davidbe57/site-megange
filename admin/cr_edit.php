@@ -50,6 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $tName = 'cr_' . date('Ymd_His') . '_' . bin2hex(random_bytes(4)) . '.jpg';
             $tFull = __DIR__ . '/../assets/images/cr/' . $tName;
 
+            // 1) Imagick PHP extension
             if (extension_loaded('imagick')) {
                 try {
                     $img = new Imagick();
@@ -65,11 +66,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 } catch (Exception $e) {}
             }
 
+            // 2) Ghostscript CLI
             if (empty($cr['thumbnail'])) {
                 $gsBin = PHP_OS_FAMILY === 'Windows' ? 'gswin64c' : 'gs';
                 $cmd = sprintf('"%s" -dNOPAUSE -dBATCH -dSAFER -sDEVICE=jpeg -r150 -dFirstPage=1 -dLastPage=1 -sOutputFile="%s" "%s" 2>&1', $gsBin, $tFull, $pdfPath);
                 exec($cmd, $out, $code);
                 if ($code === 0 && file_exists($tFull) && filesize($tFull) > 1000) {
+                    $cr['thumbnail'] = 'assets/images/cr/' . $tName;
+                }
+            }
+
+            // 3) ImageMagick CLI (convert)
+            if (empty($cr['thumbnail'])) {
+                $cmd = sprintf('convert -density 150 "%s"[0] -quality 85 -strip "%s" 2>&1', $pdfPath, $tFull);
+                exec($cmd, $out, $code);
+                if ($code === 0 && file_exists($tFull) && filesize($tFull) > 1000) {
+                    $cr['thumbnail'] = 'assets/images/cr/' . $tName;
+                }
+            }
+
+            // 4) pdftoppm CLI (poppler)
+            if (empty($cr['thumbnail'])) {
+                $ppmBase = preg_replace('/\.jpg$/', '', $tFull);
+                $cmd = sprintf('pdftoppm -f 1 -l 1 -r 150 -jpeg "%s" "%s" 2>&1', $pdfPath, $ppmBase);
+                exec($cmd, $out, $code);
+                $ppmFile = $ppmBase . '-1.jpg';
+                if ($code === 0 && file_exists($ppmFile) && filesize($ppmFile) > 1000) {
+                    rename($ppmFile, $tFull);
                     $cr['thumbnail'] = 'assets/images/cr/' . $tName;
                 }
             }
