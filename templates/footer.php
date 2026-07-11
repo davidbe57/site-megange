@@ -2,7 +2,7 @@
 
     <footer class="site-footer" role="contentinfo">
         <div class="container footer-grid">
-            <div class="footer-col">
+            <div class="footer-col hide-mobile">
                 <h3><i class="fas fa-tree"></i> Mégange</h3>
                 <p>Bienvenue dans notre charmant village mosellan, où la convivialité et la qualité de vie sont au cœur de notre identité.</p>
             </div>

@@ -1693,6 +1693,7 @@ textarea.form-control {
     }
 
     .btn { text-align: center; justify-content: center; }
+    .hide-mobile { display: none; }
 }
 
 @media (max-width: 480px) {
