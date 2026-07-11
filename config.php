@@ -55,8 +55,9 @@ $nav = [
     'galerie'     => ['label' => 'Galerie',     'icon' => 'fa-images'],
 ];
 
-// Informations mairie
-$mairie_hours = [
+// Informations mairie (éditables via admin/horaires.php)
+$mairieHoursFile = DATA_DIR . '/mairie_hours.json';
+$mairieHoursDefault = [
     'Lundi'     => '14h00 - 17h00',
     'Mardi'     => '9h00 - 12h00',
     'Mercredi'  => 'Fermé',
@@ -65,6 +66,7 @@ $mairie_hours = [
     'Samedi'    => '9h00 - 12h00 (1er du mois)',
     'Dimanche'  => 'Fermé',
 ];
+$mairie_hours = file_exists($mairieHoursFile) ? (json_decode(file_get_contents($mairieHoursFile), true) ?: $mairieHoursDefault) : $mairieHoursDefault;
 
 // Admin
 $admin_password = 'megange2026'; // Changez ce mot de passe !

@@ -151,6 +151,13 @@ if (file_exists($art_file)) {
                 </div>
 
                 <div style="margin-top:2rem;padding-top:2rem;border-top:2px solid var(--border);">
+                    <h2 style="margin-bottom:1rem;">Configuration</h2>
+                    <div style="display:flex;gap:1rem;flex-wrap:wrap;">
+                        <a href="horaires.php" class="btn"><i class="fas fa-clock"></i> Horaires d'ouverture</a>
+                    </div>
+                </div>
+
+                <div style="margin-top:2rem;padding-top:2rem;border-top:2px solid var(--border);">
                     <h2 style="margin-bottom:1rem;">Vie municipale</h2>
                     <div style="display:flex;gap:1rem;flex-wrap:wrap;">
                         <a href="conseil.php" class="btn"><i class="fas fa-calendar"></i> Conseil & sidebar</a>
