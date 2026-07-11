@@ -28,10 +28,45 @@
                 </div>
 
                 <h2 id="comptes">Les comptes-rendus</h2>
-                <p>Les comptes-rendus des conseils municipaux sont disponibles en mairie et peuvent être consultés sur demande. Ils retracent les délibérations et les décisions prises pour la gestion de la commune.</p>
-
-                <h2 id="budget">Budget communal</h2>
-                <p>La transparence budgétaire est une priorité. Le budget de la commune est voté chaque année par le conseil municipal et peut être consulté par tout citoyen qui en fait la demande en mairie.</p>
+                <p>Consultez les comptes-rendus des conseils municipaux.</p>
+                <?php
+                $crFile = __DIR__ . '/../data/comptes_rendus.json';
+                $crs = file_exists($crFile) ? (json_decode(file_get_contents($crFile), true) ?: []) : [];
+                usort($crs, function ($a, $b) { return strcmp($b['date'], $a['date']); });
+                $groups = [];
+                foreach ($crs as $cr) {
+                    $year = substr($cr['date'], 0, 4);
+                    $groups[$year][] = $cr;
+                }
+                if (!empty($groups)):
+                ?>
+                <div class="cr-list">
+                    <?php foreach ($groups as $year => $items): ?>
+                    <div class="cr-year">
+                        <h3 class="cr-year-title">Année <?= $year ?></h3>
+                        <div class="cr-grid">
+                            <?php foreach ($items as $cr): ?>
+                            <a href="<?= htmlspecialchars($cr['file']) ?>" class="cr-card" target="_blank">
+                                <div class="cr-thumb">
+                                    <?php if (!empty($cr['thumbnail'])): ?>
+                                    <img src="<?= htmlspecialchars($cr['thumbnail']) ?>" alt="" loading="lazy">
+                                    <?php else: ?>
+                                    <i class="fas fa-file-pdf"></i>
+                                    <?php endif; ?>
+                                </div>
+                                <div class="cr-info">
+                                    <span class="cr-date"><?= date('d/m/Y', strtotime($cr['date'])) ?></span>
+                                    <span class="cr-title"><?= htmlspecialchars($cr['title']) ?></span>
+                                </div>
+                            </a>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+                    <?php endforeach; ?>
+                </div>
+                <?php else: ?>
+                <p style="color:var(--gray-400);">Aucun compte-rendu publié pour le moment.</p>
+                <?php endif; ?>
             </div>
 
             <aside class="sidebar">

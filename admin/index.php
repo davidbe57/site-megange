@@ -133,6 +133,14 @@ if (file_exists($art_file)) {
                         </tbody>
                     </table>
                 <?php endif; ?>
+
+                <div style="margin-top:3rem;padding-top:2rem;border-top:2px solid var(--border);">
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;">
+                        <h2>Comptes-rendus</h2>
+                        <a href="cr_create.php" class="btn btn-primary"><i class="fas fa-plus"></i> Ajouter</a>
+                    </div>
+                    <p style="color:var(--gray-400);"><a href="comptes_rendus.php">Gérer les comptes-rendus du conseil municipal</a></p>
+                </div>
             <?php endif; ?>
         </div>
     </main>
