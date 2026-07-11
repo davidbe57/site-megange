@@ -632,7 +632,7 @@ img { max-width: 100%; height: auto; display: block; }
     gap: 3rem;
 }
 
-.content-main h2 {
+.content-main h2, .vie-section h2 {
     margin-top: 2.5rem;
     padding-top: 1.5rem;
     border-top: 2px solid var(--green-100);
@@ -644,11 +644,36 @@ img { max-width: 100%; height: auto; display: block; }
     border-top: none;
 }
 
+.section-conseil h2 {
+    margin-top: 0;
+    padding-top: 0;
+    border-top: none;
+}
+
 .content-main ul, .content-main ol {
     margin: 0 0 1.5rem 1.5rem;
 }
 
 .content-main li { margin-bottom: 0.5rem; }
+
+/* Vie municipale grid layout */
+.vie-grid {
+    grid-template-areas:
+        "conseil   prochain"
+        "equipe    elus"
+        "comptes   .";
+}
+.section-conseil  { grid-area: conseil; }
+.section-prochain { grid-area: prochain; }
+.section-elus     { grid-area: elus; }
+.section-comptes  { grid-area: comptes; }
+.section-equipe   { grid-area: equipe; }
+
+/* Sidebar sections on mobile flow inline */
+.vie-grid .section-prochain,
+.vie-grid .section-elus {
+    margin-bottom: 0;
+}
 
 /* ===== Sidebar ===== */
 .sidebar-widget {
@@ -1555,8 +1580,24 @@ textarea.form-control {
         grid-template-columns: 1fr;
     }
 
+    .vie-grid {
+        gap: 2rem;
+        grid-template-areas:
+            "conseil"
+            "prochain"
+            "elus"
+            "comptes"
+            "equipe";
+    }
+
     .contact-grid {
         grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 600px) {
+    .team-grid {
+        grid-template-columns: repeat(2, 1fr);
     }
 }
 
