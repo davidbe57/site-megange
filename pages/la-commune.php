@@ -44,10 +44,10 @@
                         <h3 class="cr-year-title">Année <?= $year ?></h3>
                         <div class="cr-grid">
                             <?php foreach ($items as $b): ?>
-                            <a href="<?= htmlspecialchars($b['file']) ?>" class="cr-card" target="_blank">
+                            <a href="<?= htmlspecialchars(fileUrl($b['file'])) ?>" class="cr-card<?= fileExists($b['file']) ? '' : ' cr-missing' ?>" target="_blank">
                                 <span class="cr-thumb">
-                                    <?php if (!empty($b['thumbnail'])): ?>
-                                    <img src="<?= htmlspecialchars($b['thumbnail']) ?>" alt="" loading="lazy">
+                                    <?php if (!empty($b['thumbnail']) && fileExists($b['thumbnail'])): ?>
+                                    <img src="<?= htmlspecialchars(fileUrl($b['thumbnail'])) ?>" alt="" loading="lazy">
                                     <?php else: ?>
                                     <i class="fas fa-file-pdf"></i>
                                     <?php endif; ?>

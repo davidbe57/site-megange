@@ -86,13 +86,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <label for="pdf">Fichier PDF (laisser vide pour conserver l'actuel)</label>
                     <input type="file" id="pdf" name="pdf" accept=".pdf" class="form-control" onchange="generateThumbnail(this)">
                     <img id="thumb-preview" class="thumb-preview" alt="Aperçu">
-                    <small>Actuel : <a href="../<?= htmlspecialchars($b['file']) ?>" target="_blank"><?= basename(parse_url($b['file'], PHP_URL_QUERY) ?: $b['file']) ?></a></small>
+                    <small>Actuel : <a href="../<?= htmlspecialchars(fileUrl($b['file'])) ?>" target="_blank"><?= basename(parse_url($b['file'], PHP_URL_QUERY) ?: $b['file']) ?></a></small>
                 </div>
                 <input type="hidden" name="thumb_data" id="thumb_data" value="">
                 <?php if (!empty($b['thumbnail'])): ?>
                 <div class="form-group">
                     <label>Preview actuelle</label>
-                    <div><img src="../<?= htmlspecialchars($b['thumbnail']) ?>" style="height:120px;border-radius:4px;"></div>
+                    <div><img src="../<?= htmlspecialchars(fileUrl($b['thumbnail'])) ?>" style="height:120px;border-radius:4px;"></div>
                 </div>
                 <?php endif; ?>
                 <button type="submit" class="btn btn-primary" id="submit-btn"><i class="fas fa-save"></i> Enregistrer</button>

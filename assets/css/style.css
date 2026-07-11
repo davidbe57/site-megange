@@ -1262,6 +1262,31 @@ textarea.form-control {
     .cr-card { width: calc(50% - 0.5rem); min-width: 0; }
 }
 
+.cr-card.cr-missing .cr-thumb {
+    background: #fef2f2;
+    color: #dc2626;
+    position: relative;
+}
+
+.cr-card.cr-missing .cr-thumb::after {
+    content: 'Fichier supprimé';
+    position: absolute;
+    bottom: 4px;
+    left: 4px;
+    right: 4px;
+    font-size: 0.6rem;
+    text-align: center;
+    background: rgba(220, 38, 38, 0.85);
+    color: #fff;
+    padding: 2px 4px;
+    border-radius: 2px;
+}
+
+.cr-card.cr-missing {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
 /* ===== Team ===== */
 .team-grid {
     display: grid;

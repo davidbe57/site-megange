@@ -12,7 +12,15 @@ $allowed = ['pdf', 'thumbnails', 'blog'];
 if (!in_array($dir, $allowed)) { http_response_code(404); exit; }
 
 $path = UPLOADS_DIR . '/' . $dir . '/' . $safe;
-if (!file_exists($path)) { http_response_code(404); exit; }
+$legacyPath = __DIR__ . '/assets/' . $dir . '/' . $safe;
+
+if (!file_exists($path)) {
+    if (file_exists($legacyPath)) {
+        $path = $legacyPath;
+    } else {
+        http_response_code(404); exit;
+    }
+}
 
 $ext = strtolower(pathinfo($safe, PATHINFO_EXTENSION));
 $mime = [

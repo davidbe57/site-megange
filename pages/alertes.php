@@ -34,7 +34,7 @@
                     <article class="pp-card">
                         <?php if (!empty($a['image'])): ?>
                         <div class="pp-card-img">
-                            <img src="<?= htmlspecialchars($a['image']) ?>" alt="" loading="lazy">
+                            <img src="<?= htmlspecialchars(fileUrl($a['image'])) ?>" alt="" loading="lazy">
                         </div>
                         <?php endif; ?>
                         <div class="pp-card-body">

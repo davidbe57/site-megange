@@ -66,7 +66,7 @@ $items = file_exists($file) ? (json_decode(file_get_contents($file), true) ?: []
                         <tr>
                             <td><strong><?= htmlspecialchars($b['title']) ?></strong></td>
                             <td><?= date('d/m/Y', strtotime($b['date'])) ?></td>
-                            <td><a href="../<?= htmlspecialchars($b['file']) ?>" target="_blank"><i class="fas fa-file-pdf"></i> PDF</a></td>
+                            <td><a href="../<?= htmlspecialchars(fileUrl($b['file'])) ?>" target="_blank"><i class="fas fa-file-pdf"></i> PDF</a></td>
                             <td>
                                 <div class="admin-actions">
                                     <a href="bulletin_edit.php?id=<?= $b['id'] ?>" style="background:var(--green-100);color:var(--green-700);"><i class="fas fa-edit"></i> Modifier</a>

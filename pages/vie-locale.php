@@ -21,9 +21,9 @@ $articles = array_reverse($articles);
         <div class="blog-list">
             <?php foreach ($articles as $art): ?>
             <article class="blog-card">
-                <?php if (!empty($art['image'])): ?>
+                <?php if (!empty($art['image']) && fileExists($art['image'])): ?>
                 <div class="blog-card-image">
-                    <img src="<?= htmlspecialchars($art['image']) ?>" alt="<?= htmlspecialchars($art['title']) ?>" loading="lazy">
+                    <img src="<?= htmlspecialchars(fileUrl($art['image'])) ?>" alt="<?= htmlspecialchars($art['title']) ?>" loading="lazy">
                 </div>
                 <?php endif; ?>
                 <div class="blog-card-body">

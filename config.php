@@ -17,6 +17,29 @@ foreach (['pdf', 'thumbnails', 'blog'] as $dir) {
     if (!is_dir($d)) { @mkdir($d, 0755, true); }
 }
 
+function fileUrl($path) {
+    if (strpos($path, 'serve.php?f=') === 0) return $path;
+    $relative = preg_replace('#^assets/(pdf|thumbnails|blog|images/(cr|newsletter|blog))/#', '$1/', $path);
+    if ($relative !== $path) return 'serve.php?f=' . $relative;
+    return $path;
+}
+
+function fileExists($path) {
+    $paths = [];
+    if (strpos($path, 'serve.php?f=') === 0) {
+        $paths[] = UPLOADS_DIR . '/' . substr($path, 12);
+        $paths[] = dirname(__DIR__) . '/assets/' . substr($path, 12);
+    } else {
+        $paths[] = dirname(__DIR__) . '/' . $path;
+        $relative = preg_replace('#^assets/(pdf|thumbnails|blog|images/(cr|newsletter|blog))/#', '', $path);
+        if ($relative !== $path) $paths[] = UPLOADS_DIR . '/' . $relative;
+    }
+    foreach ($paths as $p) {
+        if (file_exists($p)) return $p;
+    }
+    return false;
+}
+
 // Configuration du site
 $site_name = "Mégange";
 $site_tagline = "Un village mosellan où il fait bon vivre";
