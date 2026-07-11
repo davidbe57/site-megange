@@ -30,7 +30,7 @@
                 </article>
 
                 <?php
-                $articles_file = __DIR__ . '/../data/articles.json';
+                $articles_file = DATA_DIR . '/articles.json';
                 $articles = [];
                 if (file_exists($articles_file)) {
                     $articles = json_decode(file_get_contents($articles_file), true) ?: [];

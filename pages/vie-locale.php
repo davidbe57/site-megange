@@ -1,5 +1,5 @@
 <?php
-$art_file = __DIR__ . '/../data/articles.json';
+$art_file = DATA_DIR . '/articles.json';
 $articles = file_exists($art_file) ? (json_decode(file_get_contents($art_file), true) ?: []) : [];
 $articles = array_reverse($articles);
 ?>

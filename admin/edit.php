@@ -7,7 +7,7 @@ if (empty($_SESSION['admin'])) {
     exit;
 }
 
-$art_file = __DIR__ . '/../data/articles.json';
+$art_file = DATA_DIR . '/articles.json';
 $articles = file_exists($art_file) ? (json_decode(file_get_contents($art_file), true) ?: []) : [];
 
 $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;

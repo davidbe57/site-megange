@@ -20,7 +20,7 @@ $is_home = ($page === 'accueil');
 
 // Chargement des données
 $newsletter = [];
-$newsletter_file = __DIR__ . '/data/newsletter.json';
+$newsletter_file = DATA_DIR . '/newsletter.json';
 if (file_exists($newsletter_file)) {
     $newsletter = json_decode(file_get_contents($newsletter_file), true) ?: [];
 }

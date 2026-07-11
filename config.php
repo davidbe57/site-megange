@@ -1,4 +1,14 @@
 <?php
+// Répertoire de stockage des données persistantes (CR, articles, élus, etc.)
+// En local : ./data/ — Sur AlwaysData : définir un chemin hors du dépôt git
+$dataDir = __DIR__ . '/data';
+$externalDataDir = dirname(__DIR__) . '/megange-data';
+if (is_dir($externalDataDir) && is_writable($externalDataDir)) {
+    $dataDir = $externalDataDir;
+}
+define('DATA_DIR', $dataDir);
+if (!is_dir(DATA_DIR)) { @mkdir(DATA_DIR, 0755, true); }
+
 // Configuration du site
 $site_name = "Mégange";
 $site_tagline = "Un village mosellan où il fait bon vivre";

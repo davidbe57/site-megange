@@ -23,7 +23,7 @@ $logged_in = !empty($_SESSION['admin']);
 
 // Load articles
 $articles = [];
-$art_file = __DIR__ . '/../data/articles.json';
+$art_file = DATA_DIR . '/articles.json';
 if (file_exists($art_file)) {
     $articles = json_decode(file_get_contents($art_file), true) ?: [];
 }

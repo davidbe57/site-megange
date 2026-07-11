@@ -3,7 +3,7 @@ session_start();
 require_once __DIR__ . '/../config.php';
 if (empty($_SESSION['admin'])) { header('Location: index.php'); exit; }
 
-$file = __DIR__ . '/../data/conseil.json';
+$file = DATA_DIR . '/conseil.json';
 $data = file_exists($file) ? (json_decode(file_get_contents($file), true) ?: []) : [];
 $error = '';
 $success = '';

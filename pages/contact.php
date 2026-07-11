@@ -34,7 +34,7 @@
                             'subject' => $subjectLabel,
                             'message' => $msg,
                         ];
-                        $file = __DIR__ . '/../data/contact_messages.json';
+                        $file = DATA_DIR . '/contact_messages.json';
                         $msgs = file_exists($file) ? (json_decode(file_get_contents($file), true) ?: []) : [];
                         array_unshift($msgs, $entry);
                         file_put_contents($file, json_encode($msgs, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));

@@ -1,7 +1,7 @@
 <?php
-$conseilFile = __DIR__ . '/../data/conseil.json';
+$conseilFile = DATA_DIR . '/conseil.json';
 $conseilData = file_exists($conseilFile) ? (json_decode(file_get_contents($conseilFile), true) ?: []) : [];
-$elusFile = __DIR__ . '/../data/elus.json';
+$elusFile = DATA_DIR . '/elus.json';
 $elusData = file_exists($elusFile) ? (json_decode(file_get_contents($elusFile), true) ?: []) : [];
 if (empty($elusData)) $elusData = $municipal_team ?? [];
 $months = ['','janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
@@ -41,7 +41,7 @@ $dateStr = $ts ? date('d', $ts) . ' ' . $months[(int)date('m', $ts)] . ' ' . dat
                 <h2 id="comptes">Les comptes-rendus</h2>
                 <p>Consultez les comptes-rendus des conseils municipaux.</p>
                 <?php
-                $crFile = __DIR__ . '/../data/comptes_rendus.json';
+                $crFile = DATA_DIR . '/comptes_rendus.json';
                 $crs = file_exists($crFile) ? (json_decode(file_get_contents($crFile), true) ?: []) : [];
                 usort($crs, function ($a, $b) { return strcmp($b['date'], $a['date']); });
                 $groups = [];

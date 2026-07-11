@@ -36,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if (empty($error)) {
             $articles = [];
-            $art_file = __DIR__ . '/../data/articles.json';
+            $art_file = DATA_DIR . '/articles.json';
             if (file_exists($art_file)) {
                 $articles = json_decode(file_get_contents($art_file), true) ?: [];
             }

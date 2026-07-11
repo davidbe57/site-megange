@@ -1,5 +1,5 @@
 <?php
-define('PP_CACHE', __DIR__ . '/../data/panneaupocket_cache.json');
+define('PP_CACHE', DATA_DIR . '/panneaupocket_cache.json');
 define('PP_TTL', 600);
 define('PP_URL', 'https://app.panneaupocket.com/ville/250252113-megange-57220');
 

@@ -4,7 +4,7 @@ require_once __DIR__ . '/../config.php';
 require_once __DIR__ . '/cr_helpers.php';
 if (empty($_SESSION['admin'])) { header('Location: index.php'); exit; }
 
-$file = __DIR__ . '/../data/comptes_rendus.json';
+$file = DATA_DIR . '/comptes_rendus.json';
 $items = file_exists($file) ? (json_decode(file_get_contents($file), true) ?: []) : [];
 $id = (int)($_GET['id'] ?? 0);
 $index = null;

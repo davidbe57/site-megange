@@ -4,7 +4,7 @@ require_once __DIR__ . '/../config.php';
 require_once __DIR__ . '/cr_helpers.php';
 if (empty($_SESSION['admin'])) { header('Location: index.php'); exit; }
 
-$file = __DIR__ . '/../data/comptes_rendus.json';
+$file = DATA_DIR . '/comptes_rendus.json';
 $error = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
