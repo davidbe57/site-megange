@@ -27,16 +27,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $ts = strtotime($date);
         $cr['title'] = 'Séance du ' . date('d', $ts) . ' ' . $months[(int)date('m', $ts)] . ' ' . date('Y', $ts);
 
-        if ($pdf && $pdf['error'] === UPLOAD_ERR_OK) {
+            if ($pdf && $pdf['error'] === UPLOAD_ERR_OK) {
             $ext = strtolower(pathinfo($pdf['name'], PATHINFO_EXTENSION));
             if ($ext === 'pdf') {
-                if (file_exists(__DIR__ . '/../' . $cr['file'])) unlink(__DIR__ . '/../' . $cr['file']);
+                $oldFile = strpos($cr['file'], 'serve.php?f=') === 0 ? UPLOADS_DIR . '/' . substr($cr['file'], 12) : __DIR__ . '/../' . $cr['file'];
+                if (file_exists($oldFile)) unlink($oldFile);
                 $pdfName = 'cr_' . date('Ymd_His') . '_' . bin2hex(random_bytes(4)) . '.pdf';
-                $pdfPath = __DIR__ . '/../assets/pdf/' . $pdfName;
+                $pdfPath = UPLOADS_DIR . '/pdf/' . $pdfName;
                 move_uploaded_file($pdf['tmp_name'], $pdfPath);
-                $cr['file'] = 'assets/pdf/' . $pdfName;
+                $cr['file'] = 'serve.php?f=pdf/' . $pdfName;
 
-                if (!empty($cr['thumbnail']) && file_exists(__DIR__ . '/../' . $cr['thumbnail'])) unlink(__DIR__ . '/../' . $cr['thumbnail']);
+                $oldThumb = strpos($cr['thumbnail'], 'serve.php?f=') === 0 ? UPLOADS_DIR . '/' . substr($cr['thumbnail'], 12) : __DIR__ . '/../' . $cr['thumbnail'];
+                if (!empty($cr['thumbnail']) && file_exists($oldThumb)) unlink($oldThumb);
                 if (!empty($thumbBase64)) {
                     $cr['thumbnail'] = saveBase64Thumbnail($thumbBase64);
                 } else {
@@ -84,7 +86,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <label for="pdf">Fichier PDF (laisser vide pour conserver l'actuel)</label>
                     <input type="file" id="pdf" name="pdf" accept=".pdf" class="form-control" onchange="generateThumbnail(this)">
                     <img id="thumb-preview" class="thumb-preview" alt="Aperçu">
-                    <small>Actuel : <a href="../<?= htmlspecialchars($cr['file']) ?>" target="_blank"><?= basename($cr['file']) ?></a></small>
+                    <small>Actuel : <a href="../<?= htmlspecialchars($cr['file']) ?>" target="_blank"><?= basename(parse_url($cr['file'], PHP_URL_QUERY) ?: $cr['file']) ?></a></small>
                 </div>
                 <input type="hidden" name="thumb_data" id="thumb_data" value="">
                 <?php if (!empty($cr['thumbnail'])): ?>

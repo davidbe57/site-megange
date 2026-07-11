@@ -30,13 +30,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($pdf && $pdf['error'] === UPLOAD_ERR_OK) {
             $ext = strtolower(pathinfo($pdf['name'], PATHINFO_EXTENSION));
             if ($ext === 'pdf') {
-                if (file_exists(__DIR__ . '/../' . $b['file'])) unlink(__DIR__ . '/../' . $b['file']);
+                $oldFile = strpos($b['file'], 'serve.php?f=') === 0 ? UPLOADS_DIR . '/' . substr($b['file'], 12) : __DIR__ . '/../' . $b['file'];
+                if (file_exists($oldFile)) unlink($oldFile);
                 $pdfName = 'bulletin_' . date('Ymd_His') . '_' . bin2hex(random_bytes(4)) . '.pdf';
-                $pdfPath = __DIR__ . '/../assets/pdf/' . $pdfName;
+                $pdfPath = UPLOADS_DIR . '/pdf/' . $pdfName;
                 move_uploaded_file($pdf['tmp_name'], $pdfPath);
-                $b['file'] = 'assets/pdf/' . $pdfName;
+                $b['file'] = 'serve.php?f=pdf/' . $pdfName;
 
-                if (!empty($b['thumbnail']) && file_exists(__DIR__ . '/../' . $b['thumbnail'])) unlink(__DIR__ . '/../' . $b['thumbnail']);
+                $oldThumb = strpos($b['thumbnail'], 'serve.php?f=') === 0 ? UPLOADS_DIR . '/' . substr($b['thumbnail'], 12) : __DIR__ . '/../' . $b['thumbnail'];
+                if (!empty($b['thumbnail']) && file_exists($oldThumb)) unlink($oldThumb);
                 if (!empty($thumbBase64)) {
                     $b['thumbnail'] = saveBase64Thumbnail($thumbBase64);
                 } else {
@@ -84,7 +86,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <label for="pdf">Fichier PDF (laisser vide pour conserver l'actuel)</label>
                     <input type="file" id="pdf" name="pdf" accept=".pdf" class="form-control" onchange="generateThumbnail(this)">
                     <img id="thumb-preview" class="thumb-preview" alt="Aperçu">
-                    <small>Actuel : <a href="../<?= htmlspecialchars($b['file']) ?>" target="_blank"><?= basename($b['file']) ?></a></small>
+                    <small>Actuel : <a href="../<?= htmlspecialchars($b['file']) ?>" target="_blank"><?= basename(parse_url($b['file'], PHP_URL_QUERY) ?: $b['file']) ?></a></small>
                 </div>
                 <input type="hidden" name="thumb_data" id="thumb_data" value="">
                 <?php if (!empty($b['thumbnail'])): ?>

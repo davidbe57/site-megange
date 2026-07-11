@@ -11,6 +11,11 @@ if (is_dir($externalDataDir) && is_writable($externalDataDir)) {
     if (!is_dir($dataDir)) { @mkdir($dataDir, 0755, true); }
 }
 define('DATA_DIR', $dataDir);
+define('UPLOADS_DIR', DATA_DIR . '/uploads');
+foreach (['pdf', 'thumbnails', 'blog'] as $dir) {
+    $d = UPLOADS_DIR . '/' . $dir;
+    if (!is_dir($d)) { @mkdir($d, 0755, true); }
+}
 
 // Configuration du site
 $site_name = "Mégange";

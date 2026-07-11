@@ -26,9 +26,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $allowed = ['jpg', 'jpeg', 'png', 'webp'];
             if (in_array($ext, $allowed)) {
                 $filename = 'blog_' . time() . '_' . bin2hex(random_bytes(4)) . '.' . $ext;
-                $dest = __DIR__ . '/../assets/images/blog/' . $filename;
+                $dest = UPLOADS_DIR . '/blog/' . $filename;
                 move_uploaded_file($_FILES['image']['tmp_name'], $dest);
-                $image = 'assets/images/blog/' . $filename;
+                $image = 'serve.php?f=blog/' . $filename;
             } else {
                 $error = 'Format d\'image non accepté (jpg, png, webp uniquement).';
             }

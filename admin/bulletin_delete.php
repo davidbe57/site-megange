@@ -9,8 +9,10 @@ $id = (int)($_GET['id'] ?? 0);
 
 foreach ($items as $k => $v) {
     if ($v['id'] === $id) {
-        if (file_exists(__DIR__ . '/../' . $v['file'])) unlink(__DIR__ . '/../' . $v['file']);
-        if (!empty($v['thumbnail']) && file_exists(__DIR__ . '/../' . $v['thumbnail'])) unlink(__DIR__ . '/../' . $v['thumbnail']);
+        $filePath = strpos($v['file'], 'serve.php?f=') === 0 ? UPLOADS_DIR . '/' . substr($v['file'], 12) : __DIR__ . '/../' . $v['file'];
+        if (file_exists($filePath)) unlink($filePath);
+        $thumbPath = strpos($v['thumbnail'], 'serve.php?f=') === 0 ? UPLOADS_DIR . '/' . substr($v['thumbnail'], 12) : __DIR__ . '/../' . $v['thumbnail'];
+        if (!empty($v['thumbnail']) && file_exists($thumbPath)) unlink($thumbPath);
         array_splice($items, $k, 1);
         break;
     }

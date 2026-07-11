@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($ext !== 'pdf') { $error = 'Le fichier doit être au format PDF.'; }
         else {
             $pdfName = 'bulletin_' . date('Ymd_His') . '_' . bin2hex(random_bytes(4)) . '.pdf';
-            $pdfPath = __DIR__ . '/../assets/pdf/' . $pdfName;
+            $pdfPath = UPLOADS_DIR . '/pdf/' . $pdfName;
             move_uploaded_file($pdf['tmp_name'], $pdfPath);
 
             $months = ['','janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 'id'        => $maxId + 1,
                 'title'     => $title,
                 'date'      => $date,
-                'file'      => 'assets/pdf/' . $pdfName,
+                'file'      => 'serve.php?f=pdf/' . $pdfName,
                 'thumbnail' => $thumbPath,
             ];
             file_put_contents($file, json_encode($items, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));

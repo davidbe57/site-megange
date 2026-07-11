@@ -12,6 +12,14 @@ $articles = file_exists($art_file) ? (json_decode(file_get_contents($art_file), 
 
 $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 
+foreach ($articles as $a) {
+    if ($a['id'] === $id && !empty($a['image'])) {
+        $imgPath = strpos($a['image'], 'serve.php?f=') === 0 ? UPLOADS_DIR . '/' . substr($a['image'], 12) : __DIR__ . '/../' . $a['image'];
+        if (file_exists($imgPath)) unlink($imgPath);
+        break;
+    }
+}
+
 $articles = array_values(array_filter($articles, function ($a) use ($id) {
     return $a['id'] !== $id;
 }));

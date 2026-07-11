@@ -1,7 +1,7 @@
 <?php
 function generateCrThumbnail($pdfPath) {
     $tName = 'cr_' . date('Ymd_His') . '_' . bin2hex(random_bytes(4)) . '.jpg';
-    $tFull = __DIR__ . '/../assets/images/cr/' . $tName;
+    $tFull = UPLOADS_DIR . '/thumbnails/' . $tName;
 
     // 1) Imagick PHP extension
     if (extension_loaded('imagick')) {
@@ -15,7 +15,7 @@ function generateCrThumbnail($pdfPath) {
             $img->stripImage();
             $img->writeImage($tFull);
             $img->clear();
-            return 'assets/images/cr/' . $tName;
+            return 'serve.php?f=thumbnails/' . $tName;
         } catch (Exception $e) {}
     }
 
@@ -24,14 +24,14 @@ function generateCrThumbnail($pdfPath) {
     $cmd = sprintf('"%s" -dNOPAUSE -dBATCH -dSAFER -sDEVICE=jpeg -r150 -dFirstPage=1 -dLastPage=1 -sOutputFile="%s" "%s" 2>&1', $gsBin, $tFull, $pdfPath);
     exec($cmd, $out, $code);
     if ($code === 0 && file_exists($tFull) && filesize($tFull) > 1000) {
-        return 'assets/images/cr/' . $tName;
+        return 'serve.php?f=thumbnails/' . $tName;
     }
 
     // 3) ImageMagick CLI (convert)
     $cmd = sprintf('convert -density 150 "%s"[0] -quality 85 -strip "%s" 2>&1', $pdfPath, $tFull);
     exec($cmd, $out, $code);
     if ($code === 0 && file_exists($tFull) && filesize($tFull) > 1000) {
-        return 'assets/images/cr/' . $tName;
+        return 'serve.php?f=thumbnails/' . $tName;
     }
 
     // 4) pdftoppm CLI (poppler)
@@ -41,7 +41,7 @@ function generateCrThumbnail($pdfPath) {
     $ppmFile = $ppmBase . '-1.jpg';
     if ($code === 0 && file_exists($ppmFile) && filesize($ppmFile) > 1000) {
         rename($ppmFile, $tFull);
-        return 'assets/images/cr/' . $tName;
+        return 'serve.php?f=thumbnails/' . $tName;
     }
 
     // 5) Fallback GD — thumbnail stylisée avec date
@@ -54,14 +54,11 @@ function generateCrThumbnail($pdfPath) {
     $white = imagecolorallocate($im, 255, 255, 255);
     imagefill($im, 0, 0, $bg);
     imagerectangle($im, 0, 0, $w - 1, $h - 1, $border);
-    // Accent bar top
     imagefilledrectangle($im, 0, 0, $w - 1, 6, $accent);
-    // PDF icon area
     $iconX = ($w - 50) / 2;
     $iconY = 35;
     imagefilledrectangle($im, $iconX, $iconY, $iconX + 50, $iconY + 60, $white);
     imagerectangle($im, $iconX, $iconY, $iconX + 50, $iconY + 60, $border);
-    // Red PDF stripe
     imagefilledrectangle($im, $iconX + 10, $iconY + 15, $iconX + 40, $iconY + 20, $accent);
     imagefilledrectangle($im, $iconX + 10, $iconY + 26, $iconX + 35, $iconY + 30, $accent);
     imagefilledrectangle($im, $iconX + 10, $iconY + 37, $iconX + 38, $iconY + 41, $accent);
@@ -70,22 +67,19 @@ function generateCrThumbnail($pdfPath) {
     imagedestroy($im);
 
     if (file_exists($tFull) && filesize($tFull) > 100) {
-        return 'assets/images/cr/' . $tName;
+        return 'serve.php?f=thumbnails/' . $tName;
     }
     return '';
 }
 
 function saveBase64Thumbnail($base64Data) {
     $tName = 'cr_' . date('Ymd_His') . '_' . bin2hex(random_bytes(4)) . '.jpg';
-    $tFull = __DIR__ . '/../assets/images/cr/' . $tName;
-    if (!is_dir(__DIR__ . '/../assets/images/cr/')) {
-        mkdir(__DIR__ . '/../assets/images/cr/', 0755, true);
-    }
+    $tFull = UPLOADS_DIR . '/thumbnails/' . $tName;
     $data = base64_decode($base64Data);
     if ($data === false) return '';
     file_put_contents($tFull, $data);
     if (file_exists($tFull) && filesize($tFull) > 100) {
-        return 'assets/images/cr/' . $tName;
+        return 'serve.php?f=thumbnails/' . $tName;
     }
     return '';
 }
