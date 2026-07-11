@@ -17,6 +17,7 @@ $error = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $date = $_POST['date'] ?? '';
     $pdf  = $_FILES['pdf'] ?? null;
+    $thumbBase64 = $_POST['thumb_data'] ?? '';
 
     if ($date === '') {
         $error = 'La date est obligatoire.';
@@ -36,7 +37,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $cr['file'] = 'assets/pdf/' . $pdfName;
 
                 if (!empty($cr['thumbnail']) && file_exists(__DIR__ . '/../' . $cr['thumbnail'])) unlink(__DIR__ . '/../' . $cr['thumbnail']);
-                $cr['thumbnail'] = generateCrThumbnail($pdfPath);
+                if (!empty($thumbBase64)) {
+                    $cr['thumbnail'] = saveBase64Thumbnail($thumbBase64);
+                } else {
+                    $cr['thumbnail'] = generateCrThumbnail($pdfPath);
+                }
             }
         }
 
@@ -55,6 +60,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>Modifier | Administration</title>
     <link rel="stylesheet" href="../assets/fonts/fontawesome.min.css">
     <link rel="stylesheet" href="../assets/css/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script>pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';</script>
+    <style>.thumb-preview{max-width:140px;max-height:180px;border-radius:4px;margin-top:.5rem;display:none;}</style>
 </head>
 <body>
     <div class="admin-bar">
@@ -67,25 +75,58 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="container" style="max-width:600px;">
             <h2 style="margin-bottom:1.5rem;">Modifier</h2>
             <?php if ($error): ?><div style="background:#fef2f2;color:#b91c1c;padding:0.75rem 1rem;border-radius:var(--radius-sm);margin-bottom:1rem;"><?= $error ?></div><?php endif; ?>
-            <form method="POST" enctype="multipart/form-data">
+            <form method="POST" enctype="multipart/form-data" id="cr-form">
                 <div class="form-group">
                     <label for="date">Date de la séance</label>
                     <input type="date" id="date" name="date" class="form-control" value="<?= $cr['date'] ?>" required>
                 </div>
                 <div class="form-group">
                     <label for="pdf">Fichier PDF (laisser vide pour conserver l'actuel)</label>
-                    <input type="file" id="pdf" name="pdf" accept=".pdf" class="form-control">
+                    <input type="file" id="pdf" name="pdf" accept=".pdf" class="form-control" onchange="generateThumbnail(this)">
+                    <img id="thumb-preview" class="thumb-preview" alt="Aperçu">
                     <small>Actuel : <a href="../<?= htmlspecialchars($cr['file']) ?>" target="_blank"><?= basename($cr['file']) ?></a></small>
                 </div>
+                <input type="hidden" name="thumb_data" id="thumb_data" value="">
                 <?php if (!empty($cr['thumbnail'])): ?>
                 <div class="form-group">
                     <label>Preview actuelle</label>
                     <div><img src="../<?= htmlspecialchars($cr['thumbnail']) ?>" style="height:120px;border-radius:4px;"></div>
                 </div>
                 <?php endif; ?>
-                <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Enregistrer</button>
+                <button type="submit" class="btn btn-primary" id="submit-btn"><i class="fas fa-save"></i> Enregistrer</button>
             </form>
         </div>
     </main>
+    <script>
+    async function generateThumbnail(input) {
+        const file = input.files[0];
+        if (!file || file.type !== 'application/pdf') return;
+        try {
+            const url = URL.createObjectURL(file);
+            const pdf = await pdfjsLib.getDocument(url).promise;
+            const page = await pdf.getPage(1);
+            const vp = page.getViewport({ scale: 0.5 });
+            const canvas = document.createElement('canvas');
+            canvas.width = vp.width;
+            canvas.height = vp.height;
+            const ctx = canvas.getContext('2d');
+            await page.render({ canvasContext: ctx, viewport: vp }).promise;
+            canvas.toBlob(function(blob) {
+                const reader = new FileReader();
+                reader.onloadend = function() {
+                    const base64 = reader.result.split(',')[1];
+                    document.getElementById('thumb_data').value = base64;
+                    const preview = document.getElementById('thumb-preview');
+                    preview.src = URL.createObjectURL(blob);
+                    preview.style.display = 'block';
+                };
+                reader.readAsDataURL(blob);
+            }, 'image/jpeg', 0.85);
+            URL.revokeObjectURL(url);
+        } catch(e) {
+            console.warn('PDF.js thumbnail generation failed:', e);
+        }
+    }
+    </script>
 </body>
 </html>

@@ -74,3 +74,18 @@ function generateCrThumbnail($pdfPath) {
     }
     return '';
 }
+
+function saveBase64Thumbnail($base64Data) {
+    $tName = 'cr_' . date('Ymd_His') . '_' . bin2hex(random_bytes(4)) . '.jpg';
+    $tFull = __DIR__ . '/../assets/images/cr/' . $tName;
+    if (!is_dir(__DIR__ . '/../assets/images/cr/')) {
+        mkdir(__DIR__ . '/../assets/images/cr/', 0755, true);
+    }
+    $data = base64_decode($base64Data);
+    if ($data === false) return '';
+    file_put_contents($tFull, $data);
+    if (file_exists($tFull) && filesize($tFull) > 100) {
+        return 'assets/images/cr/' . $tName;
+    }
+    return '';
+}
