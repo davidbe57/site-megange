@@ -45,6 +45,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         }
 
+        $pdfPath = __DIR__ . '/../' . $cr['file'];
+        if (empty($cr['thumbnail']) && extension_loaded('imagick') && file_exists($pdfPath)) {
+            try {
+                $img = new Imagick();
+                $img->setResolution(150, 150);
+                $img->readImage($pdfPath . '[0]');
+                $img->setImageFormat('jpg');
+                $img->setImageCompression(Imagick::COMPRESSION_JPEG);
+                $img->setOption('jpeg:extent', '100KB');
+                $img->stripImage();
+                $tName = 'cr_' . date('Ymd_His') . '_' . bin2hex(random_bytes(4)) . '.jpg';
+                $img->writeImage(__DIR__ . '/../assets/images/cr/' . $tName);
+                $img->clear();
+                $cr['thumbnail'] = 'assets/images/cr/' . $tName;
+            } catch (Exception $e) {}
+        }
+
         $items[$index] = $cr;
         file_put_contents($file, json_encode($items, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
         header('Location: comptes_rendus.php?updated=1');
@@ -86,13 +103,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <input type="file" id="pdf" name="pdf" accept=".pdf" class="form-control">
                     <small>Actuel : <a href="../<?= htmlspecialchars($cr['file']) ?>" target="_blank"><?= basename($cr['file']) ?></a></small>
                 </div>
+                <?php if (!empty($cr['thumbnail'])): ?>
                 <div class="form-group">
-                    <label for="thumbnail">Image de preview (optionnelle)</label>
-                    <input type="file" id="thumbnail" name="thumbnail" accept=".jpg,.jpeg,.png,.webp" class="form-control">
-                    <?php if (!empty($cr['thumbnail'])): ?>
-                    <small>Actuelle : <img src="../<?= htmlspecialchars($cr['thumbnail']) ?>" style="height:60px;margin-top:0.25rem;border-radius:4px;"></small>
-                    <?php endif; ?>
+                    <label>Preview actuelle</label>
+                    <div><img src="../<?= htmlspecialchars($cr['thumbnail']) ?>" style="height:80px;border-radius:4px;"></div>
                 </div>
+                <?php endif; ?>
                 <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Enregistrer</button>
             </form>
         </div>

@@ -27,8 +27,6 @@
                     <?php endforeach; ?>
                 </div>
 
-                <h2 id="comptes">Les comptes-rendus</h2>
-                <p>Consultez les comptes-rendus des conseils municipaux.</p>
                 <?php
                 $crFile = __DIR__ . '/../data/comptes_rendus.json';
                 $crs = file_exists($crFile) ? (json_decode(file_get_contents($crFile), true) ?: []) : [];

@@ -23,12 +23,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             move_uploaded_file($pdf['tmp_name'], $pdfPath);
 
             $thumbPath = '';
-            if ($thumb && $thumb['error'] === UPLOAD_ERR_OK) {
+            if (extension_loaded('imagick')) {
+                try {
+                    $img = new Imagick();
+                    $img->setResolution(150, 150);
+                    $img->readImage($pdfPath . '[0]');
+                    $img->setImageFormat('jpg');
+                    $img->setImageCompression(Imagick::COMPRESSION_JPEG);
+                    $img->setOption('jpeg:extent', '100KB');
+                    $img->stripImage();
+                    $tName = 'cr_' . date('Ymd_His') . '_' . bin2hex(random_bytes(4)) . '.jpg';
+                    $img->writeImage(__DIR__ . '/../assets/images/cr/' . $tName);
+                    $img->clear();
+                    $thumbPath = 'assets/images/cr/' . $tName;
+                } catch (Exception $e) {}
+            }
+            if ($thumbPath === '' && $thumb && $thumb['error'] === UPLOAD_ERR_OK) {
                 $tExt = strtolower(pathinfo($thumb['name'], PATHINFO_EXTENSION));
                 if (in_array($tExt, ['jpg','jpeg','png','webp'])) {
                     $tName = 'cr_' . date('Ymd_His') . '_' . bin2hex(random_bytes(4)) . '.' . $tExt;
-                    $tPath = __DIR__ . '/../assets/images/cr/' . $tName;
-                    move_uploaded_file($thumb['tmp_name'], $tPath);
+                    move_uploaded_file($thumb['tmp_name'], __DIR__ . '/../assets/images/cr/' . $tName);
                     $thumbPath = 'assets/images/cr/' . $tName;
                 }
             }
@@ -83,10 +97,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <label for="pdf">Fichier PDF</label>
                     <input type="file" id="pdf" name="pdf" accept=".pdf" class="form-control" required>
                 </div>
-                <div class="form-group">
-                    <label for="thumbnail">Image de preview (optionnelle, jpg/png/webp)</label>
-                    <input type="file" id="thumbnail" name="thumbnail" accept=".jpg,.jpeg,.png,.webp" class="form-control">
-                </div>
+
                 <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Enregistrer</button>
             </form>
         </div>
