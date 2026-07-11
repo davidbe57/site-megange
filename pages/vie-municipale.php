@@ -1,3 +1,10 @@
+<?php
+$conseilFile = __DIR__ . '/../data/conseil.json';
+$conseilData = file_exists($conseilFile) ? (json_decode(file_get_contents($conseilFile), true) ?: []) : [];
+$elusFile = __DIR__ . '/../data/elus.json';
+$elusData = file_exists($elusFile) ? (json_decode(file_get_contents($elusFile), true) ?: []) : [];
+if (empty($elusData)) $elusData = $municipal_team ?? [];
+?>
 <div class="page-header">
     <div class="container">
         <h1>Vie municipale</h1>
@@ -15,13 +22,13 @@
 
                 <h2 id="equipe">L'équipe municipale</h2>
                 <div class="team-grid">
-                    <?php foreach ($municipal_team as $member): ?>
+                    <?php foreach ($elusData as $member): ?>
                     <div class="team-card">
                         <div class="team-avatar"><i class="fas fa-user"></i></div>
-                        <h3><?= $member['name'] ?></h3>
-                        <p class="role"><?= $member['role'] ?></p>
+                        <h3><?= htmlspecialchars($member['name']) ?></h3>
+                        <p class="role"><?= htmlspecialchars($member['role']) ?></p>
                         <?php if (!empty($member['delegation'])): ?>
-                        <p class="delegation"><?= $member['delegation'] ?></p>
+                        <p class="delegation"><?= htmlspecialchars($member['delegation']) ?></p>
                         <?php endif; ?>
                     </div>
                     <?php endforeach; ?>
@@ -73,15 +80,19 @@
             <aside class="sidebar">
                 <div class="sidebar-widget">
                     <h3>Prochain conseil</h3>
-                    <p><i class="fas fa-calendar"></i> Prochaine séance : <strong>12 juillet 2026</strong></p>
-                    <p><i class="fas fa-clock"></i> 20h00 - Salle du conseil</p>
+                    <?php
+                    $ts = strtotime($conseilData['next_date'] ?? '');
+                    $months = ['','janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
+                    $dateStr = $ts ? date('d', $ts) . ' ' . $months[(int)date('m', $ts)] . ' ' . date('Y', $ts) : 'À venir';
+                    ?>
+                    <p><i class="fas fa-calendar"></i> Prochaine séance : <strong><?= $dateStr ?></strong></p>
+                    <p><i class="fas fa-clock"></i> <?= htmlspecialchars($conseilData['next_time'] ?? '20h00') ?> - <?= htmlspecialchars($conseilData['next_location'] ?? 'Salle du conseil') ?></p>
                 </div>
 
                 <div class="sidebar-widget">
                     <h3>Vos élus</h3>
-                    <p>Nombre de conseillers : <strong>11</strong></p>
-                    <p>Majorité : <strong>Sortie</strong></p>
-                    <p>Prochaine élection : <strong>2026</strong></p>
+                    <p>Nombre de conseillers : <strong><?= (int)($conseilData['councilors'] ?? 11) ?></strong></p>
+                    <p>Prochaine élection : <strong><?= (int)($conseilData['next_election'] ?? 2026) ?></strong></p>
                 </div>
             </aside>
         </div>

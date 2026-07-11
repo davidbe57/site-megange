@@ -141,6 +141,14 @@ if (file_exists($art_file)) {
                     </div>
                     <p style="color:var(--gray-400);"><a href="comptes_rendus.php">Gérer les comptes-rendus du conseil municipal</a></p>
                 </div>
+
+                <div style="margin-top:2rem;padding-top:2rem;border-top:2px solid var(--border);">
+                    <h2 style="margin-bottom:1rem;">Vie municipale</h2>
+                    <div style="display:flex;gap:1rem;flex-wrap:wrap;">
+                        <a href="conseil.php" class="btn"><i class="fas fa-calendar"></i> Conseil & sidebar</a>
+                        <a href="elus.php" class="btn"><i class="fas fa-users"></i> Équipe municipale</a>
+                    </div>
+                </div>
             <?php endif; ?>
         </div>
     </main>

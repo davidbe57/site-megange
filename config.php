@@ -52,7 +52,7 @@ $panneaupocket_widget_url = 'https://app.panneaupocket.com/embeded/250252113'; /
 $panneaupocket_commune_id = '250252113'; // ID de la commune sur PanneauPocket
 $panneaupocket_public_url = 'https://app.panneaupocket.com/ville/250252113-megange-57220';
 
-// Équipe municipale
+// Équipe municipale (fallback si data/elus.json est vide)
 $municipal_team = [
     ['name' => 'Nom du Maire', 'role' => 'Maire', 'delegation' => ''],
     ['name' => 'Nom Adjoint 1', 'role' => '1er Adjoint', 'delegation' => 'Travaux et urbanisme'],
