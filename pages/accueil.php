@@ -103,14 +103,7 @@
                     </ul>
                 </div>
 
-                <div class="sidebar-widget">
-                    <h3><i class="fas fa-phone"></i> Contact</h3>
-                    <address style="font-style:normal;font-size:0.9rem;color:var(--text);line-height:1.8;">
-                        <p><i class="fas fa-location-dot" style="width:1.2rem;color:var(--terracotta);"></i> <?= $site_address ?></p>
-                        <p><i class="fas fa-phone" style="width:1.2rem;color:var(--terracotta);"></i> <a href="tel:<?= $site_phone ?>"><?= $site_phone ?></a></p>
-                        <p><i class="fas fa-envelope" style="width:1.2rem;color:var(--terracotta);"></i> <a href="mailto:<?= $site_email ?>"><?= $site_email ?></a></p>
-                    </address>
-                </div>
+
             </aside>
         </div>
     </div>
