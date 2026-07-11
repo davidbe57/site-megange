@@ -10,3 +10,6 @@ Desktop.ini
 
 # PanneauPocket cache (auto-generated)
 data/panneaupocket_cache.json
+
+# Données dynamiques (générées par l'admin via CRUD)
+data/*.json
