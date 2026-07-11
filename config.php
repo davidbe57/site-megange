@@ -27,7 +27,17 @@ $social = [
 // Navigation principale
 $nav = [
     'accueil'     => ['label' => 'Accueil',     'icon' => 'fa-house'],
-    'la-commune'  => ['label' => 'La commune',  'icon' => 'fa-tree'],
+    'la-commune'  => [
+        'label'    => 'La commune',
+        'icon'     => 'fa-tree',
+        'children' => [
+            ['label' => 'Histoire',           'href' => 'index.php?p=la-commune#histoire'],
+            ['label' => 'Géographie',         'href' => 'index.php?p=la-commune#geographie'],
+            ['label' => 'Chiffres clés',      'href' => 'index.php?p=la-commune#chiffres'],
+            ['label' => 'Bulletin communal',  'href' => 'index.php?p=la-commune#bulletins'],
+            ['label' => 'Cadre de vie',       'href' => 'index.php?p=la-commune#cadre'],
+        ]
+    ],
     'vie-municipale' => [
         'label'    => 'Vie municipale',
         'icon'     => 'fa-landmark',
