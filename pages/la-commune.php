@@ -10,24 +10,23 @@
         <div class="content-grid">
             <div class="content-main">
                 <h2 id="histoire">Histoire</h2>
-                <p>Mégange est un village au riche passé historique, typique des villages lorrains. Son nom évoque l'époque gallo-romaine, témoignant d'une occupation ancienne du territoire. Au fil des siècles, le village s'est développé autour de l'agriculture et de la vigne, conservant son authenticité et son caractère rural.</p>
-                <p>L'église Saint-Martin, joyau du patrimoine local, domine le village et rappelle l'importance de la tradition dans notre commune.</p>
+                <p>Mégange est un village au riche passé historique, typique des villages lorrains. Son nom évoque l'époque gallo-romaine, témoignant d'une occupation ancienne du territoire. Au fil des siècles, le village s'est développé autour de l'agriculture, conservant son authenticité et son caractère rural.</p>
+                <p>Citée dès 1131 comme dépendance de la seigneurie de Vry, la commune se compose de deux villages : Mégange et Rurange-lès-Mégange, réunis par décision royale en 1833. La chapelle de l'Immaculée-Conception, construite en 1860, est un élément marquant du patrimoine local.</p>
 
                 <h2 id="geographie">Géographie</h2>
-                <p>Situé à quelques kilomètres au nord-est de Metz, Mégange bénéficie d'une situation privilégiée entre ville et campagne. Le village est entouré de champs, de bois et de prairies, offrant un cadre de vie verdoyant et paisible.</p>
-                <p>La commune fait partie du Pays Messin et de la Communauté de Communes du Sud Messin, ce qui permet aux habitants de bénéficier de nombreux services et infrastructures à proximité.</p>
+                <p>Située dans le département de la Moselle, à proximité de Boulay-Moselle, Mégange bénéficie d'un cadre de vie verdoyant et paisible, entouré de champs, de bois et de prairies. La commune fait partie de la Communauté de communes Houve-Pays boulageois, offrant aux habitants l'accès à de nombreux services et infrastructures.</p>
 
                 <h2 id="chiffres">Chiffres clés</h2>
                 <ul>
                     <li><strong>Superficie :</strong> environ 5 km²</li>
-                    <li><strong>Population :</strong> environ 300 habitants (Mégangeois et Mégangeoises)</li>
-                    <li><strong>Altitude :</strong> ~250 mètres</li>
-                    <li><strong>Communes limitrophes :</strong> Ancy-sur-Moselle, Dornot, Corny-sur-Moselle, Rezonville, Vionville</li>
-                    <li><strong>Accès :</strong> à 15 minutes de Metz par l'A31</li>
+                    <li><strong>Population :</strong> environ 200 habitants (Mégangeois et Mégangeoises)</li>
+                    <li><strong>Altitude :</strong> 205 à 330 mètres</li>
+                    <li><strong>Communes limitrophes :</strong> Piblange, Gomelange, Burtoncourt, Éblange, Guinkirchen, Roupeldange</li>
+                    <li><strong>Accès :</strong> à 25 km de Metz par la D999, à 5 minutes de Boulay-Moselle</li>
                 </ul>
 
                 <h2 id="cadre">Cadre de vie</h2>
-                <p>À Mégange, la qualité de vie est notre priorité. Le village dispose d'espaces verts entretenus, d'une salle polyvalente pour les animations locales, et de nombreux chemins propices aux balades. La proximité de la Moselle et du canal offre également de belles promenades le long de l'eau.</p>
+                <p>À Mégange, la qualité de vie est notre priorité. Le village dispose d'espaces verts entretenus, d'une salle polyvalente pour les animations locales, et de nombreux chemins propices aux balades.</p>
             </div>
 
             <aside class="sidebar">
