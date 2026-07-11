@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once __DIR__ . '/../config.php';
+require_once __DIR__ . '/cr_helpers.php';
 if (empty($_SESSION['admin'])) { header('Location: index.php'); exit; }
 
 $file = __DIR__ . '/../data/comptes_rendus.json';
@@ -14,87 +15,28 @@ $cr = $items[$index];
 $error = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $title = trim($_POST['title'] ?? '');
-    $date  = $_POST['date'] ?? '';
-    $pdf   = $_FILES['pdf'] ?? null;
-    $thumb = $_FILES['thumbnail'] ?? null;
+    $date = $_POST['date'] ?? '';
+    $pdf  = $_FILES['pdf'] ?? null;
 
-    if ($title === '' || $date === '') {
-        $error = 'Le titre et la date sont obligatoires.';
+    if ($date === '') {
+        $error = 'La date est obligatoire.';
     } else {
-        $cr['title'] = $title;
-        $cr['date']  = $date;
+        $cr['date'] = $date;
+        $months = ['','janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
+        $ts = strtotime($date);
+        $cr['title'] = 'Séance du ' . date('d', $ts) . ' ' . $months[(int)date('m', $ts)] . ' ' . date('Y', $ts);
 
         if ($pdf && $pdf['error'] === UPLOAD_ERR_OK) {
             $ext = strtolower(pathinfo($pdf['name'], PATHINFO_EXTENSION));
             if ($ext === 'pdf') {
                 if (file_exists(__DIR__ . '/../' . $cr['file'])) unlink(__DIR__ . '/../' . $cr['file']);
                 $pdfName = 'cr_' . date('Ymd_His') . '_' . bin2hex(random_bytes(4)) . '.pdf';
-                move_uploaded_file($pdf['tmp_name'], __DIR__ . '/../assets/pdf/' . $pdfName);
+                $pdfPath = __DIR__ . '/../assets/pdf/' . $pdfName;
+                move_uploaded_file($pdf['tmp_name'], $pdfPath);
                 $cr['file'] = 'assets/pdf/' . $pdfName;
-            }
-        }
 
-        if ($thumb && $thumb['error'] === UPLOAD_ERR_OK) {
-            $tExt = strtolower(pathinfo($thumb['name'], PATHINFO_EXTENSION));
-            if (in_array($tExt, ['jpg','jpeg','png','webp'])) {
                 if (!empty($cr['thumbnail']) && file_exists(__DIR__ . '/../' . $cr['thumbnail'])) unlink(__DIR__ . '/../' . $cr['thumbnail']);
-                $tName = 'cr_' . date('Ymd_His') . '_' . bin2hex(random_bytes(4)) . '.' . $tExt;
-                move_uploaded_file($thumb['tmp_name'], __DIR__ . '/../assets/images/cr/' . $tName);
-                $cr['thumbnail'] = 'assets/images/cr/' . $tName;
-            }
-        }
-
-        $pdfPath = __DIR__ . '/../' . $cr['file'];
-        if (empty($cr['thumbnail']) && file_exists($pdfPath)) {
-            $tName = 'cr_' . date('Ymd_His') . '_' . bin2hex(random_bytes(4)) . '.jpg';
-            $tFull = __DIR__ . '/../assets/images/cr/' . $tName;
-
-            // 1) Imagick PHP extension
-            if (extension_loaded('imagick')) {
-                try {
-                    $img = new Imagick();
-                    $img->setResolution(150, 150);
-                    $img->readImage($pdfPath . '[0]');
-                    $img->setImageFormat('jpg');
-                    $img->setImageCompression(Imagick::COMPRESSION_JPEG);
-                    $img->setOption('jpeg:extent', '100KB');
-                    $img->stripImage();
-                    $img->writeImage($tFull);
-                    $img->clear();
-                    $cr['thumbnail'] = 'assets/images/cr/' . $tName;
-                } catch (Exception $e) {}
-            }
-
-            // 2) Ghostscript CLI
-            if (empty($cr['thumbnail'])) {
-                $gsBin = PHP_OS_FAMILY === 'Windows' ? 'gswin64c' : 'gs';
-                $cmd = sprintf('"%s" -dNOPAUSE -dBATCH -dSAFER -sDEVICE=jpeg -r150 -dFirstPage=1 -dLastPage=1 -sOutputFile="%s" "%s" 2>&1', $gsBin, $tFull, $pdfPath);
-                exec($cmd, $out, $code);
-                if ($code === 0 && file_exists($tFull) && filesize($tFull) > 1000) {
-                    $cr['thumbnail'] = 'assets/images/cr/' . $tName;
-                }
-            }
-
-            // 3) ImageMagick CLI (convert)
-            if (empty($cr['thumbnail'])) {
-                $cmd = sprintf('convert -density 150 "%s"[0] -quality 85 -strip "%s" 2>&1', $pdfPath, $tFull);
-                exec($cmd, $out, $code);
-                if ($code === 0 && file_exists($tFull) && filesize($tFull) > 1000) {
-                    $cr['thumbnail'] = 'assets/images/cr/' . $tName;
-                }
-            }
-
-            // 4) pdftoppm CLI (poppler)
-            if (empty($cr['thumbnail'])) {
-                $ppmBase = preg_replace('/\.jpg$/', '', $tFull);
-                $cmd = sprintf('pdftoppm -f 1 -l 1 -r 150 -jpeg "%s" "%s" 2>&1', $pdfPath, $ppmBase);
-                exec($cmd, $out, $code);
-                $ppmFile = $ppmBase . '-1.jpg';
-                if ($code === 0 && file_exists($ppmFile) && filesize($ppmFile) > 1000) {
-                    rename($ppmFile, $tFull);
-                    $cr['thumbnail'] = 'assets/images/cr/' . $tName;
-                }
+                $cr['thumbnail'] = generateCrThumbnail($pdfPath);
             }
         }
 
@@ -127,11 +69,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <?php if ($error): ?><div style="background:#fef2f2;color:#b91c1c;padding:0.75rem 1rem;border-radius:var(--radius-sm);margin-bottom:1rem;"><?= $error ?></div><?php endif; ?>
             <form method="POST" enctype="multipart/form-data">
                 <div class="form-group">
-                    <label for="title">Titre</label>
-                    <input type="text" id="title" name="title" class="form-control" value="<?= htmlspecialchars($cr['title']) ?>" required>
-                </div>
-                <div class="form-group">
-                    <label for="date">Date</label>
+                    <label for="date">Date de la séance</label>
                     <input type="date" id="date" name="date" class="form-control" value="<?= $cr['date'] ?>" required>
                 </div>
                 <div class="form-group">
@@ -142,7 +80,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <?php if (!empty($cr['thumbnail'])): ?>
                 <div class="form-group">
                     <label>Preview actuelle</label>
-                    <div><img src="../<?= htmlspecialchars($cr['thumbnail']) ?>" style="height:80px;border-radius:4px;"></div>
+                    <div><img src="../<?= htmlspecialchars($cr['thumbnail']) ?>" style="height:120px;border-radius:4px;"></div>
                 </div>
                 <?php endif; ?>
                 <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Enregistrer</button>
