@@ -23,6 +23,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             move_uploaded_file($pdf['tmp_name'], $pdfPath);
 
             $thumbPath = '';
+            $tName = 'cr_' . date('Ymd_His') . '_' . bin2hex(random_bytes(4)) . '.jpg';
+            $tFull = __DIR__ . '/../assets/images/cr/' . $tName;
+
             if (extension_loaded('imagick')) {
                 try {
                     $img = new Imagick();
@@ -32,17 +35,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $img->setImageCompression(Imagick::COMPRESSION_JPEG);
                     $img->setOption('jpeg:extent', '100KB');
                     $img->stripImage();
-                    $tName = 'cr_' . date('Ymd_His') . '_' . bin2hex(random_bytes(4)) . '.jpg';
-                    $img->writeImage(__DIR__ . '/../assets/images/cr/' . $tName);
+                    $img->writeImage($tFull);
                     $img->clear();
                     $thumbPath = 'assets/images/cr/' . $tName;
                 } catch (Exception $e) {}
             }
+
+            if ($thumbPath === '') {
+                $gsBin = PHP_OS_FAMILY === 'Windows' ? 'gswin64c' : 'gs';
+                $cmd = sprintf('"%s" -dNOPAUSE -dBATCH -dSAFER -sDEVICE=jpeg -r150 -dFirstPage=1 -dLastPage=1 -sOutputFile="%s" "%s" 2>&1', $gsBin, $tFull, $pdfPath);
+                exec($cmd, $out, $code);
+                if ($code === 0 && file_exists($tFull) && filesize($tFull) > 1000) {
+                    $thumbPath = 'assets/images/cr/' . $tName;
+                }
+            }
+
             if ($thumbPath === '' && $thumb && $thumb['error'] === UPLOAD_ERR_OK) {
                 $tExt = strtolower(pathinfo($thumb['name'], PATHINFO_EXTENSION));
                 if (in_array($tExt, ['jpg','jpeg','png','webp'])) {
-                    $tName = 'cr_' . date('Ymd_His') . '_' . bin2hex(random_bytes(4)) . '.' . $tExt;
-                    move_uploaded_file($thumb['tmp_name'], __DIR__ . '/../assets/images/cr/' . $tName);
+                    move_uploaded_file($thumb['tmp_name'], $tFull);
                     $thumbPath = 'assets/images/cr/' . $tName;
                 }
             }

@@ -46,20 +46,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         $pdfPath = __DIR__ . '/../' . $cr['file'];
-        if (empty($cr['thumbnail']) && extension_loaded('imagick') && file_exists($pdfPath)) {
-            try {
-                $img = new Imagick();
-                $img->setResolution(150, 150);
-                $img->readImage($pdfPath . '[0]');
-                $img->setImageFormat('jpg');
-                $img->setImageCompression(Imagick::COMPRESSION_JPEG);
-                $img->setOption('jpeg:extent', '100KB');
-                $img->stripImage();
-                $tName = 'cr_' . date('Ymd_His') . '_' . bin2hex(random_bytes(4)) . '.jpg';
-                $img->writeImage(__DIR__ . '/../assets/images/cr/' . $tName);
-                $img->clear();
-                $cr['thumbnail'] = 'assets/images/cr/' . $tName;
-            } catch (Exception $e) {}
+        if (empty($cr['thumbnail']) && file_exists($pdfPath)) {
+            $tName = 'cr_' . date('Ymd_His') . '_' . bin2hex(random_bytes(4)) . '.jpg';
+            $tFull = __DIR__ . '/../assets/images/cr/' . $tName;
+
+            if (extension_loaded('imagick')) {
+                try {
+                    $img = new Imagick();
+                    $img->setResolution(150, 150);
+                    $img->readImage($pdfPath . '[0]');
+                    $img->setImageFormat('jpg');
+                    $img->setImageCompression(Imagick::COMPRESSION_JPEG);
+                    $img->setOption('jpeg:extent', '100KB');
+                    $img->stripImage();
+                    $img->writeImage($tFull);
+                    $img->clear();
+                    $cr['thumbnail'] = 'assets/images/cr/' . $tName;
+                } catch (Exception $e) {}
+            }
+
+            if (empty($cr['thumbnail'])) {
+                $gsBin = PHP_OS_FAMILY === 'Windows' ? 'gswin64c' : 'gs';
+                $cmd = sprintf('"%s" -dNOPAUSE -dBATCH -dSAFER -sDEVICE=jpeg -r150 -dFirstPage=1 -dLastPage=1 -sOutputFile="%s" "%s" 2>&1', $gsBin, $tFull, $pdfPath);
+                exec($cmd, $out, $code);
+                if ($code === 0 && file_exists($tFull) && filesize($tFull) > 1000) {
+                    $cr['thumbnail'] = 'assets/images/cr/' . $tName;
+                }
+            }
         }
 
         $items[$index] = $cr;
