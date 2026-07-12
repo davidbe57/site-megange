@@ -37,7 +37,7 @@
                 }
                 ?>
 
-                <?php $recent = array_slice($articles, 0, 3); ?>
+                <?php $articles = array_reverse($articles); $recent = array_slice($articles, 0, 3); ?>
                 <?php if (!empty($recent)): ?>
                 <section class="home-section">
                     <h2 class="home-section-title">Actualités</h2>

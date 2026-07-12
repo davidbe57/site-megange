@@ -79,7 +79,7 @@ $nav = [
         ]
     ],
     'services'    => ['label' => 'Services',    'icon' => 'fa-hand-holding-heart'],
-    'vie-locale'  => ['label' => 'News',  'icon' => 'fa-newspaper'],
+    'vie-locale'  => ['label' => 'Actualités',  'icon' => 'fa-newspaper'],
     'galerie'     => ['label' => 'Galerie',     'icon' => 'fa-images'],
 ];
 
