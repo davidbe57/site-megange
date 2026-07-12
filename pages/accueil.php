@@ -81,6 +81,10 @@
                             <i class="fas fa-envelope"></i>
                             <span>Contact</span>
                         </a>
+                        <a href="index.php?p=vie-locale" class="home-link-card">
+                            <i class="fas fa-newspaper"></i>
+                            <span>Actualités</span>
+                        </a>
                     </div>
                 </section>
             </div>

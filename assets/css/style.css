@@ -1796,6 +1796,7 @@ textarea.form-control {
 .home-links-grid .home-link-card:nth-child(2) { transition-delay: 0.1s; }
 .home-links-grid .home-link-card:nth-child(3) { transition-delay: 0.15s; }
 .home-links-grid .home-link-card:nth-child(4) { transition-delay: 0.2s; }
+.home-links-grid .home-link-card:nth-child(5) { transition-delay: 0.25s; }
 
 /* Scroll reveal base (enhanced from JS) */
 .scroll-reveal {
