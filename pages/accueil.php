@@ -10,7 +10,7 @@
     </div>
 
     <div class="container hero-content">
-        <h1>Bienvenue à <?= $site_name ?></h1>
+        <h1>Bienvenue à <?= $site_name ?><br><span style="font-size:0.65em;font-weight:400;">et Rurange-lès-Mégange</span></h1>
         <p>Mégange est un charmant village mosellan, où convivialité et qualité de vie sont au cœur de notre identité. La commune réunit deux villages : <strong>Mégange</strong> et <strong>Rurange-lès-Mégange</strong>. Entre traditions et modernité, notre commune offre un cadre de vie paisible à ses résidents.</p>
         <div class="hero-actions">
             <a href="index.php?p=la-commune" class="btn btn-primary"><i class="fas fa-tree"></i> Découvrir le village</a>

@@ -1404,6 +1404,8 @@ textarea.form-control {
 .blog-card-image {
     flex: 0 0 280px;
     min-height: 200px;
+    max-height: 300px;
+    align-self: flex-start;
     background: var(--green-100);
 }
 
@@ -1447,6 +1449,7 @@ textarea.form-control {
 
     .blog-card-image {
         flex: 0 0 200px;
+        max-height: 250px;
     }
 
     .blog-card-body {
