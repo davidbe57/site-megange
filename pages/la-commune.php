@@ -11,10 +11,10 @@
             <div class="content-main">
                 <h2 id="histoire">Histoire</h2>
                 <p>Mégange est un village au riche passé historique, typique des villages lorrains. Son nom évoque l'époque gallo-romaine, témoignant d'une occupation ancienne du territoire. Au fil des siècles, le village s'est développé autour de l'agriculture, conservant son authenticité et son caractère rural.</p>
-                <p>Citée dès 1131 comme dépendance de la seigneurie de Vry, la commune se compose de deux villages : Mégange et Rurange-lès-Mégange, réunis par décision royale en 1833. La chapelle de l'Immaculée-Conception, construite en 1860, est un élément marquant du patrimoine local.</p>
+                <p>Citée dès 1131 comme dépendance de la seigneurie de Vry, la commune se compose en réalité de <strong>deux villages</strong> : <strong>Mégange</strong>, le village principal où se situe la mairie, et <strong>Rurange-lès-Mégange</strong>, réunis par décision royale en 1833. La chapelle de l'Immaculée-Conception, construite en 1860, est un élément marquant du patrimoine local.</p>
 
                 <h2 id="geographie">Géographie</h2>
-                <p>Située dans le département de la Moselle, à proximité de Boulay-Moselle, Mégange bénéficie d'un cadre de vie verdoyant et paisible, entouré de champs, de bois et de prairies. La commune fait partie de la Communauté de communes Houve-Pays boulageois, offrant aux habitants l'accès à de nombreux services et infrastructures.</p>
+                <p>Située dans le département de la Moselle, à proximité de Boulay-Moselle, Mégange bénéficie d'un cadre de vie verdoyant et paisible, entouré de champs, de bois et de prairies. La commune est composée de deux entités : le village de <strong>Mégange</strong> (siège de la mairie) et le hameau de <strong>Rurange-lès-Mégange</strong>. La commune fait partie de la Communauté de communes Houve-Pays boulageois, offrant aux habitants l'accès à de nombreux services et infrastructures.</p>
 
                 <h2 id="chiffres">Chiffres clés</h2>
                 <ul>
