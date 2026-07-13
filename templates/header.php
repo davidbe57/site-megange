@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= $page_title ?></title>
     <meta name="description" content="Site officiel de la commune de Mégange, village mosellan d'environ 300 habitants. Informations municipales, vie locale, services et démarches.">
+    <script>document.documentElement.setAttribute('data-theme', localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'));</script>
     <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
     <link rel="stylesheet" href="assets/fonts/fontawesome.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
-    <script>document.documentElement.setAttribute('data-theme', localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'));</script>
 </head>
 <body>
     <a href="#main" class="skip-link">Aller au contenu</a>

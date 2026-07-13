@@ -3,28 +3,36 @@
 // Priorité : megange-data/ (hors dépôt git, persiste au déploiement)
 // Fallback : data/ (dans le dépôt, peut être écrasé)
 $externalDataDir = dirname(__DIR__) . '/megange-data';
-if (!is_dir($externalDataDir)) { @mkdir($externalDataDir, 0755, true); }
+if (!is_dir($externalDataDir)) {
+    @mkdir($externalDataDir, 0755, true);
+}
 if (is_dir($externalDataDir) && is_writable($externalDataDir)) {
     $dataDir = $externalDataDir;
 } else {
     $dataDir = __DIR__ . '/data';
-    if (!is_dir($dataDir)) { @mkdir($dataDir, 0755, true); }
+    if (!is_dir($dataDir)) {
+        @mkdir($dataDir, 0755, true);
+    }
 }
 define('DATA_DIR', $dataDir);
 define('UPLOADS_DIR', DATA_DIR . '/uploads');
 foreach (['pdf', 'thumbnails', 'blog'] as $dir) {
     $d = UPLOADS_DIR . '/' . $dir;
-    if (!is_dir($d)) { @mkdir($d, 0755, true); }
+    if (!is_dir($d)) {
+        @mkdir($d, 0755, true);
+    }
 }
 
-function fileUrl($path) {
+function fileUrl($path)
+{
     if (strpos($path, 'serve.php?f=') === 0) return $path;
     $relative = preg_replace('#^assets/(pdf|thumbnails|blog|images/(cr|newsletter|blog))/#', '$1/', $path);
     if ($relative !== $path) return 'serve.php?f=' . $relative;
     return $path;
 }
 
-function fileExists($path) {
+function fileExists($path)
+{
     $paths = [];
     if (strpos($path, 'serve.php?f=') === 0) {
         $paths[] = UPLOADS_DIR . '/' . substr($path, 12);
@@ -46,8 +54,8 @@ $site_tagline = "Un village mosellan où il fait bon vivre";
 $site_url = "https://megange.fr";
 $site_email = "mairie@megange.fr";
 $contact_email = "david.better@gmail.com";
-$site_address = "1 Place de la Mairie, 57590 Mégange";
-$site_phone = "+33 3 87 00 00 00";
+$site_address = "25 rue Principale, 57220 Mégange";
+$site_phone = "+33 3 87 35 70 30";
 
 // Réseaux sociaux
 $social = [
@@ -80,18 +88,17 @@ $nav = [
     ],
     'services'    => ['label' => 'Services',    'icon' => 'fa-hand-holding-heart'],
     'vie-locale'  => ['label' => 'Actualités',  'icon' => 'fa-newspaper'],
-    'galerie'     => ['label' => 'Galerie',     'icon' => 'fa-images'],
 ];
 
 // Informations mairie (éditables via admin/horaires.php)
 $mairieHoursFile = DATA_DIR . '/mairie_hours.json';
 $mairieHoursDefault = [
-    'Lundi'     => '14h00 - 17h00',
-    'Mardi'     => '9h00 - 12h00',
+    'Lundi'     => 'Fermé',
+    'Mardi'     => '17h30 - 20h00',
     'Mercredi'  => 'Fermé',
-    'Jeudi'     => '14h00 - 17h00',
-    'Vendredi'  => '9h00 - 12h00',
-    'Samedi'    => '9h00 - 12h00 (1er du mois)',
+    'Jeudi'     => 'Fermé',
+    'Vendredi'  => 'Fermé',
+    'Samedi'    => 'Fermé',
     'Dimanche'  => 'Fermé',
 ];
 $mairie_hours = file_exists($mairieHoursFile) ? (json_decode(file_get_contents($mairieHoursFile), true) ?: $mairieHoursDefault) : $mairieHoursDefault;

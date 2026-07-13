@@ -23,12 +23,6 @@
     <div class="container">
         <div class="home-layout">
             <div class="home-main">
-                <article class="home-article home-article--featured">
-                    <h2 class="home-article-title">Bienvenue à Mégange</h2>
-                    <p>Notre village de la campagne mosellane allie le charme de la vie rurale à la convivialité de ses habitants. Entre ses sentiers verdoyants, sa chapelle de l'Immaculée-Conception et la richesse de son patrimoine, Mégange est un lieu de vie où il fait bon s'installer.</p>
-                    <p>La commune s'engage au quotidien pour améliorer le cadre de vie de ses résidents, préserver son patrimoine et dynamiser la vie locale. Consultez cette page pour suivre l'actualité de votre village.</p>
-                </article>
-
                 <?php
                 $articles_file = DATA_DIR . '/articles.json';
                 $articles = [];
