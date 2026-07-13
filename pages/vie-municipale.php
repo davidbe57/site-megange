@@ -57,7 +57,7 @@ $dateStr = $ts ? date('d', $ts) . ' ' . $months[(int)date('m', $ts)] . ' ' . dat
                         <h3 class="cr-year-title">Année <?= $year ?></h3>
                         <div class="cr-grid">
                             <?php foreach ($items as $cr): ?>
-                            <a href="<?= htmlspecialchars(fileUrl($cr['file'])) ?>" class="cr-card<?= fileExists($cr['file']) ? '' : ' cr-missing' ?>" target="_blank">
+                            <a href="<?= htmlspecialchars(fileUrl($cr['file'])) ?>" class="cr-card<?= fileExists($cr['file']) ? '' : ' cr-missing' ?>" target="_blank" title="Ouvrir le compte-rendu (PDF)">
                                 <span class="cr-thumb">
                                     <?php if (!empty($cr['thumbnail']) && fileExists($cr['thumbnail'])): ?>
                                     <img src="<?= htmlspecialchars(fileUrl($cr['thumbnail'])) ?>" alt="" loading="lazy">

@@ -65,41 +65,17 @@ $social = [
 
 // Navigation principale
 $nav = [
-    'accueil'     => ['label' => 'Accueil',     'icon' => 'fa-house'],
-    'la-commune'  => [
-        'label'    => 'La commune',
-        'icon'     => 'fa-tree',
-        'children' => [
-            ['label' => 'Histoire',           'href' => 'index.php?p=la-commune#histoire'],
-            ['label' => 'Géographie',         'href' => 'index.php?p=la-commune#geographie'],
-            ['label' => 'Chiffres clés',      'href' => 'index.php?p=la-commune#chiffres'],
-            ['label' => 'Bulletin communal',  'href' => 'index.php?p=la-commune#bulletins'],
-            ['label' => 'Cadre de vie',       'href' => 'index.php?p=la-commune#cadre'],
-        ]
-    ],
-    'vie-municipale' => [
-        'label'    => 'Vie municipale',
-        'icon'     => 'fa-landmark',
-        'children' => [
-            ['label' => 'Conseil municipal',    'href' => 'index.php?p=vie-municipale#conseil'],
-            ['label' => 'Équipe municipale',    'href' => 'index.php?p=vie-municipale#equipe'],
-            ['label' => 'Comptes-rendus',       'href' => 'index.php?p=vie-municipale#comptes'],
-        ]
-    ],
-    'services'    => ['label' => 'Services',    'icon' => 'fa-hand-holding-heart'],
-    'vie-locale'  => ['label' => 'Actualités',  'icon' => 'fa-newspaper'],
+    'accueil'                   => ['label' => 'Accueil',                   'icon' => 'fa-house'],
+    'mairie'                    => ['label' => 'Mairie',                    'icon' => 'fa-landmark'],
+    'informations-pratiques'    => ['label' => 'Informations pratiques',    'icon' => 'fa-tree'],
+    'actualites'                => ['label' => 'Actualités',                'icon' => 'fa-newspaper'],
+    'contact'                   => ['label' => 'Contact',                   'icon' => 'fa-hand-holding-heart'],
 ];
 
 // Informations mairie (éditables via admin/horaires.php)
 $mairieHoursFile = DATA_DIR . '/mairie_hours.json';
 $mairieHoursDefault = [
-    'Lundi'     => 'Fermé',
     'Mardi'     => '17h30 - 20h00',
-    'Mercredi'  => 'Fermé',
-    'Jeudi'     => 'Fermé',
-    'Vendredi'  => 'Fermé',
-    'Samedi'    => 'Fermé',
-    'Dimanche'  => 'Fermé',
 ];
 $mairie_hours = file_exists($mairieHoursFile) ? (json_decode(file_get_contents($mairieHoursFile), true) ?: $mairieHoursDefault) : $mairieHoursDefault;
 

@@ -96,6 +96,25 @@ body {
 
 .skip-link:focus { top: 0; }
 
+:focus-visible {
+    outline: 3px solid var(--terracotta);
+    outline-offset: 2px;
+}
+
+:focus:not(:focus-visible) {
+    outline: none;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px; height: 1px;
+    padding: 0; margin: -1px;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+    white-space: nowrap;
+    border: 0;
+}
+
 /* ===== Layout ===== */
 .container {
     width: 100%;
@@ -1137,7 +1156,6 @@ img { max-width: 100%; height: auto; display: block; }
 }
 
 .form-control:focus {
-    outline: none;
     border-color: var(--green-500);
     box-shadow: 0 0 0 4px var(--green-100);
 }

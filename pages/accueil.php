@@ -1,12 +1,12 @@
-<section class="hero" id="hero">
-    <div class="carousel-slide active" style="background-image: url('assets/images/hero.jpg');"></div>
-    <div class="carousel-slide" style="background-image: url('assets/images/hero-2.jpg');"></div>
-    <div class="carousel-slide" style="background-image: url('assets/images/hero-3.jpg');"></div>
+<section class="hero" id="hero" aria-roledescription="carousel" aria-label="Galerie photos de Mégange">
+    <div class="carousel-slide active" style="background-image: url('assets/images/hero.jpg');" role="group" aria-roledescription="slide" aria-label="Photo 1 sur 3"></div>
+    <div class="carousel-slide" style="background-image: url('assets/images/hero-2.jpg');" role="group" aria-roledescription="slide" aria-label="Photo 2 sur 3"></div>
+    <div class="carousel-slide" style="background-image: url('assets/images/hero-3.jpg');" role="group" aria-roledescription="slide" aria-label="Photo 3 sur 3"></div>
 
-    <div class="carousel-dots">
-        <button class="carousel-dot active" data-index="0"></button>
-        <button class="carousel-dot" data-index="1"></button>
-        <button class="carousel-dot" data-index="2"></button>
+    <div class="carousel-dots" aria-label="Choisir une photo">
+        <button class="carousel-dot active" data-index="0" aria-label="Photo 1"></button>
+        <button class="carousel-dot" data-index="1" aria-label="Photo 2"></button>
+        <button class="carousel-dot" data-index="2" aria-label="Photo 3"></button>
     </div>
 
     <div class="container hero-content">

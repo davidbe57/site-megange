@@ -38,10 +38,10 @@
                         $hasChildren = isset($item['children']) && count($item['children']) > 0;
                     ?>
                     <li class="nav-item<?= $hasChildren ? ' has-dropdown' : '' ?>">
-                        <a href="index.php?p=<?= $key ?>" class="<?= $page === $key ? 'active' : '' ?>">
-                            <i class="fas <?= $item['icon'] ?>"></i>
+                        <a href="index.php?p=<?= $key ?>" class="<?= $page === $key ? 'active' : '' ?>"<?= $page === $key ? ' aria-current="page"' : '' ?>>
+                            <i class="fas <?= $item['icon'] ?>" aria-hidden="true"></i>
                             <span><?= $item['label'] ?></span>
-                            <?php if ($hasChildren): ?><i class="fas fa-chevron-down dropdown-arrow"></i><?php endif; ?>
+                            <?php if ($hasChildren): ?><i class="fas fa-chevron-down dropdown-arrow" aria-hidden="true"></i><?php endif; ?>
                         </a>
                         <?php if ($hasChildren): ?>
                         <ul class="dropdown">

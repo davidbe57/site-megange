@@ -44,7 +44,7 @@
                         <h3 class="cr-year-title">Année <?= $year ?></h3>
                         <div class="cr-grid">
                             <?php foreach ($items as $b): ?>
-                            <a href="<?= htmlspecialchars(fileUrl($b['file'])) ?>" class="cr-card<?= fileExists($b['file']) ? '' : ' cr-missing' ?>" target="_blank">
+                            <a href="<?= htmlspecialchars(fileUrl($b['file'])) ?>" class="cr-card<?= fileExists($b['file']) ? '' : ' cr-missing' ?>" target="_blank" title="Ouvrir le bulletin (PDF)">
                                 <span class="cr-thumb">
                                     <?php if (!empty($b['thumbnail']) && fileExists($b['thumbnail'])): ?>
                                     <img src="<?= htmlspecialchars(fileUrl($b['thumbnail'])) ?>" alt="" loading="lazy">
