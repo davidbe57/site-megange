@@ -32,7 +32,7 @@ $articles = array_reverse($articles);
                         <span><i class="fas fa-user"></i> <?= htmlspecialchars($art['author']) ?></span>
                     </div>
                     <h3><?= htmlspecialchars($art['title']) ?></h3>
-                    <p><?= nl2br(htmlspecialchars($art['content'])) ?></p>
+                    <p><?= nl2br(strip_tags($art['content'], '<b><i><u><a><br><p><strong><em><ul><ol><li>')) ?></p>
                 </div>
             </article>
             <?php endforeach; ?>

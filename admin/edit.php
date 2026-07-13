@@ -54,7 +54,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         if (empty($error)) {
-            $excerpt = mb_strlen($content) > 200 ? mb_substr($content, 0, 200) . '...' : $content;
+            $plain = strip_tags($content);
+            $excerpt = mb_strlen($plain) > 200 ? mb_substr($plain, 0, 200) . '...' : $plain;
 
             $articles[$index] = [
                 'id'      => $id,
@@ -124,12 +125,43 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
 
                 <div class="form-group">
-                    <label for="content">Texte</label>
+                    <label>Texte</label>
+                    <div class="editor-toolbar">
+                        <button type="button" onclick="wrapTag('b')" title="Gras"><i class="fas fa-bold"></i></button>
+                        <button type="button" onclick="wrapTag('i')" title="Italique"><i class="fas fa-italic"></i></button>
+                        <button type="button" onclick="wrapTag('u')" title="Souligné"><i class="fas fa-underline"></i></button>
+                        <button type="button" onclick="insertLink()" title="Lien"><i class="fas fa-link"></i></button>
+                    </div>
                     <textarea id="content" name="content" class="form-control" required style="min-height:250px;"><?= htmlspecialchars($_POST['content'] ?? $article['content']) ?></textarea>
+                    <p style="font-size:0.8rem;color:var(--gray-400);margin-top:0.3rem;">Vous pouvez utiliser le HTML directement : <code>&lt;b&gt;</code>, <code>&lt;i&gt;</code>, <code>&lt;a href="..."&gt;</code></p>
                 </div>
 
                 <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Enregistrer</button>
                 <a href="index.php" class="btn btn-outline" style="margin-left:0.5rem;">Annuler</a>
+                <script>
+                function wrapTag(tag) {
+                    const ta = document.getElementById('content');
+                    const start = ta.selectionStart, end = ta.selectionEnd;
+                    const sel = ta.value.substring(start, end);
+                    const def = tag === 'a' ? '' : 'texte';
+                    const txt = sel || def;
+                    const replacement = tag === 'a' ? '<a href="">' + txt + '</a>' : '<' + tag + '>' + txt + '</' + tag + '>';
+                    ta.value = ta.value.substring(0, start) + replacement + ta.value.substring(end);
+                    ta.focus();
+                    if (!sel) ta.setSelectionRange(start + ('<' + tag + '>').length, start + ('<' + tag + '>').length);
+                }
+                function insertLink() {
+                    const ta = document.getElementById('content');
+                    const start = ta.selectionStart, end = ta.selectionEnd;
+                    const sel = ta.value.substring(start, end);
+                    const url = prompt('URL du lien :', 'https://');
+                    if (!url) return;
+                    const text = sel || 'lien';
+                    const replacement = '<a href="' + url.replace(/"/g,'&quot;') + '">' + text + '</a>';
+                    ta.value = ta.value.substring(0, start) + replacement + ta.value.substring(end);
+                    ta.focus();
+                }
+                </script>
             </form>
         </div>
     </main>

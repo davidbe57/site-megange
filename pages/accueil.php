@@ -45,7 +45,7 @@
                         </div>
                         <h3 class="home-actu-title"><?= htmlspecialchars($a['title']) ?></h3>
                         <?php if (!empty($a['excerpt'])): ?>
-                        <p class="home-actu-excerpt"><?= htmlspecialchars($a['excerpt']) ?></p>
+                        <p class="home-actu-excerpt"><?= htmlspecialchars(strip_tags($a['excerpt'])) ?></p>
                         <?php endif; ?>
                         <a href="index.php?p=vie-locale" class="home-actu-link">Lire la suite &rarr;</a>
                     </article>

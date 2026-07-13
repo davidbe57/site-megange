@@ -1147,6 +1147,42 @@ textarea.form-control {
     resize: vertical;
 }
 
+.editor-toolbar {
+    display: flex;
+    gap: 2px;
+    margin-bottom: 0;
+    padding: 0.4rem;
+    background: var(--gray-100);
+    border: 2px solid var(--gray-100);
+    border-bottom: none;
+    border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+}
+
+.editor-toolbar button {
+    width: 34px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background: transparent;
+    color: var(--text);
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    transition: var(--transition);
+}
+
+.editor-toolbar button:hover {
+    background: var(--bg-card);
+    color: var(--terracotta);
+}
+
+.editor-toolbar + textarea.form-control {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
 .form-success {
     display: none;
     background: var(--green-100);
