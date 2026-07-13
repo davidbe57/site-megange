@@ -1,7 +1,7 @@
 <?php
 $art_file = DATA_DIR . '/articles.json';
 $articles = file_exists($art_file) ? (json_decode(file_get_contents($art_file), true) ?: []) : [];
-$articles = array_reverse($articles);
+usort($articles, function($a, $b) { return strcmp($b['date'] ?? '', $a['date'] ?? ''); });
 ?>
 <div class="page-header">
     <div class="container">
