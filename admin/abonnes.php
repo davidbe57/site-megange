@@ -40,6 +40,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = trim($_POST['email'] ?? '');
     $password = $_POST['password'] ?? '';
     $adresse = trim($_POST['adresse'] ?? '');
+    $code_postal = trim($_POST['code_postal'] ?? '');
+    $ville = trim($_POST['ville'] ?? '');
     $telephone = trim($_POST['telephone'] ?? '');
     $accept_bulletin = isset($_POST['accept_bulletin']);
 
@@ -65,6 +67,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $u['prenom'] = $prenom;
                     $u['email'] = $email;
                     $u['adresse'] = $adresse;
+                    $u['code_postal'] = $code_postal;
+                    $u['ville'] = $ville;
                     $u['telephone'] = $telephone;
                     $u['accept_bulletin'] = $accept_bulletin;
                     if ($password !== '') {
@@ -82,6 +86,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 'email' => $email,
                 'password' => $password !== '' ? password_hash($password, PASSWORD_DEFAULT) : '',
                 'adresse' => $adresse,
+                'code_postal' => $code_postal,
+                'ville' => $ville,
                 'telephone' => $telephone,
                 'accept_bulletin' => $accept_bulletin,
             ];
@@ -180,6 +186,14 @@ $nbBulletin = count(array_filter($users, fn($u) => !empty($u['accept_bulletin'])
                         <input type="text" name="adresse" value="<?= htmlspecialchars($editUser['adresse'] ?? '') ?>">
                     </div>
                     <div class="form-group">
+                        <label>Code postal</label>
+                        <input type="text" name="code_postal" value="<?= htmlspecialchars($editUser['code_postal'] ?? '') ?>">
+                    </div>
+                    <div class="form-group">
+                        <label>Ville</label>
+                        <input type="text" name="ville" value="<?= htmlspecialchars($editUser['ville'] ?? '') ?>">
+                    </div>
+                    <div class="form-group">
                         <label>Téléphone</label>
                         <input type="tel" name="telephone" value="<?= htmlspecialchars($editUser['telephone'] ?? '') ?>">
                     </div>
@@ -206,6 +220,8 @@ $nbBulletin = count(array_filter($users, fn($u) => !empty($u['accept_bulletin'])
                             <th>Prénom</th>
                             <th>Email</th>
                             <th>Adresse</th>
+                            <th>Code postal</th>
+                            <th>Ville</th>
                             <th>Téléphone</th>
                             <th>Bulletin</th>
                             <th>Actions</th>
@@ -218,6 +234,8 @@ $nbBulletin = count(array_filter($users, fn($u) => !empty($u['accept_bulletin'])
                             <td><?= htmlspecialchars($u['prenom']) ?></td>
                             <td><?= htmlspecialchars($u['email'] ?? '') ?></td>
                             <td><?= htmlspecialchars($u['adresse'] ?? '') ?></td>
+                            <td><?= htmlspecialchars($u['code_postal'] ?? '') ?></td>
+                            <td><?= htmlspecialchars($u['ville'] ?? '') ?></td>
                             <td><?= htmlspecialchars($u['telephone'] ?? '') ?></td>
                             <td><?= (!empty($u['accept_bulletin'])) ? '<i class="fas fa-check" style="color:var(--green-600);"></i>' : '<i class="fas fa-times" style="color:var(--gray-300);"></i>' ?></td>
                             <td>

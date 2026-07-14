@@ -19,6 +19,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $prenom = trim($_POST['prenom'] ?? '');
     $email = trim($_POST['email'] ?? '');
     $adresse = trim($_POST['adresse'] ?? '');
+    $code_postal = trim($_POST['code_postal'] ?? '');
+    $ville = trim($_POST['ville'] ?? '');
     $telephone = trim($_POST['telephone'] ?? '');
     $accept_bulletin = isset($_POST['accept_bulletin']);
     $newPassword = $_POST['new_password'] ?? '';
@@ -48,6 +50,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $u['prenom'] = $prenom;
                     $u['email'] = $email;
                     $u['adresse'] = $adresse;
+                    $u['code_postal'] = $code_postal;
+                    $u['ville'] = $ville;
                     $u['telephone'] = $telephone;
                     $u['accept_bulletin'] = $accept_bulletin;
                     if ($newPassword !== '') {
@@ -95,6 +99,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="form-group">
                 <label for="adresse">Adresse</label>
                 <input type="text" id="adresse" name="adresse" class="form-control" value="<?= htmlspecialchars($current_user['adresse'] ?? '') ?>">
+            </div>
+            <div class="form-group">
+                <label for="code_postal">Code postal</label>
+                <input type="text" id="code_postal" name="code_postal" class="form-control" value="<?= htmlspecialchars($current_user['code_postal'] ?? '') ?>">
+            </div>
+            <div class="form-group">
+                <label for="ville">Ville</label>
+                <input type="text" id="ville" name="ville" class="form-control" value="<?= htmlspecialchars($current_user['ville'] ?? '') ?>">
             </div>
             <div class="form-group">
                 <label for="telephone">Téléphone</label>
