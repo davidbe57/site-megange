@@ -51,7 +51,7 @@ function fileExists($path)
 // Configuration du site
 $site_name = "Mégange";
 $site_tagline = "Un village mosellan où il fait bon vivre";
-$site_url = "https://megange.fr";
+$site_url = "https://village-megange.fr";
 $site_email = "mairie@megange.fr";
 $contact_email = "david.better@gmail.com";
 $site_address = "25 rue Principale, 57220 Mégange";
