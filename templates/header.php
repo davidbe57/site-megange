@@ -5,6 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= $page_title ?></title>
     <meta name="description" content="Site officiel de la commune de Mégange, village mosellan d'environ 300 habitants. Informations municipales, vie locale, services et démarches.">
+    <link rel="canonical" href="<?= $site_url ?>/<?= $page === 'accueil' ? '' : 'index.php?p=' . $page ?>">
+    <meta property="og:title" content="<?= $page_title ?>">
+    <meta property="og:description" content="Site officiel de la commune de Mégange, village mosellan d'environ 300 habitants. Informations municipales, vie locale, services et démarches.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="<?= $site_url ?>/<?= $page === 'accueil' ? '' : 'index.php?p=' . $page ?>">
+    <meta property="og:image" content="<?= $site_url ?>/assets/images/hero.jpg">
+    <meta name="twitter:card" content="summary_large_image">
     <script>document.documentElement.setAttribute('data-theme', localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'));</script>
     <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
     <link rel="stylesheet" href="assets/fonts/fontawesome.min.css">
