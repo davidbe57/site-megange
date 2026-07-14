@@ -1,13 +1,18 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 660" width="600" height="660">
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="660" viewBox="0 0 600 660">
   <defs>
     <radialGradient id="shine" cx="40%" cy="30%" r="60%">
-      <stop offset="0" stop-color="#fff" stop-opacity="0.35"/>
+      <stop offset="0" stop-color="#fff" stop-opacity="0.25"/>
       <stop offset="1" stop-color="#000" stop-opacity="0.1"/>
     </radialGradient>
+    <clipPath id="shield_cut">
+      <path id="shield" d="M -298.5,-298.5 L 298.5,-298.5 L 298.5,-40 C 298.5,246.31 0,358.5 0,358.5 C 0,358.5 -298.5,246.31 -298.5,-40 L -298.5,-298.5 z"/>
+    </clipPath>
   </defs>
-  <path d="M 20 20 L 580 20 L 580 160 Q 580 460 300 640 Q 20 460 20 160 Z" fill="#1a3c2a" stroke="#2d6b44" stroke-width="4"/>
-  <path d="M 80 130 L 300 500 L 520 130" fill="none" stroke="#d4a84b" stroke-width="8" stroke-linejoin="round"/>
-  <path d="M 140 200 L 300 440 L 460 200" fill="none" stroke="#d4a84b" stroke-width="8" stroke-linejoin="round"/>
-  <path d="M 200 270 L 300 380 L 400 270" fill="none" stroke="#d4a84b" stroke-width="8" stroke-linejoin="round"/>
-  <path d="M 20 20 L 580 20 L 580 160 Q 580 460 300 640 Q 20 460 20 160 Z" fill="url(#shine)" stroke="#1a3c2a" stroke-width="3"/>
+  <g transform="translate(300,300)">
+    <use href="#shield" style="fill:#0000ff"/>
+    <path style="fill:#ffffff;fill-rule:evenodd" d="M 0,-276.74761 -295.6875,7.15864 c 3.1029,25.70608 8.6833,49.83529 16.1875,72.4375 L 0,-188.74761 279.5,79.59614 c 7.5042,-22.60221 13.0846,-46.73142 16.1875,-72.4375 z m 0,176 -252.4375,242.375 c 10.6246,19.40672 22.5972,37.3781 35.4375,53.96875 L 0,-12.74761 217,195.59614 c 12.838,-16.58775 24.8143,-34.56593 35.4375,-53.96875 z m 0,176 -174.6875,167.71875 c 15.9133,15.59608 32.2317,29.48942 48.1875,41.75 L 0,163.25239 126.5,284.72114 c 15.9558,-12.26058 32.2742,-26.15392 48.1875,-41.75 z"/>
+    <use href="#shield" style="fill:url(#shine)"/>
+    <use href="#shield" style="fill:none;stroke:#1a1a1a;stroke-width:4;stroke-linejoin:round"/>
+    <use href="#shield" style="fill:none;stroke:#444;stroke-width:1.5;stroke-linejoin:round" transform="translate(0,3)"/>
+  </g>
 </svg>
