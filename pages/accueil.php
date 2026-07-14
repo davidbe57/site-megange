@@ -1,12 +1,20 @@
+<?php
+$carouselFile = DATA_DIR . '/carousel.json';
+$carouselItems = file_exists($carouselFile) ? (json_decode(file_get_contents($carouselFile), true) ?: []) : [];
+$defaultHeroes = ['assets/images/hero.jpg', 'assets/images/hero-2.jpg', 'assets/images/hero-3.jpg'];
+if (empty($carouselItems)) {
+    foreach ($defaultHeroes as $i => $src) $carouselItems[] = ['image' => $src];
+}
+?>
 <section class="hero" id="hero" aria-roledescription="carousel" aria-label="Galerie photos de Mégange">
-    <div class="carousel-slide active" style="background-image: url('assets/images/hero.jpg');" role="group" aria-roledescription="slide" aria-label="Photo 1 sur 3"></div>
-    <div class="carousel-slide" style="background-image: url('assets/images/hero-2.jpg');" role="group" aria-roledescription="slide" aria-label="Photo 2 sur 3"></div>
-    <div class="carousel-slide" style="background-image: url('assets/images/hero-3.jpg');" role="group" aria-roledescription="slide" aria-label="Photo 3 sur 3"></div>
+    <?php foreach ($carouselItems as $i => $item): ?>
+    <div class="carousel-slide<?= $i === 0 ? ' active' : '' ?>" style="background-image: url('<?= htmlspecialchars(fileUrl($item['image'])) ?>');" role="group" aria-roledescription="slide" aria-label="Photo <?= $i + 1 ?> sur <?= count($carouselItems) ?>"></div>
+    <?php endforeach; ?>
 
     <div class="carousel-dots" aria-label="Choisir une photo">
-        <button class="carousel-dot active" data-index="0" aria-label="Photo 1"></button>
-        <button class="carousel-dot" data-index="1" aria-label="Photo 2"></button>
-        <button class="carousel-dot" data-index="2" aria-label="Photo 3"></button>
+        <?php foreach ($carouselItems as $i => $item): ?>
+        <button class="carousel-dot<?= $i === 0 ? ' active' : '' ?>" data-index="<?= $i ?>" aria-label="Photo <?= $i + 1 ?>"></button>
+        <?php endforeach; ?>
     </div>
 
     <div class="container hero-content">

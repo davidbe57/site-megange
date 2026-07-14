@@ -153,6 +153,8 @@ if (file_exists($art_file)) {
                 <div style="margin-top:2rem;padding-top:2rem;border-top:2px solid var(--border);">
                     <h2 style="margin-bottom:1rem;">Configuration</h2>
                     <div style="display:flex;gap:1rem;flex-wrap:wrap;">
+                        <a href="carousel.php" class="btn"><i class="fas fa-images"></i> Carousel accueil</a>
+                        <a href="galerie.php" class="btn"><i class="fas fa-camera"></i> Galerie photos</a>
                         <a href="horaires.php" class="btn"><i class="fas fa-clock"></i> Horaires d'ouverture</a>
                         <a href="config-site.php" class="btn"><i class="fas fa-gear"></i> Coordonnées mairie</a>
                     </div>
