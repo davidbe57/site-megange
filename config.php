@@ -1,4 +1,9 @@
 <?php
+// Session publique (utilisateurs)
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 // Répertoire de stockage des données persistantes (CR, articles, élus, etc.)
 // Priorité : megange-data/ (hors dépôt git, persiste au déploiement)
 // Fallback : data/ (dans le dépôt, peut être écrasé)
@@ -99,6 +104,7 @@ $nav = [
     ],
     'services'    => ['label' => 'Services',    'icon' => 'fa-hand-holding-heart'],
     'vie-locale'  => ['label' => 'Actualités',  'icon' => 'fa-newspaper'],
+    'login'       => ['label' => ($user_logged_in ? 'Mon compte' : 'Connexion'), 'icon' => ($user_logged_in ? 'fa-user' : 'fa-right-to-bracket')],
 ];
 
 // Informations mairie (éditables via admin/horaires.php)
@@ -123,6 +129,18 @@ if (file_exists($mairieHoursFile)) {
             }
         }
     }
+}
+
+// Utilisateur connecté
+$user_logged_in = !empty($_SESSION['user_id']);
+$current_user = null;
+if ($user_logged_in) {
+    $usersFile = DATA_DIR . '/abonnes.json';
+    $allUsers = file_exists($usersFile) ? (json_decode(file_get_contents($usersFile), true) ?: []) : [];
+    foreach ($allUsers as $u) {
+        if ($u['id'] === (int)$_SESSION['user_id']) { $current_user = $u; break; }
+    }
+    if (!$current_user) { $user_logged_in = false; unset($_SESSION['user_id']); }
 }
 
 // Admin
