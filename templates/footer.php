@@ -15,10 +15,10 @@
                     <p><i class="fas fa-envelope"></i> <a href="mailto:<?= $site_email ?>"><?= $site_email ?></a></p>
                 </address>
                 <div class="social-links">
-                    <?php if (!empty($social['facebook'])): ?>
+                    <?php if (!empty($social['facebook']) && $social['facebook'] !== '#'): ?>
                     <a href="<?= $social['facebook'] ?>" target="_blank" rel="noopener" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
                     <?php endif; ?>
-                    <?php if (!empty($social['youtube'])): ?>
+                    <?php if (!empty($social['youtube']) && $social['youtube'] !== '#'): ?>
                     <a href="<?= $social['youtube'] ?>" target="_blank" rel="noopener" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
                     <?php endif; ?>
                 </div>
@@ -29,8 +29,7 @@
             <div class="container">
                 <p>&copy; <?= date('Y') ?> Commune de <?= $site_name ?> | 
                 <a href="index.php?p=mentions-legales">Mentions légales</a> | 
-                <a href="index.php?p=contact">Contact</a> | 
-                <a href="admin/index.php">Admin</a></p>
+                <a href="index.php?p=contact">Contact</a></p>
             </div>
         </div>
     </footer>
