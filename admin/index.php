@@ -186,6 +186,7 @@ if (file_exists($art_file)) {
                     <div style="display:flex;gap:1rem;flex-wrap:wrap;">
                         <a href="conseil.php" class="btn"><i class="fas fa-calendar"></i> Conseil & sidebar</a>
                         <a href="elus.php" class="btn"><i class="fas fa-users"></i> Équipe municipale</a>
+                        <a href="abonnes.php" class="btn"><i class="fas fa-address-book"></i> Abonnés bulletin</a>
                     </div>
                 </div>
             <?php endif; ?>
