@@ -58,7 +58,7 @@ $site_name = "Mégange";
 $site_tagline = "Un village mosellan où il fait bon vivre";
 $site_url = "https://village-megange.fr";
 $site_email = "mairie@megange.fr";
-$contact_email = "david.better@gmail.com";
+$contact_emails = ["david.better@gmail.com", "mairie.megange@wanadoo.fr"];
 $site_address = "25 rue Principale, 57220 Mégange";
 $site_phone = "+33 3 87 35 70 30";
 

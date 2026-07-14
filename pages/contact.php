@@ -47,7 +47,9 @@
                               . "Email : $email\n"
                               . "Sujet : $subjectLabel\n\n"
                               . "Message :\n$msg";
-                        @mail($contact_email, '[Mégange] ' . $subjectLabel, $body, $headers);
+                        foreach ($contact_emails as $to) {
+                            @mail($to, '[Mégange] ' . $subjectLabel, $body, $headers);
+                        }
                         echo '<div class="form-success" style="display: block;">Merci pour votre message ! Nous vous répondrons dans les plus brefs délais.</div>';
                     }
                     ?>
