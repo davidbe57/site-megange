@@ -79,6 +79,18 @@ $social = [
     'youtube' => '#',
 ];
 
+// Utilisateur connecté (doit être avant $nav qui utilise $user_logged_in)
+$user_logged_in = !empty($_SESSION['user_id']);
+$current_user = null;
+if ($user_logged_in) {
+    $usersFile = DATA_DIR . '/abonnes.json';
+    $allUsers = file_exists($usersFile) ? (json_decode(file_get_contents($usersFile), true) ?: []) : [];
+    foreach ($allUsers as $u) {
+        if ($u['id'] === (int)$_SESSION['user_id']) { $current_user = $u; break; }
+    }
+    if (!$current_user) { $user_logged_in = false; unset($_SESSION['user_id']); }
+}
+
 // Navigation principale
 $nav = [
     'accueil'     => ['label' => 'Accueil',     'icon' => 'fa-house'],
@@ -129,18 +141,6 @@ if (file_exists($mairieHoursFile)) {
             }
         }
     }
-}
-
-// Utilisateur connecté
-$user_logged_in = !empty($_SESSION['user_id']);
-$current_user = null;
-if ($user_logged_in) {
-    $usersFile = DATA_DIR . '/abonnes.json';
-    $allUsers = file_exists($usersFile) ? (json_decode(file_get_contents($usersFile), true) ?: []) : [];
-    foreach ($allUsers as $u) {
-        if ($u['id'] === (int)$_SESSION['user_id']) { $current_user = $u; break; }
-    }
-    if (!$current_user) { $user_logged_in = false; unset($_SESSION['user_id']); }
 }
 
 // Admin
