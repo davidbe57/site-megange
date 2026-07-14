@@ -141,11 +141,14 @@ if (file_exists($art_file)) {
                                 <td><?= date('d/m/Y', strtotime($art['date'])) ?></td>
                                 <td>
                                     <div class="admin-actions">
+                                        <a href="send-article.php?id=<?= $art['id'] ?>" style="background:#dbeafe;color:#1e40af;" onclick="return confirm('Envoyer « <?= htmlspecialchars($art['title']) ?> » par email à tous les abonnés aux actualités ?')">
+                                            <i class="fas fa-envelope"></i>
+                                        </a>
                                         <a href="edit.php?id=<?= $art['id'] ?>" style="background:var(--green-100);color:var(--green-700);">
-                                            <i class="fas fa-edit"></i> Modifier
+                                            <i class="fas fa-edit"></i>
                                         </a>
                                         <a href="delete.php?id=<?= $art['id'] ?>" style="background:#fef2f2;color:#b91c1c;" onclick="return confirm('Supprimer cet article ?')">
-                                            <i class="fas fa-trash"></i> Supprimer
+                                            <i class="fas fa-trash"></i>
                                         </a>
                                     </div>
                                 </td>

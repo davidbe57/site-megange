@@ -7,16 +7,19 @@ if (empty($_SESSION['admin'])) { header('Location: index.php'); exit; }
 $file = DATA_DIR . '/abonnes.json';
 $users = file_exists($file) ? (json_decode(file_get_contents($file), true) ?: []) : [];
 
-// Export CSV des abonnés au bulletin
-if (isset($_GET['export'])) {
+// Export CSV
+$exportType = $_GET['export'] ?? '';
+if ($exportType === 'bulletin' || $exportType === 'actualites') {
+    $label = $exportType === 'bulletin' ? 'bulletin' : 'actualites';
+    $field = 'accept_' . $label;
     header('Content-Type: text/csv; charset=utf-8');
-    header('Content-Disposition: attachment; filename="abonnes-bulletin.csv"');
-    echo "\xEF\xBB\xBF"; // BOM UTF-8
+    header('Content-Disposition: attachment; filename="abonnes-' . $label . '.csv"');
+    echo "\xEF\xBB\xBF";
     $out = fopen('php://output', 'w');
-    fputcsv($out, ['Nom', 'Prénom', 'Email']);
+    fputcsv($out, ['Prénom', 'Nom', 'Email']);
     foreach ($users as $u) {
-        if (!empty($u['accept_bulletin'])) {
-            fputcsv($out, [$u['nom'], $u['prenom'], $u['email'] ?? '']);
+        if (!empty($u[$field])) {
+            fputcsv($out, [$u['prenom'], $u['nom'], $u['email'] ?? '']);
         }
     }
     fclose($out);
@@ -44,6 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $ville = trim($_POST['ville'] ?? '');
     $telephone = trim($_POST['telephone'] ?? '');
     $accept_bulletin = isset($_POST['accept_bulletin']);
+    $accept_actualites = isset($_POST['accept_actualites']);
 
     if ($nom === '' || $prenom === '' || $email === '') {
         $error = 'Le nom, le prénom et l\'email sont obligatoires.';
@@ -71,6 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $u['ville'] = $ville;
                     $u['telephone'] = $telephone;
                     $u['accept_bulletin'] = $accept_bulletin;
+                    $u['accept_actualites'] = $accept_actualites;
                     if ($password !== '') {
                         $u['password'] = password_hash($password, PASSWORD_DEFAULT);
                     }
@@ -90,6 +95,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 'ville' => $ville,
                 'telephone' => $telephone,
                 'accept_bulletin' => $accept_bulletin,
+                'accept_actualites' => $accept_actualites,
             ];
         }
         file_put_contents($file, json_encode($users, JSON_PRETTY_PRINT));
@@ -105,6 +111,7 @@ if (isset($_GET['edit'])) {
 }
 
 $nbBulletin = count(array_filter($users, fn($u) => !empty($u['accept_bulletin'])));
+$nbActualites = count(array_filter($users, fn($u) => !empty($u['accept_actualites'])));
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -143,7 +150,8 @@ $nbBulletin = count(array_filter($users, fn($u) => !empty($u['accept_bulletin'])
         <div class="container" style="display:flex;justify-content:space-between;align-items:center;">
             <span><i class="fas fa-shield-alt"></i> Gestion des utilisateurs</span>
             <div>
-                <a href="abonnes.php?export=1" style="color:var(--gold);margin-right:1rem;"><i class="fas fa-download"></i> Export bulletin</a>
+                <a href="abonnes.php?export=bulletin" style="color:var(--gold);margin-right:0.75rem;"><i class="fas fa-download"></i> Export bulletin</a>
+                <a href="abonnes.php?export=actualites" style="color:var(--gold);margin-right:0.75rem;"><i class="fas fa-download"></i> Export actualités</a>
                 <a href="index.php" style="color:var(--gold);"><i class="fas fa-arrow-left"></i> Retour</a>
             </div>
         </div>
@@ -158,6 +166,7 @@ $nbBulletin = count(array_filter($users, fn($u) => !empty($u['accept_bulletin'])
             <div class="stats-bar">
                 <div class="stat-card"><div class="num"><?= count($users) ?></div><div class="lbl">Inscrits</div></div>
                 <div class="stat-card"><div class="num"><?= $nbBulletin ?></div><div class="lbl">Acceptent le bulletin</div></div>
+                <div class="stat-card"><div class="num"><?= $nbActualites ?></div><div class="lbl">Acceptent les actualités</div></div>
             </div>
 
             <?php if (!empty($editUser)): ?>
@@ -165,33 +174,37 @@ $nbBulletin = count(array_filter($users, fn($u) => !empty($u['accept_bulletin'])
                 <h3 style="margin-bottom:1rem;">Modifier l'utilisateur</h3>
                 <form method="POST">
                     <input type="hidden" name="id" value="<?= $editUser['id'] ?>">
-                    <div class="form-group">
-                        <label class="required">Nom</label>
-                        <input type="text" name="nom" value="<?= htmlspecialchars($editUser['nom']) ?>" required>
-                    </div>
-                    <div class="form-group">
-                        <label class="required">Prénom</label>
-                        <input type="text" name="prenom" value="<?= htmlspecialchars($editUser['prenom']) ?>" required>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+                        <div class="form-group" style="margin:0;">
+                            <label class="required">Prénom</label>
+                            <input type="text" name="prenom" value="<?= htmlspecialchars($editUser['prenom']) ?>" required>
+                        </div>
+                        <div class="form-group" style="margin:0;">
+                            <label class="required">Nom</label>
+                            <input type="text" name="nom" value="<?= htmlspecialchars($editUser['nom']) ?>" required>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label class="required">Email</label>
                         <input type="email" name="email" value="<?= htmlspecialchars($editUser['email']) ?>" required>
                     </div>
                     <div class="form-group">
-                        <label>Nouveau mot de passe (laisser vide pour conserver)</label>
+                        <label>Mot de passe (laisser vide pour conserver)</label>
                         <input type="password" name="password">
                     </div>
                     <div class="form-group">
                         <label>Adresse</label>
                         <input type="text" name="adresse" value="<?= htmlspecialchars($editUser['adresse'] ?? '') ?>">
                     </div>
-                    <div class="form-group">
-                        <label>Code postal</label>
-                        <input type="text" name="code_postal" value="<?= htmlspecialchars($editUser['code_postal'] ?? '') ?>">
-                    </div>
-                    <div class="form-group">
-                        <label>Ville</label>
-                        <input type="text" name="ville" value="<?= htmlspecialchars($editUser['ville'] ?? '') ?>">
+                    <div style="display:grid;grid-template-columns:1fr 2fr;gap:1rem;">
+                        <div class="form-group" style="margin:0;">
+                            <label>Code postal</label>
+                            <input type="text" name="code_postal" value="<?= htmlspecialchars($editUser['code_postal'] ?? '') ?>">
+                        </div>
+                        <div class="form-group" style="margin:0;">
+                            <label>Ville</label>
+                            <input type="text" name="ville" value="<?= htmlspecialchars($editUser['ville'] ?? '') ?>">
+                        </div>
                     </div>
                     <div class="form-group">
                         <label>Téléphone</label>
@@ -200,6 +213,10 @@ $nbBulletin = count(array_filter($users, fn($u) => !empty($u['accept_bulletin'])
                     <div class="checkbox-group">
                         <input type="checkbox" name="accept_bulletin" id="accept_bulletin"<?= ($editUser['accept_bulletin'] ?? false) ? ' checked' : '' ?>>
                         <label for="accept_bulletin" style="margin:0;font-weight:400;">Accepte le bulletin communal</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" name="accept_actualites" id="accept_actualites"<?= ($editUser['accept_actualites'] ?? false) ? ' checked' : '' ?>>
+                        <label for="accept_actualites" style="margin:0;font-weight:400;">Accepte les actualités</label>
                     </div>
                     <button type="submit" class="btn btn-primary">Enregistrer</button>
                     <a href="abonnes.php" class="btn" style="margin-left:0.5rem;">Annuler</a>
@@ -216,28 +233,30 @@ $nbBulletin = count(array_filter($users, fn($u) => !empty($u['accept_bulletin'])
                 <table class="admin-table">
                     <thead>
                         <tr>
-                            <th>Nom</th>
                             <th>Prénom</th>
+                            <th>Nom</th>
                             <th>Email</th>
                             <th>Adresse</th>
                             <th>Code postal</th>
                             <th>Ville</th>
                             <th>Téléphone</th>
                             <th>Bulletin</th>
+                            <th>Actualités</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php foreach ($users as $u): ?>
                         <tr>
-                            <td><?= htmlspecialchars($u['nom']) ?></td>
                             <td><?= htmlspecialchars($u['prenom']) ?></td>
+                            <td><?= htmlspecialchars($u['nom']) ?></td>
                             <td><?= htmlspecialchars($u['email'] ?? '') ?></td>
                             <td><?= htmlspecialchars($u['adresse'] ?? '') ?></td>
                             <td><?= htmlspecialchars($u['code_postal'] ?? '') ?></td>
                             <td><?= htmlspecialchars($u['ville'] ?? '') ?></td>
                             <td><?= htmlspecialchars($u['telephone'] ?? '') ?></td>
                             <td><?= (!empty($u['accept_bulletin'])) ? '<i class="fas fa-check" style="color:var(--green-600);"></i>' : '<i class="fas fa-times" style="color:var(--gray-300);"></i>' ?></td>
+                            <td><?= (!empty($u['accept_actualites'])) ? '<i class="fas fa-check" style="color:var(--green-600);"></i>' : '<i class="fas fa-times" style="color:var(--gray-300);"></i>' ?></td>
                             <td>
                                 <div class="admin-actions">
                                     <a href="abonnes.php?edit=<?= $u['id'] ?>" style="background:var(--green-100);color:var(--green-700);"><i class="fas fa-edit"></i></a>

@@ -3,8 +3,8 @@ $error = '';
 $success = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $nom = trim($_POST['nom'] ?? '');
     $prenom = trim($_POST['prenom'] ?? '');
+    $nom = trim($_POST['nom'] ?? '');
     $email = trim($_POST['email'] ?? '');
     $password = $_POST['password'] ?? '';
     $adresse = trim($_POST['adresse'] ?? '');
@@ -12,6 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $ville = trim($_POST['ville'] ?? '');
     $telephone = trim($_POST['telephone'] ?? '');
     $accept_bulletin = isset($_POST['accept_bulletin']);
+    $accept_actualites = isset($_POST['accept_actualites']);
 
     if ($nom === '' || $prenom === '' || $email === '' || $password === '') {
         $error = 'Le nom, le prénom, l\'email et le mot de passe sont obligatoires.';
@@ -33,8 +34,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if (!$error) {
             $users[] = [
                 'id' => count($users) ? max(array_column($users, 'id')) + 1 : 1,
-                'nom' => $nom,
                 'prenom' => $prenom,
+                'nom' => $nom,
                 'email' => $email,
                 'password' => password_hash($password, PASSWORD_DEFAULT),
                 'adresse' => $adresse,
@@ -42,6 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 'ville' => $ville,
                 'telephone' => $telephone,
                 'accept_bulletin' => $accept_bulletin,
+                'accept_actualites' => $accept_actualites,
             ];
             file_put_contents($file, json_encode($users, JSON_PRETTY_PRINT));
             $success = 'Inscription réussie ! Vous pouvez maintenant vous connecter.';
@@ -50,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 <section class="page-section">
-    <div class="container" style="max-width:500px;">
+    <div class="container" style="max-width:550px;">
         <h1 style="margin-bottom:0.5rem;">Créer un compte</h1>
         <p style="color:var(--gray-400);margin-bottom:2rem;">Créez votre compte pour suivre l'actualité de la commune.</p>
 
@@ -62,13 +64,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <?php endif; ?>
 
         <form method="POST" style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;">
-            <div class="form-group">
-                <label for="nom">Nom <span style="color:var(--terracotta);">*</span></label>
-                <input type="text" id="nom" name="nom" class="form-control" value="<?= htmlspecialchars($_POST['nom'] ?? '') ?>" required>
-            </div>
-            <div class="form-group">
-                <label for="prenom">Prénom <span style="color:var(--terracotta);">*</span></label>
-                <input type="text" id="prenom" name="prenom" class="form-control" value="<?= htmlspecialchars($_POST['prenom'] ?? '') ?>" required>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+                <div class="form-group" style="margin:0;">
+                    <label for="prenom">Prénom <span style="color:var(--terracotta);">*</span></label>
+                    <input type="text" id="prenom" name="prenom" class="form-control" value="<?= htmlspecialchars($_POST['prenom'] ?? '') ?>" required>
+                </div>
+                <div class="form-group" style="margin:0;">
+                    <label for="nom">Nom <span style="color:var(--terracotta);">*</span></label>
+                    <input type="text" id="nom" name="nom" class="form-control" value="<?= htmlspecialchars($_POST['nom'] ?? '') ?>" required>
+                </div>
             </div>
             <div class="form-group">
                 <label for="email">Email <span style="color:var(--terracotta);">*</span></label>
@@ -82,13 +86,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <label for="adresse">Adresse</label>
                 <input type="text" id="adresse" name="adresse" class="form-control" value="<?= htmlspecialchars($_POST['adresse'] ?? '') ?>">
             </div>
-            <div class="form-group">
-                <label for="code_postal">Code postal</label>
-                <input type="text" id="code_postal" name="code_postal" class="form-control" value="<?= htmlspecialchars($_POST['code_postal'] ?? '') ?>">
-            </div>
-            <div class="form-group">
-                <label for="ville">Ville</label>
-                <input type="text" id="ville" name="ville" class="form-control" value="<?= htmlspecialchars($_POST['ville'] ?? '') ?>">
+            <div style="display:grid;grid-template-columns:1fr 2fr;gap:1rem;">
+                <div class="form-group" style="margin:0;">
+                    <label for="code_postal">Code postal</label>
+                    <input type="text" id="code_postal" name="code_postal" class="form-control" value="<?= htmlspecialchars($_POST['code_postal'] ?? '') ?>">
+                </div>
+                <div class="form-group" style="margin:0;">
+                    <label for="ville">Ville</label>
+                    <input type="text" id="ville" name="ville" class="form-control" value="<?= htmlspecialchars($_POST['ville'] ?? '') ?>">
+                </div>
             </div>
             <div class="form-group">
                 <label for="telephone">Téléphone</label>
@@ -97,6 +103,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="form-group" style="display:flex;align-items:center;gap:0.5rem;">
                 <input type="checkbox" id="accept_bulletin" name="accept_bulletin" value="1" style="width:1.1rem;height:1.1rem;"<?= !empty($_POST['accept_bulletin']) ? ' checked' : '' ?>>
                 <label for="accept_bulletin" style="margin:0;font-weight:400;">J'accepte de recevoir le bulletin communal par email</label>
+            </div>
+            <div class="form-group" style="display:flex;align-items:center;gap:0.5rem;">
+                <input type="checkbox" id="accept_actualites" name="accept_actualites" value="1" style="width:1.1rem;height:1.1rem;"<?= !empty($_POST['accept_actualites']) ? ' checked' : '' ?>>
+                <label for="accept_actualites" style="margin:0;font-weight:400;">J'accepte de recevoir les actualités par email</label>
             </div>
             <button type="submit" class="btn btn-primary" style="width:100%;">Créer mon compte</button>
         </form>
