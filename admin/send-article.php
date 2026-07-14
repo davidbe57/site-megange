@@ -24,18 +24,14 @@ foreach ($users as $u) {
     if (!empty($u['accept_actualites']) && !empty($u['email'])) {
         $to = $u['email'];
         $subject = '[' . $site_name . '] ' . $article['title'];
-        $headers = 'From: ' . $site_email . "\r\n"
-                 . 'Reply-To: ' . $site_email . "\r\n"
-                 . 'Content-Type: text/plain; charset=utf-8' . "\r\n"
-                 . 'X-Mailer: PHP/' . phpversion();
         $body = "Bonjour " . ($u['prenom'] ?? '') . ",\n\n"
               . strip_tags($article['content']) . "\n\n"
               . "Lire l'article en ligne : " . $site_url . "/index.php?p=vie-locale\n\n"
               . "---\n"
-              . $site_name . "\n"
-              . $site_url;
+              . $site_name . " | " . $site_url . "\n"
+              . "Pour ne plus recevoir ces emails, connectez-vous sur votre compte et décochez « Actualités ».";
 
-        if (@mail($to, $subject, $body, $headers)) {
+        if (sendMail($to, $subject, $body)) {
             $sent++;
         } else {
             $errors++;

@@ -57,7 +57,7 @@ function fileExists($path)
 $site_name = "Mégange";
 $site_tagline = "Un village mosellan où il fait bon vivre";
 $site_url = "https://village-megange.fr";
-$site_email = "mairie@megange.fr";
+$site_email = "mairie@village-megange.fr";
 $contact_emails = ["david.better@gmail.com", "mairie.megange@wanadoo.fr"];
 $site_address = "25 rue Principale, 57220 Mégange";
 $site_phone = "+33 3 87 35 70 30";
@@ -158,6 +158,21 @@ $municipal_team = [
     ['name' => 'Nom Adjoint 1', 'role' => '1er Adjoint', 'delegation' => 'Travaux et urbanisme'],
     ['name' => 'Nom Adjoint 2', 'role' => '2ème Adjoint', 'delegation' => 'Vie associative et culture'],
 ];
+
+// Envoi email avec headers anti-spam
+function sendMail($to, $subject, $body, $from = null)
+{
+    global $site_email, $site_name;
+    $from = $from ?: $site_email;
+    $headers = 'From: ' . $site_name . ' <' . $from . '>' . "\r\n"
+             . 'Reply-To: ' . $from . "\r\n"
+             . 'Return-Path: ' . $from . "\r\n"
+             . 'Content-Type: text/plain; charset=utf-8' . "\r\n"
+             . 'X-Mailer: PHP/' . phpversion() . "\r\n"
+             . 'X-Priority: 3' . "\r\n"
+             . 'MIME-Version: 1.0';
+    return @mail($to, $subject, $body, $headers, '-f ' . $from);
+}
 
 // Compteur de visites uniques
 function trackVisit()
