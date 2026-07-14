@@ -16,7 +16,7 @@ if (is_dir($externalDataDir) && is_writable($externalDataDir)) {
 }
 define('DATA_DIR', $dataDir);
 define('UPLOADS_DIR', DATA_DIR . '/uploads');
-foreach (['pdf', 'thumbnails', 'blog'] as $dir) {
+foreach (['pdf', 'thumbnails', 'blog', 'elus', 'conseil'] as $dir) {
     $d = UPLOADS_DIR . '/' . $dir;
     if (!is_dir($d)) {
         @mkdir($d, 0755, true);
@@ -57,6 +57,17 @@ $contact_email = "david.better@gmail.com";
 $site_address = "25 rue Principale, 57220 Mégange";
 $site_phone = "+33 3 87 35 70 30";
 
+// Configuration mairie éditable (admin/config-site.php)
+$mairieConfigFile = DATA_DIR . '/mairie_config.json';
+if (file_exists($mairieConfigFile)) {
+    $mc = json_decode(file_get_contents($mairieConfigFile), true);
+    if ($mc) {
+        if (!empty($mc['phone'])) $site_phone = $mc['phone'];
+        if (!empty($mc['email'])) $site_email = $mc['email'];
+        if (!empty($mc['address'])) $site_address = $mc['address'];
+    }
+}
+
 // Réseaux sociaux
 $social = [
     'facebook' => '#',
@@ -92,16 +103,27 @@ $nav = [
 
 // Informations mairie (éditables via admin/horaires.php)
 $mairieHoursFile = DATA_DIR . '/mairie_hours.json';
-$mairieHoursDefault = [
-    'Lundi'     => 'Fermé',
-    'Mardi'     => '17h30 - 20h00',
-    'Mercredi'  => 'Fermé',
-    'Jeudi'     => 'Fermé',
-    'Vendredi'  => 'Fermé',
-    'Samedi'    => 'Fermé',
-    'Dimanche'  => 'Fermé',
-];
-$mairie_hours = file_exists($mairieHoursFile) ? (json_decode(file_get_contents($mairieHoursFile), true) ?: $mairieHoursDefault) : $mairieHoursDefault;
+$mairieDays = ['Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi','Dimanche'];
+$mairieHoursDefault = [];
+foreach ($mairieDays as $d) $mairieHoursDefault[$d] = [];
+$mairieHoursDefault['Mardi'] = ['17h30 - 20h00'];
+
+$mairie_hours = $mairieHoursDefault;
+if (file_exists($mairieHoursFile)) {
+    $raw = json_decode(file_get_contents($mairieHoursFile), true);
+    if ($raw) {
+        foreach ($mairieDays as $d) {
+            $v = $raw[$d] ?? '';
+            if (is_string($v)) {
+                $mairie_hours[$d] = ($v === '' || strtolower($v) === 'fermé') ? [] : [$v];
+            } elseif (is_array($v)) {
+                $mairie_hours[$d] = $v;
+            } else {
+                $mairie_hours[$d] = [];
+            }
+        }
+    }
+}
 
 // Admin
 $admin_password = 'megange2026'; // Changez ce mot de passe !

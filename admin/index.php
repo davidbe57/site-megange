@@ -154,6 +154,7 @@ if (file_exists($art_file)) {
                     <h2 style="margin-bottom:1rem;">Configuration</h2>
                     <div style="display:flex;gap:1rem;flex-wrap:wrap;">
                         <a href="horaires.php" class="btn"><i class="fas fa-clock"></i> Horaires d'ouverture</a>
+                        <a href="config-site.php" class="btn"><i class="fas fa-gear"></i> Coordonnées mairie</a>
                     </div>
                 </div>
 

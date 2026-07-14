@@ -21,6 +21,9 @@ $dateStr = $ts ? date('d', $ts) . ' ' . $months[(int)date('m', $ts)] . ' ' . dat
 
             <section class="vie-section section-conseil">
                 <h2 id="conseil">Le conseil municipal</h2>
+                <?php if (!empty($conseilData['photo'])): ?>
+                <div style="margin-bottom:1rem;"><img src="<?= htmlspecialchars(fileUrl($conseilData['photo'])) ?>" alt="Photo du conseil municipal" style="width:100%;max-width:500px;border-radius:var(--radius);box-shadow:var(--shadow-md);"></div>
+                <?php endif; ?>
                 <p>Le conseil municipal de Mégange est composé d'élus dévoués au service de la commune et de ses habitants. Il se réunit régulièrement pour discuter et voter les décisions qui façonnent l'avenir du village.</p>
                 <p>Les séances du conseil municipal sont publiques. Vous êtes invités à y assister pour suivre la vie démocratique de votre commune.</p>
             </section>
@@ -88,7 +91,7 @@ $dateStr = $ts ? date('d', $ts) . ' ' . $months[(int)date('m', $ts)] . ' ' . dat
                 <div class="team-grid">
                     <?php foreach ($elusData as $member): ?>
                     <div class="team-card">
-                        <div class="team-avatar"><i class="fas fa-user"></i></div>
+                        <div class="team-avatar"><?php if (!empty($member['photo'])): ?><img src="<?= htmlspecialchars(fileUrl($member['photo'])) ?>" alt="<?= htmlspecialchars($member['name']) ?>"><?php else: ?><i class="fas fa-user"></i><?php endif; ?></div>
                         <h3><?= htmlspecialchars($member['name']) ?></h3>
                         <p class="role"><?= htmlspecialchars($member['role']) ?></p>
                         <?php if (!empty($member['delegation'])): ?>

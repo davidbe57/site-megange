@@ -24,7 +24,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'next_location' => $next_location,
             'councilors' => $councilors,
             'next_election' => $next_election,
+            'photo' => $data['photo'] ?? '',
         ];
+        if (!empty($_FILES['photo']['name']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
+            $ext = strtolower(pathinfo($_FILES['photo']['name'], PATHINFO_EXTENSION));
+            if (in_array($ext, ['jpg','jpeg','png','webp'])) {
+                $fn = 'conseil_' . time() . '_' . bin2hex(random_bytes(4)) . '.' . $ext;
+                move_uploaded_file($_FILES['photo']['tmp_name'], UPLOADS_DIR . '/conseil/' . $fn);
+                if (!empty($data['photo'])) {
+                    $pp = strpos($data['photo'], 'serve.php?f=') === 0 ? UPLOADS_DIR . '/' . substr($data['photo'], 12) : null;
+                    if ($pp && file_exists($pp)) unlink($pp);
+                }
+                $data['photo'] = 'serve.php?f=conseil/' . $fn;
+            }
+        }
         file_put_contents($file, json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
         $success = 'Informations mises à jour.';
     }
@@ -51,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <h2 style="margin-bottom:1.5rem;">Prochain conseil & sidebar</h2>
             <?php if ($error): ?><div style="background:#fef2f2;color:#b91c1c;padding:0.75rem 1rem;border-radius:var(--radius-sm);margin-bottom:1rem;"><?= $error ?></div><?php endif; ?>
             <?php if ($success): ?><div style="background:#ecfdf5;color:#065f46;padding:0.75rem 1rem;border-radius:var(--radius-sm);margin-bottom:1rem;"><?= $success ?></div><?php endif; ?>
-            <form method="POST">
+            <form method="POST" enctype="multipart/form-data">
                 <div class="form-group">
                     <label for="next_date">Date du prochain conseil</label>
                     <input type="date" id="next_date" name="next_date" class="form-control" value="<?= htmlspecialchars($data['next_date'] ?? '') ?>" required>
@@ -63,6 +76,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="form-group">
                     <label for="next_location">Lieu</label>
                     <input type="text" id="next_location" name="next_location" class="form-control" value="<?= htmlspecialchars($data['next_location'] ?? 'Salle du conseil') ?>" required>
+                </div>
+                <hr style="margin:1.5rem 0;border-color:var(--border);">
+                <h3 style="margin-bottom:1rem;">Photo du conseil municipal</h3>
+                <div class="form-group">
+                    <label for="photo">Photo de groupe (jpg/png/webp)</label>
+                    <input type="file" id="photo" name="photo" class="form-control" accept=".jpg,.jpeg,.png,.webp">
+                    <?php if (!empty($data['photo'])): ?>
+                    <div style="margin-top:.5rem;"><img src="<?= htmlspecialchars(fileUrl($data['photo'])) ?>" style="max-width:300px;max-height:200px;border-radius:var(--radius-sm);"></div>
+                    <?php endif; ?>
                 </div>
                 <hr style="margin:1.5rem 0;border-color:var(--border);">
                 <h3 style="margin-bottom:1rem;">Vos élus</h3>

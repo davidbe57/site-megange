@@ -95,8 +95,8 @@
                 <div class="sidebar-widget">
                     <h3><i class="fas fa-clock"></i> Horaires d'ouverture</h3>
                     <ul class="hours-list">
-                        <?php foreach ($mairie_hours as $day => $hours): ?>
-                        <li><span class="day"><?= $day ?></span><span class="hours"><?= $hours ?></span></li>
+                        <?php foreach ($mairie_hours as $day => $slots): if (empty($slots)) continue; ?>
+                        <li><span class="day"><?= $day ?></span><span class="hours"><?= implode('<br>', $slots) ?></span></li>
                         <?php endforeach; ?>
                     </ul>
                 </div>

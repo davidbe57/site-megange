@@ -8,7 +8,7 @@ if (!$f || strpos($f, '..') !== false || strpos($f, '/') === false) {
 
 $safe = basename($f);
 $dir = dirname($f);
-$allowed = ['pdf', 'thumbnails', 'blog'];
+$allowed = ['pdf', 'thumbnails', 'blog', 'elus', 'conseil'];
 if (!in_array($dir, $allowed)) { http_response_code(404); exit; }
 
 $path = UPLOADS_DIR . '/' . $dir . '/' . $safe;

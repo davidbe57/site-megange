@@ -110,8 +110,8 @@
                     <div>
                         <h4>Horaires d'ouverture</h4>
                         <ul class="hours-list">
-                            <?php foreach ($mairie_hours as $day => $hours): ?>
-                            <li><span class="day"><?= $day ?></span><span class="hours"><?= $hours ?></span></li>
+                            <?php foreach ($mairie_hours as $day => $slots): if (empty($slots)) continue; ?>
+                            <li><span class="day"><?= $day ?></span><span class="hours"><?= implode('<br>', $slots) ?></span></li>
                             <?php endforeach; ?>
                         </ul>
                     </div>
