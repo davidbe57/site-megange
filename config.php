@@ -140,3 +140,56 @@ $municipal_team = [
     ['name' => 'Nom Adjoint 1', 'role' => '1er Adjoint', 'delegation' => 'Travaux et urbanisme'],
     ['name' => 'Nom Adjoint 2', 'role' => '2ème Adjoint', 'delegation' => 'Vie associative et culture'],
 ];
+
+// Compteur de visites uniques
+function trackVisit()
+{
+    $file = DATA_DIR . '/counter.json';
+    $data = file_exists($file) ? (json_decode(file_get_contents($file), true) ?: []) : [];
+    if (!isset($data['total'])) $data['total'] = 0;
+    if (!isset($data['daily'])) $data['daily'] = [];
+    if (!isset($data['visits'])) $data['visits'] = [];
+
+    $today = date('Y-m-d');
+    $ip = $_SERVER['REMOTE_ADDR'] ?? 'unknown';
+    $ua = $_SERVER['HTTP_USER_AGENT'] ?? '';
+    $hash = sha1($ip . '|' . $ua . '|megange2026');
+
+    if (($data['visits'][$hash] ?? '') !== $today) {
+        $data['visits'][$hash] = $today;
+        $data['total']++;
+        $data['daily'][$today] = ($data['daily'][$today] ?? 0) + 1;
+    }
+
+    // Nettoie les vieux hashs (>30 jours)
+    $cutoff = date('Y-m-d', strtotime('-30 days'));
+    foreach ($data['visits'] as $h => $d) {
+        if ($d < $cutoff) unset($data['visits'][$h]);
+    }
+
+    file_put_contents($file, json_encode($data, JSON_PRETTY_PRINT));
+}
+
+function getCounterStats()
+{
+    $file = DATA_DIR . '/counter.json';
+    $data = file_exists($file) ? (json_decode(file_get_contents($file), true) ?: []) : [];
+    $today = date('Y-m-d');
+    $weekAgo = date('Y-m-d', strtotime('-7 days'));
+    $monthAgo = date('Y-m-d', strtotime('-30 days'));
+
+    $total = $data['total'] ?? 0;
+    $todayCount = $data['daily'][$today] ?? 0;
+    $weekCount = 0;
+    $monthCount = 0;
+    foreach ($data['daily'] as $d => $c) {
+        if ($d >= $weekAgo) $weekCount += $c;
+        if ($d >= $monthAgo) $monthCount += $c;
+    }
+    return [
+        'total' => $total,
+        'today' => $todayCount,
+        'week' => $weekCount,
+        'month' => $monthCount,
+    ];
+}

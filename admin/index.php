@@ -80,7 +80,9 @@ if (file_exists($art_file)) {
                         <button type="submit" class="btn btn-primary"><i class="fas fa-lock"></i> Se connecter</button>
                     </form>
                 </div>
-            <?php else: ?>
+            <?php else:
+                $stats = getCounterStats();
+            ?>
                 <?php if (isset($_GET['created'])): ?>
                     <div class="toast show">Article créé avec succès</div>
                 <?php endif; ?>
@@ -90,6 +92,25 @@ if (file_exists($art_file)) {
                 <?php if (isset($_GET['deleted'])): ?>
                     <div class="toast show">Article supprimé</div>
                 <?php endif; ?>
+
+                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:1rem;margin-bottom:2rem;">
+                    <div style="background:var(--bg-card);border-radius:var(--radius);padding:1rem;text-align:center;border:1px solid var(--border);">
+                        <div style="font-size:2rem;font-weight:700;color:var(--green-600);"><?= $stats['today'] ?></div>
+                        <div style="font-size:0.85rem;color:var(--gray-500);">Aujourd'hui</div>
+                    </div>
+                    <div style="background:var(--bg-card);border-radius:var(--radius);padding:1rem;text-align:center;border:1px solid var(--border);">
+                        <div style="font-size:2rem;font-weight:700;color:var(--green-600);"><?= $stats['week'] ?></div>
+                        <div style="font-size:0.85rem;color:var(--gray-500);">Cette semaine</div>
+                    </div>
+                    <div style="background:var(--bg-card);border-radius:var(--radius);padding:1rem;text-align:center;border:1px solid var(--border);">
+                        <div style="font-size:2rem;font-weight:700;color:var(--green-600);"><?= $stats['month'] ?></div>
+                        <div style="font-size:0.85rem;color:var(--gray-500);">Ce mois</div>
+                    </div>
+                    <div style="background:var(--bg-card);border-radius:var(--radius);padding:1rem;text-align:center;border:1px solid var(--border);">
+                        <div style="font-size:2rem;font-weight:700;color:var(--green-600);"><?= $stats['total'] ?></div>
+                        <div style="font-size:0.85rem;color:var(--gray-500);">Total</div>
+                    </div>
+                </div>
 
                 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2rem;">
                     <h2>Blog - Vie locale</h2>

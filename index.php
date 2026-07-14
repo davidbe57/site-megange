@@ -2,6 +2,8 @@
 header('Content-Type: text/html; charset=utf-8');
 require_once 'config.php';
 
+trackVisit();
+
 // Routing simple
 $page = isset($_GET['p']) ? preg_replace('/[^a-z0-9-]/', '', $_GET['p']) : 'accueil';
 $page = $page ?: 'accueil';
