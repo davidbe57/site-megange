@@ -139,7 +139,7 @@ p { margin-bottom: 1rem; }
 a { color: var(--terracotta); text-decoration: none; transition: var(--transition); }
 a:hover { color: var(--terracotta-light); }
 
-img { max-width: 100%; height: auto; display: block; }
+img { max-width: 100%; height: auto; vertical-align: middle; }
 
 /* ===== Header ===== */
 .site-header {
