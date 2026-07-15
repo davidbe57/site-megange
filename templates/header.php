@@ -31,6 +31,11 @@
             </a>
 
             <div style="display:flex;align-items:center;gap:0.25rem;">
+                <?php if ($user_logged_in): ?>
+                <a href="index.php?p=mon-compte&logout=1" class="theme-toggle" style="text-decoration:none;font-size:0.85rem;" aria-label="Déconnexion" title="Déconnexion">
+                    <i class="fas fa-sign-out-alt"></i>
+                </a>
+                <?php endif; ?>
                 <button class="theme-toggle" id="themeToggle" aria-label="Changer le thème">
                     <i class="fas fa-moon"></i>
                 </button>
