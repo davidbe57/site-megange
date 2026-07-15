@@ -13,11 +13,13 @@ $monthReferrers = $stats['referrers'];
 $monthBrowsers = $stats['browsers'];
 $monthOses = $stats['oses'];
 $monthDevices = $stats['devices'];
+$monthBots = $stats['bots'];
 $maxPages = count($monthPages) ? max($monthPages) : 1;
 $maxRef = count($monthReferrers) ? max($monthReferrers) : 1;
 $maxBrowser = count($monthBrowsers) ? max($monthBrowsers) : 1;
 $maxOS = count($monthOses) ? max($monthOses) : 1;
 $maxDevice = count($monthDevices) ? max($monthDevices) : 1;
+$maxBots = count($monthBots) ? max($monthBots) : 1;
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -141,6 +143,20 @@ $maxDevice = count($monthDevices) ? max($monthDevices) : 1;
                         <?php endforeach; ?>
                     </div>
                 </div>
+
+                <!-- Bots -->
+                <?php if (!empty($monthBots)): ?>
+                <div class="stat-card">
+                    <h3><i class="fas fa-robot"></i> Robots</h3>
+                    <?php foreach ($monthBots as $name => $count): ?>
+                    <div class="bar-row">
+                        <span class="label"><?= htmlspecialchars($name) ?></span>
+                        <div class="bar" style="width:<?= $count / $maxBots * 100 ?>%"></div>
+                        <span class="count"><?= $count ?></span>
+                    </div>
+                    <?php endforeach; ?>
+                </div>
+                <?php endif; ?>
 
                 <!-- Appareil -->
                 <div class="stat-card">

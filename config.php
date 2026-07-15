@@ -194,6 +194,20 @@ function detectOS($ua) {
 function detectMobile($ua) {
     return strpos($ua, 'Mobile') !== false || strpos($ua, 'Android') !== false ? 'Mobile' : 'Desktop';
 }
+function detectBot($ua) {
+    if (strpos($ua, 'Googlebot') !== false) return 'Googlebot';
+    if (strpos($ua, 'Bingbot') !== false || strpos($ua, 'bingbot') !== false) return 'Bingbot';
+    if (strpos($ua, 'facebookexternalhit') !== false) return 'Facebook';
+    if (strpos($ua, 'Twitterbot') !== false) return 'Twitter/X';
+    if (strpos($ua, 'YandexBot') !== false) return 'Yandex';
+    if (strpos($ua, 'AhrefsBot') !== false) return 'Ahrefs';
+    if (strpos($ua, 'SemrushBot') !== false) return 'Semrush';
+    if (strpos($ua, 'MJ12bot') !== false) return 'MJ12bot';
+    if (strpos($ua, 'DuckDuckGo') !== false) return 'DuckDuckGo';
+    if (strpos($ua, 'GPTBot') !== false || strpos($ua, 'Claude') !== false) return 'IA';
+    if (strpos($ua, 'bot') !== false || strpos($ua, 'crawl') !== false || strpos($ua, 'spider') !== false) return 'Autre bot';
+    return false;
+}
 
 // Tracker détaillé
 function trackVisit()
@@ -225,20 +239,26 @@ function trackVisit()
     $browser = detectBrowser($ua);
     $os = detectOS($ua);
     $device = detectMobile($ua);
+    $bot = detectBot($ua);
 
     // Initialise la date si nécessaire
     if (!isset($data['by_date'])) $data['by_date'] = [];
     if (!isset($data['by_date'][$today])) {
-        $data['by_date'][$today] = ['visitors' => 0, 'pageviews' => 0, 'pages' => [], 'referrers' => [], 'browsers' => [], 'os' => [], 'devices' => []];
+        $data['by_date'][$today] = ['visitors' => 0, 'pageviews' => 0, 'pages' => [], 'referrers' => [], 'browsers' => [], 'os' => [], 'devices' => [], 'bots' => []];
     }
 
     $data['pageviews']++;
     $data['by_date'][$today]['pageviews']++;
     $data['by_date'][$today]['pages'][$page] = ($data['by_date'][$today]['pages'][$page] ?? 0) + 1;
     $data['by_date'][$today]['referrers'][$referrer] = ($data['by_date'][$today]['referrers'][$referrer] ?? 0) + 1;
-    $data['by_date'][$today]['browsers'][$browser] = ($data['by_date'][$today]['browsers'][$browser] ?? 0) + 1;
-    $data['by_date'][$today]['os'][$os] = ($data['by_date'][$today]['os'][$os] ?? 0) + 1;
-    $data['by_date'][$today]['devices'][$device] = ($data['by_date'][$today]['devices'][$device] ?? 0) + 1;
+
+    if ($bot) {
+        $data['by_date'][$today]['bots'][$bot] = ($data['by_date'][$today]['bots'][$bot] ?? 0) + 1;
+    } else {
+        $data['by_date'][$today]['browsers'][$browser] = ($data['by_date'][$today]['browsers'][$browser] ?? 0) + 1;
+        $data['by_date'][$today]['os'][$os] = ($data['by_date'][$today]['os'][$os] ?? 0) + 1;
+        $data['by_date'][$today]['devices'][$device] = ($data['by_date'][$today]['devices'][$device] ?? 0) + 1;
+    }
 
     // Visiteur unique
     $isNew = ($data['visits'][$hash] ?? '') !== $today;
@@ -276,7 +296,7 @@ function getCounterStats()
     $todayPageviews = $bd[$today]['pageviews'] ?? 0;
     $weekVisitors = 0; $weekPageviews = 0;
     $monthVisitors = 0; $monthPageviews = 0;
-    $pages = []; $referrers = []; $browsers = []; $oses = []; $devices = [];
+    $pages = []; $referrers = []; $browsers = []; $oses = []; $devices = []; $bots = [];
 
     foreach ($bd as $d => $v) {
         if ($d >= $weekAgo) { $weekVisitors += $v['visitors']; $weekPageviews += $v['pageviews']; }
@@ -287,9 +307,10 @@ function getCounterStats()
             foreach ($v['browsers'] ?? [] as $k => $c) $browsers[$k] = ($browsers[$k] ?? 0) + $c;
             foreach ($v['os'] ?? [] as $k => $c) $oses[$k] = ($oses[$k] ?? 0) + $c;
             foreach ($v['devices'] ?? [] as $k => $c) $devices[$k] = ($devices[$k] ?? 0) + $c;
+            foreach ($v['bots'] ?? [] as $k => $c) $bots[$k] = ($bots[$k] ?? 0) + $c;
         }
     }
-    arsort($pages); arsort($referrers); arsort($browsers); arsort($oses); arsort($devices);
+    arsort($pages); arsort($referrers); arsort($browsers); arsort($oses); arsort($devices); arsort($bots);
 
     // Tendance 30 jours
     $trend = [];
@@ -304,7 +325,7 @@ function getCounterStats()
         'week' => ['visitors' => $weekVisitors, 'pageviews' => $weekPageviews],
         'month' => ['visitors' => $monthVisitors, 'pageviews' => $monthPageviews],
         'pages' => $pages, 'referrers' => $referrers,
-        'browsers' => $browsers, 'oses' => $oses, 'devices' => $devices,
+        'browsers' => $browsers, 'oses' => $oses, 'devices' => $devices, 'bots' => $bots,
         'trend' => $trend,
     ];
 }
