@@ -227,6 +227,7 @@ function trackVisit()
     $device = detectMobile($ua);
 
     // Initialise la date si nécessaire
+    if (!isset($data['by_date'])) $data['by_date'] = [];
     if (!isset($data['by_date'][$today])) {
         $data['by_date'][$today] = ['visitors' => 0, 'pageviews' => 0, 'pages' => [], 'referrers' => [], 'browsers' => [], 'os' => [], 'devices' => []];
     }
@@ -268,15 +269,16 @@ function getCounterStats()
     $weekAgo = date('Y-m-d', strtotime('-7 days'));
     $monthAgo = date('Y-m-d', strtotime('-30 days'));
 
+    $bd = $data['by_date'] ?? [];
     $total = $data['total'] ?? 0;
     $pageviews = $data['pageviews'] ?? 0;
-    $todayVisitors = $data['by_date'][$today]['visitors'] ?? 0;
-    $todayPageviews = $data['by_date'][$today]['pageviews'] ?? 0;
+    $todayVisitors = $bd[$today]['visitors'] ?? 0;
+    $todayPageviews = $bd[$today]['pageviews'] ?? 0;
     $weekVisitors = 0; $weekPageviews = 0;
     $monthVisitors = 0; $monthPageviews = 0;
     $pages = []; $referrers = []; $browsers = []; $oses = []; $devices = [];
 
-    foreach ($data['by_date'] as $d => $v) {
+    foreach ($bd as $d => $v) {
         if ($d >= $weekAgo) { $weekVisitors += $v['visitors']; $weekPageviews += $v['pageviews']; }
         if ($d >= $monthAgo) {
             $monthVisitors += $v['visitors']; $monthPageviews += $v['pageviews'];
@@ -293,7 +295,7 @@ function getCounterStats()
     $trend = [];
     for ($i = 29; $i >= 0; $i--) {
         $d = date('Y-m-d', strtotime("-$i days"));
-        $trend[] = ['date' => $d, 'visitors' => $data['by_date'][$d]['visitors'] ?? 0, 'pageviews' => $data['by_date'][$d]['pageviews'] ?? 0];
+        $trend[] = ['date' => $d, 'visitors' => $bd[$d]['visitors'] ?? 0, 'pageviews' => $bd[$d]['pageviews'] ?? 0];
     }
 
     return [
