@@ -93,24 +93,27 @@ if (file_exists($art_file)) {
                     <div class="toast show">Article supprimé</div>
                 <?php endif; ?>
 
-                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:1rem;margin-bottom:2rem;">
+                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1rem;margin-bottom:1.5rem;">
                     <div style="background:var(--bg-card);border-radius:var(--radius);padding:1rem;text-align:center;border:1px solid var(--border);">
-                        <div style="font-size:2rem;font-weight:700;color:var(--green-600);"><?= $stats['today'] ?></div>
-                        <div style="font-size:0.85rem;color:var(--gray-500);">Aujourd'hui</div>
+                        <div style="font-size:2rem;font-weight:700;color:var(--green-600);"><?= $stats['today']['visitors'] ?></div>
+                        <div style="font-size:0.85rem;color:var(--gray-500);">Visiteurs aujourd'hui</div>
                     </div>
                     <div style="background:var(--bg-card);border-radius:var(--radius);padding:1rem;text-align:center;border:1px solid var(--border);">
-                        <div style="font-size:2rem;font-weight:700;color:var(--green-600);"><?= $stats['week'] ?></div>
-                        <div style="font-size:0.85rem;color:var(--gray-500);">Cette semaine</div>
+                        <div style="font-size:2rem;font-weight:700;color:var(--green-600);"><?= $stats['week']['visitors'] ?></div>
+                        <div style="font-size:0.85rem;color:var(--gray-500);">Visiteurs cette semaine</div>
                     </div>
                     <div style="background:var(--bg-card);border-radius:var(--radius);padding:1rem;text-align:center;border:1px solid var(--border);">
-                        <div style="font-size:2rem;font-weight:700;color:var(--green-600);"><?= $stats['month'] ?></div>
-                        <div style="font-size:0.85rem;color:var(--gray-500);">Ce mois</div>
+                        <div style="font-size:2rem;font-weight:700;color:var(--green-600);"><?= $stats['month']['visitors'] ?></div>
+                        <div style="font-size:0.85rem;color:var(--gray-500);">Visiteurs ce mois</div>
                     </div>
                     <div style="background:var(--bg-card);border-radius:var(--radius);padding:1rem;text-align:center;border:1px solid var(--border);">
                         <div style="font-size:2rem;font-weight:700;color:var(--green-600);"><?= $stats['total'] ?></div>
-                        <div style="font-size:0.85rem;color:var(--gray-500);">Total</div>
+                        <div style="font-size:0.85rem;color:var(--gray-500);">Total visiteurs</div>
                     </div>
                 </div>
+                <p style="text-align:right;margin-bottom:1.5rem;">
+                    <a href="stats.php" class="btn"><i class="fas fa-chart-bar"></i> Statistiques détaillées</a>
+                </p>
 
                 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2rem;">
                     <h2>Blog - Vie locale</h2>

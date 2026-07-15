@@ -174,30 +174,87 @@ function sendMail($to, $subject, $body, $from = null)
     return @mail($to, $subject, $body, $headers, '-f ' . $from);
 }
 
-// Compteur de visites uniques
+// Détection navigateur/OS
+function detectBrowser($ua) {
+    if (strpos($ua, 'Chrome') !== false && strpos($ua, 'Edg') === false) return 'Chrome';
+    if (strpos($ua, 'Edg') !== false) return 'Edge';
+    if (strpos($ua, 'Firefox') !== false) return 'Firefox';
+    if (strpos($ua, 'Safari') !== false) return 'Safari';
+    if (strpos($ua, 'OPR') !== false || strpos($ua, 'Opera') !== false) return 'Opera';
+    return 'Autre';
+}
+function detectOS($ua) {
+    if (strpos($ua, 'Windows') !== false) return 'Windows';
+    if (strpos($ua, 'Mac') !== false) return 'macOS';
+    if (strpos($ua, 'Linux') !== false) return 'Linux';
+    if (strpos($ua, 'Android') !== false) return 'Android';
+    if (strpos($ua, 'iPhone') !== false || strpos($ua, 'iPad') !== false) return 'iOS';
+    return 'Autre';
+}
+function detectMobile($ua) {
+    return strpos($ua, 'Mobile') !== false || strpos($ua, 'Android') !== false ? 'Mobile' : 'Desktop';
+}
+
+// Tracker détaillé
 function trackVisit()
 {
     $file = DATA_DIR . '/counter.json';
     $data = file_exists($file) ? (json_decode(file_get_contents($file), true) ?: []) : [];
     if (!isset($data['total'])) $data['total'] = 0;
-    if (!isset($data['daily'])) $data['daily'] = [];
+    if (!isset($data['pageviews'])) $data['pageviews'] = 0;
+    if (!isset($data['by_date'])) $data['by_date'] = [];
     if (!isset($data['visits'])) $data['visits'] = [];
 
     $today = date('Y-m-d');
     $ip = $_SERVER['REMOTE_ADDR'] ?? 'unknown';
     $ua = $_SERVER['HTTP_USER_AGENT'] ?? '';
     $hash = sha1($ip . '|' . $ua . '|megange2026');
+    $page = $_GET['p'] ?? 'accueil';
+    $ref = $_SERVER['HTTP_REFERER'] ?? '';
+    if ($ref !== '') {
+        if (strpos($ref, 'google') !== false) $referrer = 'Google';
+        elseif (strpos($ref, 'facebook') !== false) $referrer = 'Facebook';
+        elseif (strpos($ref, 'twitter') !== false || strpos($ref, 't.co') !== false) $referrer = 'Twitter/X';
+        elseif (strpos($ref, 'instagram') !== false) $referrer = 'Instagram';
+        elseif (strpos($ref, 'bing') !== false) $referrer = 'Bing';
+        elseif (strpos($ref, $_SERVER['HTTP_HOST'] ?? '') !== false) $referrer = 'Interne';
+        else $referrer = 'Autre site';
+    } else {
+        $referrer = 'Direct';
+    }
+    $browser = detectBrowser($ua);
+    $os = detectOS($ua);
+    $device = detectMobile($ua);
 
-    if (($data['visits'][$hash] ?? '') !== $today) {
+    // Initialise la date si nécessaire
+    if (!isset($data['by_date'][$today])) {
+        $data['by_date'][$today] = ['visitors' => 0, 'pageviews' => 0, 'pages' => [], 'referrers' => [], 'browsers' => [], 'os' => [], 'devices' => []];
+    }
+
+    $data['pageviews']++;
+    $data['by_date'][$today]['pageviews']++;
+    $data['by_date'][$today]['pages'][$page] = ($data['by_date'][$today]['pages'][$page] ?? 0) + 1;
+    $data['by_date'][$today]['referrers'][$referrer] = ($data['by_date'][$today]['referrers'][$referrer] ?? 0) + 1;
+    $data['by_date'][$today]['browsers'][$browser] = ($data['by_date'][$today]['browsers'][$browser] ?? 0) + 1;
+    $data['by_date'][$today]['os'][$os] = ($data['by_date'][$today]['os'][$os] ?? 0) + 1;
+    $data['by_date'][$today]['devices'][$device] = ($data['by_date'][$today]['devices'][$device] ?? 0) + 1;
+
+    // Visiteur unique
+    $isNew = ($data['visits'][$hash] ?? '') !== $today;
+    if ($isNew) {
         $data['visits'][$hash] = $today;
         $data['total']++;
-        $data['daily'][$today] = ($data['daily'][$today] ?? 0) + 1;
+        $data['by_date'][$today]['visitors']++;
     }
 
     // Nettoie les vieux hashs (>30 jours)
     $cutoff = date('Y-m-d', strtotime('-30 days'));
     foreach ($data['visits'] as $h => $d) {
         if ($d < $cutoff) unset($data['visits'][$h]);
+    }
+    // Nettoie les vieilles dates (>90 jours)
+    foreach ($data['by_date'] as $d => $v) {
+        if ($d < $cutoff) unset($data['by_date'][$d]);
     }
 
     file_put_contents($file, json_encode($data, JSON_PRETTY_PRINT));
@@ -212,17 +269,40 @@ function getCounterStats()
     $monthAgo = date('Y-m-d', strtotime('-30 days'));
 
     $total = $data['total'] ?? 0;
-    $todayCount = $data['daily'][$today] ?? 0;
-    $weekCount = 0;
-    $monthCount = 0;
-    foreach ($data['daily'] as $d => $c) {
-        if ($d >= $weekAgo) $weekCount += $c;
-        if ($d >= $monthAgo) $monthCount += $c;
+    $pageviews = $data['pageviews'] ?? 0;
+    $todayVisitors = $data['by_date'][$today]['visitors'] ?? 0;
+    $todayPageviews = $data['by_date'][$today]['pageviews'] ?? 0;
+    $weekVisitors = 0; $weekPageviews = 0;
+    $monthVisitors = 0; $monthPageviews = 0;
+    $pages = []; $referrers = []; $browsers = []; $oses = []; $devices = [];
+
+    foreach ($data['by_date'] as $d => $v) {
+        if ($d >= $weekAgo) { $weekVisitors += $v['visitors']; $weekPageviews += $v['pageviews']; }
+        if ($d >= $monthAgo) {
+            $monthVisitors += $v['visitors']; $monthPageviews += $v['pageviews'];
+            foreach ($v['pages'] ?? [] as $k => $c) $pages[$k] = ($pages[$k] ?? 0) + $c;
+            foreach ($v['referrers'] ?? [] as $k => $c) $referrers[$k] = ($referrers[$k] ?? 0) + $c;
+            foreach ($v['browsers'] ?? [] as $k => $c) $browsers[$k] = ($browsers[$k] ?? 0) + $c;
+            foreach ($v['os'] ?? [] as $k => $c) $oses[$k] = ($oses[$k] ?? 0) + $c;
+            foreach ($v['devices'] ?? [] as $k => $c) $devices[$k] = ($devices[$k] ?? 0) + $c;
+        }
     }
+    arsort($pages); arsort($referrers); arsort($browsers); arsort($oses); arsort($devices);
+
+    // Tendance 30 jours
+    $trend = [];
+    for ($i = 29; $i >= 0; $i--) {
+        $d = date('Y-m-d', strtotime("-$i days"));
+        $trend[] = ['date' => $d, 'visitors' => $data['by_date'][$d]['visitors'] ?? 0, 'pageviews' => $data['by_date'][$d]['pageviews'] ?? 0];
+    }
+
     return [
-        'total' => $total,
-        'today' => $todayCount,
-        'week' => $weekCount,
-        'month' => $monthCount,
+        'total' => $total, 'pageviews' => $pageviews,
+        'today' => ['visitors' => $todayVisitors, 'pageviews' => $todayPageviews],
+        'week' => ['visitors' => $weekVisitors, 'pageviews' => $weekPageviews],
+        'month' => ['visitors' => $monthVisitors, 'pageviews' => $monthPageviews],
+        'pages' => $pages, 'referrers' => $referrers,
+        'browsers' => $browsers, 'oses' => $oses, 'devices' => $devices,
+        'trend' => $trend,
     ];
 }
