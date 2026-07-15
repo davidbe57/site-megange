@@ -6,17 +6,18 @@ if (empty($_SESSION['admin'])) { header('Location: index.php'); exit; }
 
 $stats = getCounterStats();
 $trend = $stats['trend'];
-$maxTrend = max(array_column($trend, 'pageviews')) ?: 1;
+$maxTrend = count($trend) ? max(array_column($trend, 'pageviews')) : 0;
+if ($maxTrend < 1) $maxTrend = 1;
 $monthPages = $stats['pages'];
 $monthReferrers = $stats['referrers'];
 $monthBrowsers = $stats['browsers'];
 $monthOses = $stats['oses'];
 $monthDevices = $stats['devices'];
-$maxPages = max($monthPages) ?: 1;
-$maxRef = max($monthReferrers) ?: 1;
-$maxBrowser = max($monthBrowsers) ?: 1;
-$maxOS = max($monthOses) ?: 1;
-$maxDevice = max($monthDevices) ?: 1;
+$maxPages = count($monthPages) ? max($monthPages) : 1;
+$maxRef = count($monthReferrers) ? max($monthReferrers) : 1;
+$maxBrowser = count($monthBrowsers) ? max($monthBrowsers) : 1;
+$maxOS = count($monthOses) ? max($monthOses) : 1;
+$maxDevice = count($monthDevices) ? max($monthDevices) : 1;
 ?>
 <!DOCTYPE html>
 <html lang="fr">
