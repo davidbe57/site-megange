@@ -20,9 +20,9 @@ header('Content-Type: application/xml; charset=utf-8');
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc><?= $site_url ?>/index.php?p=services</loc>
+    <loc><?= $site_url ?>/index.php?p=contact</loc>
     <priority>0.7</priority>
-    <changefreq>monthly</changefreq>
+    <changefreq>yearly</changefreq>
   </url>
   <url>
     <loc><?= $site_url ?>/index.php?p=vie-locale</loc>

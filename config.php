@@ -98,11 +98,11 @@ $nav = [
         'label'    => 'La commune',
         'icon'     => 'fa-tree',
         'children' => [
-            ['label' => 'Histoire',           'href' => 'index.php?p=la-commune#histoire'],
-            ['label' => 'Géographie',         'href' => 'index.php?p=la-commune#geographie'],
-            ['label' => 'Chiffres clés',      'href' => 'index.php?p=la-commune#chiffres'],
-            ['label' => 'Bulletin communal',  'href' => 'index.php?p=la-commune#bulletins'],
-            ['label' => 'Cadre de vie',       'href' => 'index.php?p=la-commune#cadre'],
+            ['label' => 'Histoire',             'href' => 'index.php?p=la-commune#histoire'],
+            ['label' => 'Bulletin communal',    'href' => 'index.php?p=la-commune#bulletins'],
+            ['label' => 'Déchetterie',          'href' => 'index.php?p=la-commune#dechetterie'],
+            ['label' => 'Ordures ménagères',    'href' => 'index.php?p=la-commune#ordures'],
+            ['label' => 'Location salle',       'href' => 'index.php?p=la-commune#location-salle'],
         ]
     ],
     'vie-municipale' => [
@@ -114,7 +114,6 @@ $nav = [
             ['label' => 'Comptes-rendus',       'href' => 'index.php?p=vie-municipale#comptes'],
         ]
     ],
-    'services'    => ['label' => 'Services',    'icon' => 'fa-hand-holding-heart'],
     'vie-locale'  => ['label' => 'Actualités',  'icon' => 'fa-newspaper'],
     'login'       => ['label' => ($user_logged_in ? 'Mon compte' : 'Connexion'), 'icon' => ($user_logged_in ? 'fa-user' : 'fa-right-to-bracket')],
 ];

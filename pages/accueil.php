@@ -67,9 +67,9 @@ if (empty($carouselItems)) {
                 <section class="home-section">
                     <h2 class="home-section-title">Vivre à Mégange</h2>
                     <div class="home-links-grid">
-                        <a href="index.php?p=services" class="home-link-card">
+                        <a href="index.php?p=la-commune#dechetterie" class="home-link-card">
                             <i class="fas fa-hand-holding-heart"></i>
-                            <span>Services</span>
+                            <span>Déchetterie</span>
                         </a>
                         <a href="index.php?p=vie-municipale" class="home-link-card">
                             <i class="fas fa-landmark"></i>

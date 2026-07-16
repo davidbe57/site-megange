@@ -12,18 +12,7 @@
                 <h2 id="histoire">Histoire</h2>
                 <p>Mégange est un village au riche passé historique, typique des villages lorrains. Son nom évoque l'époque gallo-romaine, témoignant d'une occupation ancienne du territoire. Au fil des siècles, le village s'est développé autour de l'agriculture, conservant son authenticité et son caractère rural.</p>
                 <p>Citée dès 1131 comme dépendance de la seigneurie de Vry, la commune se compose en réalité de <strong>deux villages</strong> : <strong>Mégange</strong>, le village principal où se situe la mairie, et <strong>Rurange-lès-Mégange</strong>, réunis par décision royale en 1833. La chapelle de l'Immaculée-Conception, construite en 1860, est un élément marquant du patrimoine local.</p>
-
-                <h2 id="geographie">Géographie</h2>
-                <p>Située dans le département de la Moselle, à proximité de Boulay-Moselle, Mégange bénéficie d'un cadre de vie verdoyant et paisible, entouré de champs, de bois et de prairies. La commune est composée de deux entités : le village de <strong>Mégange</strong> (siège de la mairie) et le hameau de <strong>Rurange-lès-Mégange</strong>. La commune fait partie de la Communauté de communes Houve-Pays boulageois, offrant aux habitants l'accès à de nombreux services et infrastructures.</p>
-
-                <h2 id="chiffres">Chiffres clés</h2>
-                <ul>
-                    <li><strong>Superficie :</strong> environ 5 km²</li>
-                    <li><strong>Population :</strong> environ 200 habitants (Mégangeois et Mégangeoises)</li>
-                    <li><strong>Altitude :</strong> 205 à 330 mètres</li>
-                    <li><strong>Communes limitrophes :</strong> Piblange, Gomelange, Burtoncourt, Éblange, Guinkirchen, Roupeldange</li>
-                    <li><strong>Accès :</strong> à 25 km de Metz par la D999, à 5 minutes de Boulay-Moselle</li>
-                </ul>
+                <p>Située dans le département de la Moselle, à proximité de Boulay-Moselle, Mégange bénéficie d'un cadre de vie verdoyant et paisible, entouré de champs, de bois et de prairies. La commune fait partie de la Communauté de communes Houve-Pays boulageois. Sa superficie est d'environ 5 km², pour une population d'environ 200 habitants, à une altitude de 205 à 330 mètres.</p>
 
                 <h2 id="bulletins">Bulletin communal</h2>
                 <p>Consultez les bulletins municipaux d'information.</p>
@@ -67,8 +56,19 @@
                 <p style="color:var(--gray-400);">Aucun bulletin publié pour le moment.</p>
                 <?php endif; ?>
 
-                <h2 id="cadre">Cadre de vie</h2>
-                <p>À Mégange, la qualité de vie est notre priorité. Le village dispose d'espaces verts entretenus, d'une salle polyvalente pour les animations locales, et de nombreux chemins propices aux balades.</p>
+                <h2 id="dechetterie">Déchetterie</h2>
+                <p>La commune de Mégange met à disposition de ses habitants un service de déchetterie. Renseignez-vous en mairie pour connaître les modalités d'accès, les horaires d'ouverture et les types de déchets acceptés.</p>
+                <p>Pour plus d'informations, contactez la Communauté de communes Houve-Pays boulageois.</p>
+
+                <h2 id="ordures">Ordures ménagères</h2>
+                <p>Les jours de collecte des ordures ménagères sont communiqués par la Communauté de communes. Des bacs de tri sélectif sont également à disposition pour le verre, le papier et les emballages recyclables.</p>
+                <p>Consultez le calendrier de collecte ou contactez la mairie pour toute question relative à la gestion des déchets.</p>
+
+                <h2 id="location-salle">Location de salle</h2>
+                <p>La commune dispose d'une salle polyvalente pouvant être louée pour vos événements familiaux ou associatifs (anniversaires, réunions, fêtes).</p>
+                <p>Pour tout renseignement sur les disponibilités, les tarifs et les conditions de location, veuillez contacter la mairie.</p>
+                <p><i class="fas fa-phone"></i> <?= $site_phone ?><br>
+                <i class="fas fa-envelope"></i> <a href="mailto:<?= $site_email ?>"><?= $site_email ?></a></p>
             </div>
 
             <aside class="sidebar">
