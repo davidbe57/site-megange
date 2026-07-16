@@ -8,8 +8,14 @@ Desktop.ini
 .idea/
 *.sublime-*
 
+# Composer dependencies
+vendor/
+
 # PanneauPocket cache (auto-generated)
 data/panneaupocket_cache.json
 
-# Données dynamiques (générées par l'admin via CRUD)
+# Donn�es dynamiques (g�n�r�es par l'admin via CRUD)
 data/*.json
+
+# Ancien r�pertoire externe (migration AlwaysData)
+megange-data/

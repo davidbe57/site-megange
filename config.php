@@ -5,19 +5,10 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 // Répertoire de stockage des données persistantes (CR, articles, élus, etc.)
-// Priorité : megange-data/ (hors dépôt git, persiste au déploiement)
-// Fallback : data/ (dans le dépôt, peut être écrasé)
-$externalDataDir = dirname(__DIR__) . '/megange-data';
-if (!is_dir($externalDataDir)) {
-    @mkdir($externalDataDir, 0755, true);
-}
-if (is_dir($externalDataDir) && is_writable($externalDataDir)) {
-    $dataDir = $externalDataDir;
-} else {
-    $dataDir = __DIR__ . '/data';
-    if (!is_dir($dataDir)) {
-        @mkdir($dataDir, 0755, true);
-    }
+// Sur InfinityFree, le data doit être dans htdocs/data/ (protégé par .htaccess)
+$dataDir = __DIR__ . '/data';
+if (!is_dir($dataDir)) {
+    @mkdir($dataDir, 0755, true);
 }
 define('DATA_DIR', $dataDir);
 define('UPLOADS_DIR', DATA_DIR . '/uploads');
@@ -57,6 +48,7 @@ function fileExists($path)
 $site_name = "Mégange";
 $site_tagline = "Un village mosellan où il fait bon vivre";
 $site_url = "https://village-megange.fr";
+$site_dev_url = "https://megange.site.je";
 $site_email = "mairie@village-megange.fr";
 $contact_emails = ["david.better@gmail.com", "mairie.megange@wanadoo.fr"];
 $site_address = "25 rue Principale, 57220 Mégange";
@@ -158,11 +150,45 @@ $municipal_team = [
     ['name' => 'Nom Adjoint 2', 'role' => '2ème Adjoint', 'delegation' => 'Vie associative et culture'],
 ];
 
-// Envoi email avec headers anti-spam
+// Envoi email — SMTP si configuré, sinon mail() natif
+// Les identifiants SMTP sont stockés dans data/smtp_config.json (hors git)
 function sendMail($to, $subject, $body, $from = null)
 {
     global $site_email, $site_name;
     $from = $from ?: $site_email;
+
+    $smtpConfig = [];
+    $smtpFile = DATA_DIR . '/smtp_config.json';
+    if (file_exists($smtpFile)) {
+        $smtpConfig = json_decode(file_get_contents($smtpFile), true) ?: [];
+    }
+
+    if (!empty($smtpConfig['password'])) {
+        require_once __DIR__ . '/vendor/autoload.php';
+        $mail = new PHPMailer\PHPMailer\PHPMailer(true);
+        try {
+            $mail->isSMTP();
+            $mail->Host       = $smtpConfig['host'] ?? 'smtp.gmail.com';
+            $mail->SMTPAuth   = true;
+            $mail->Username   = $smtpConfig['username'] ?? $from;
+            $mail->Password   = $smtpConfig['password'];
+            $mail->SMTPSecure = $smtpConfig['secure'] ?? PHPMailer\PHPMailer\PHPMailer::ENCRYPTION_STARTTLS;
+            $mail->Port       = $smtpConfig['port'] ?? 587;
+            $mail->CharSet    = 'UTF-8';
+            $mail->setFrom($from, $site_name);
+            $mail->addReplyTo($from);
+            $mail->addAddress($to);
+            $mail->Subject = $subject;
+            $mail->Body    = $body;
+            $mail->send();
+            return true;
+        } catch (Exception $e) {
+            error_log('sendMail error: ' . $e->getMessage());
+            return false;
+        }
+    }
+
+    // Fallback mail() si SMTP pas configuré
     $headers = 'From: ' . $site_name . ' <' . $from . '>' . "\r\n"
              . 'Reply-To: ' . $from . "\r\n"
              . 'Return-Path: ' . $from . "\r\n"
