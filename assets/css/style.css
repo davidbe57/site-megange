@@ -1428,6 +1428,8 @@ textarea.form-control {
     flex-shrink: 0;
 }
 
+.contact-info-item > div:last-child { flex: 1; min-width: 0; }
+
 .contact-info-item h4 {
     margin-bottom: 0.2rem;
 }
