@@ -19,3 +19,6 @@ data/*.json
 
 # Ancien r�pertoire externe (migration AlwaysData)
 megange-data/
+
+# Copie serveur InfinityFree
+village-megange.fr/
