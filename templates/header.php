@@ -12,6 +12,24 @@
     <meta property="og:url" content="<?= $site_url ?>/<?= $page === 'accueil' ? '' : 'index.php?p=' . $page ?>">
     <meta property="og:image" content="<?= $site_url ?>/assets/images/hero.jpg">
     <meta name="twitter:card" content="summary_large_image">
+    <meta name="google-site-verification" content="AJOUTE_ICI_TON_CODE_VERIFICATION">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "GovernmentOrganization",
+        "name": "Mairie de Mégange",
+        "description": "Site officiel de la commune de Mégange, village mosellan d'environ 200 habitants.",
+        "url": "<?= $site_url ?>",
+        "telephone": "<?= $site_phone ?>",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "25 rue Principale",
+            "postalCode": "57220",
+            "addressLocality": "Mégange",
+            "addressCountry": "FR"
+        }
+    }
+    </script>
     <script>document.documentElement.setAttribute('data-theme', localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'));</script>
     <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
     <link rel="stylesheet" href="assets/fonts/fontawesome.min.css">

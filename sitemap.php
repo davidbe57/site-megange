@@ -20,23 +20,23 @@ header('Content-Type: application/xml; charset=utf-8');
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc><?= $site_url ?>/index.php?p=contact</loc>
-    <priority>0.7</priority>
-    <changefreq>yearly</changefreq>
-  </url>
-  <url>
     <loc><?= $site_url ?>/index.php?p=vie-locale</loc>
     <priority>0.8</priority>
     <changefreq>weekly</changefreq>
   </url>
   <url>
     <loc><?= $site_url ?>/index.php?p=contact</loc>
-    <priority>0.6</priority>
+    <priority>0.7</priority>
     <changefreq>yearly</changefreq>
   </url>
   <url>
     <loc><?= $site_url ?>/index.php?p=galerie</loc>
     <priority>0.5</priority>
     <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc><?= $site_url ?>/index.php?p=mentions-legales</loc>
+    <priority>0.3</priority>
+    <changefreq>yearly</changefreq>
   </url>
 </urlset>
