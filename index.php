@@ -21,6 +21,7 @@ $page_titles = [
     'register' => 'Inscription',
     'login' => 'Connexion',
     'mon-compte' => 'Mon compte',
+    'webmaster' => 'Contacter le webmaster',
 ];
 $page_title = isset($nav[$page]) ? $nav[$page]['label'] . ' | ' . $site_name : ($page_titles[$page] ?? '') . ($page_titles[$page] ?? '' ? ' | ' . $site_name : $site_name);
 $is_home = ($page === 'accueil');

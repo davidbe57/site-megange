@@ -30,7 +30,7 @@
                 <p>&copy; <?= date('Y') ?> Commune de <?= $site_name ?> | 
                 <a href="index.php?p=mentions-legales">Mentions légales</a> | 
                 <a href="index.php?p=contact">Contact</a> | 
-                <a href="mailto:david.better@gmail.com">Envoyer un mail au webmaster</a></p>
+                <a href="index.php?p=webmaster">Contacter le webmaster</a></p>
             </div>
         </div>
     </footer>
