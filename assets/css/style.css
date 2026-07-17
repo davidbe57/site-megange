@@ -714,8 +714,8 @@ img { max-width: 100%; height: auto; vertical-align: middle; }
 
 .hours-list li:last-child { border-bottom: none; }
 
-.hours-list .day { font-weight: 600; color: var(--text-heading); }
-.hours-list .hours { color: var(--gray-400); }
+.hours-list .day { font-weight: 600; color: var(--text-heading); min-width: 6rem; }
+.hours-list .hours { color: var(--gray-400); text-align: right; }
 
 /* ===== Home Layout ===== */
 .home-layout {

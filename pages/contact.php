@@ -21,10 +21,13 @@
                         $msg   = trim($_POST['message'] ?? '');
                         $subjects = [
                             'etat-civil'   => 'État civil',
-                            'urbanisme'    => 'Urbanisme / Permis de construire',
-                            'associations' => 'Vie associative',
-                            'evenement'    => 'Proposer un événement',
-                            'autre'        => 'Autre demande',
+                            'histoire'    => 'Histoire de la commune',
+                            'bulletin'    => 'Bulletin communal',
+                            'dechetterie' => 'Déchetterie / Ordures ménagères',
+                            'salle'       => 'Location de salle',
+                            'conseil'     => 'Conseil municipal',
+                            'evenement'   => 'Proposer un événement / Actualités',
+                            'autre'       => 'Autre demande',
                         ];
                         $subjectLabel = $subjects[$subj] ?? 'Contact';
                         $entry = [
@@ -61,9 +64,12 @@
                         <select id="subject" name="subject" class="form-control" required>
                             <option value="">Choisissez un sujet</option>
                             <option value="etat-civil">État civil</option>
-                            <option value="urbanisme">Urbanisme / Permis de construire</option>
-                            <option value="associations">Vie associative</option>
-                            <option value="evenement">Proposer un événement</option>
+                            <option value="histoire">Histoire de la commune</option>
+                            <option value="bulletin">Bulletin communal</option>
+                            <option value="dechetterie">Déchetterie / Ordures ménagères</option>
+                            <option value="salle">Location de salle</option>
+                            <option value="conseil">Conseil municipal</option>
+                            <option value="evenement">Proposer un événement / Actualités</option>
                             <option value="autre">Autre demande</option>
                         </select>
                     </div>
@@ -114,9 +120,7 @@
                     </div>
                 </div>
 
-                <div class="map-container" style="margin-top: 2rem;">
-                    <p style="color: var(--green-700);"><i class="fas fa-map"></i> Carte interactive bientôt disponible</p>
-                </div>
+
             </div>
         </div>
     </div>

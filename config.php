@@ -107,6 +107,7 @@ $nav = [
         ]
     ],
     'vie-locale'  => ['label' => 'Actualités',  'icon' => 'fa-newspaper'],
+    'contact'     => ['label' => 'Contact',     'icon' => 'fa-envelope'],
     'login'       => ['label' => ($user_logged_in ? 'Mon compte' : 'Connexion'), 'icon' => ($user_logged_in ? 'fa-user' : 'fa-right-to-bracket')],
 ];
 
