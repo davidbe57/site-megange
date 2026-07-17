@@ -706,7 +706,6 @@ img { max-width: 100%; height: auto; vertical-align: middle; }
 
 .hours-list li {
     display: flex;
-    justify-content: space-between;
     padding: 0.4rem 0;
     border-bottom: 1px solid var(--gray-100);
     font-size: 0.9rem;
@@ -714,8 +713,8 @@ img { max-width: 100%; height: auto; vertical-align: middle; }
 
 .hours-list li:last-child { border-bottom: none; }
 
-.hours-list .day { font-weight: 600; color: var(--text-heading); min-width: 8rem; flex-shrink: 0; }
-.hours-list .hours { color: var(--gray-400); }
+.hours-list .day { font-weight: 600; color: var(--text-heading); flex: 0 0 8rem; }
+.hours-list .hours { color: var(--gray-400); flex: 1; }
 
 /* ===== Home Layout ===== */
 .home-layout {
@@ -1406,8 +1405,8 @@ textarea.form-control {
 /* ===== Contact Section ===== */
 .contact-grid {
     display: grid;
-    grid-template-columns: 1fr 1.5fr;
-    gap: 3rem;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
 }
 
 .contact-info-item {
