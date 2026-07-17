@@ -686,7 +686,7 @@ img { max-width: 100%; height: auto; vertical-align: middle; }
 .sidebar-widget {
     background: var(--bg-card);
     border-radius: var(--radius);
-    padding: 1.5rem;
+    padding: 1rem;
     box-shadow: var(--shadow-sm);
     margin-bottom: 1.5rem;
     border: 1px solid var(--border);
@@ -713,7 +713,7 @@ img { max-width: 100%; height: auto; vertical-align: middle; }
 
 .hours-list li:last-child { border-bottom: none; }
 
-.hours-list .day { font-weight: 600; color: var(--text-heading); flex: 0 0 6rem; }
+.hours-list .day { font-weight: 600; color: var(--text-heading); flex: 0 0 5.5rem; }
 .hours-list .hours { color: var(--gray-400); flex: 1; }
 
 /* ===== Home Layout ===== */
