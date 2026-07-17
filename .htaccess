@@ -1,6 +1,9 @@
 RewriteEngine On
 RewriteBase /
 
+# Sitemap
+RewriteRule ^sitemap\.xml$ sitemap.php [L]
+
 # Si le fichier ou dossier existe, ne pas réécrire
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
