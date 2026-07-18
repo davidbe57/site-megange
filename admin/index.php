@@ -59,6 +59,7 @@ if (file_exists($art_file)) {
                 <?php if ($logged_in): ?>
                 <a href="index.php?logout=1"><i class="fas fa-sign-out-alt"></i> Déconnexion</a>
                 <?php endif; ?>
+                <a href="../index.php?p=guide-admin" target="_blank" style="margin-left:1rem;"><i class="fas fa-question-circle"></i> Aide</a>
                 <a href="../index.php" style="margin-left:1rem;"><i class="fas fa-arrow-left"></i> Retour au site</a>
             </div>
         </div>

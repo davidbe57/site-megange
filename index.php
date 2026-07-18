@@ -22,6 +22,7 @@ $page_titles = [
     'login' => 'Connexion',
     'mon-compte' => 'Mon compte',
     'webmaster' => 'Contacter le webmaster',
+    'guide-admin' => 'Guide d\'utilisation de l\'administration',
 ];
 $page_title = isset($nav[$page]) ? $nav[$page]['label'] . ' | ' . $site_name : ($page_titles[$page] ?? '') . ($page_titles[$page] ?? '' ? ' | ' . $site_name : $site_name);
 $is_home = ($page === 'accueil');
