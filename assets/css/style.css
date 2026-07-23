@@ -679,7 +679,7 @@ img { max-width: 100%; height: auto; vertical-align: middle; }
 .vie-grid .section-conseil  { grid-column: 1; grid-row: 1; }
 .vie-grid .section-prochain { grid-column: 2; grid-row: 1; }
 .vie-grid .section-equipe   { grid-column: 1; grid-row: 2; }
-.vie-grid .section-elus     { grid-column: 2; grid-row: 2; }
+.vie-grid .section-elus     { grid-column: 2; grid-row: 2; align-self: start; }
 .vie-grid .section-comptes  { grid-column: 1; grid-row: 3; }
 
 /* ===== Sidebar ===== */

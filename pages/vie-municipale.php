@@ -34,10 +34,10 @@ $dateStr = $ts ? date('d', $ts) . ' ' . $months[(int)date('m', $ts)] . ' ' . dat
                 <p><i class="fas fa-clock"></i> <?= htmlspecialchars($conseilData['next_time'] ?? '20h00') ?> - <?= htmlspecialchars($conseilData['next_location'] ?? 'Salle du conseil') ?></p>
             </section>
 
-            <section class="vie-section section-elus sidebar-widget">
+            <section class="vie-section section-elus sidebar-widget" style="padding:1rem;">
                 <h3>Vos élus</h3>
-                <p>Nombre de conseillers : <strong><?= (int)($conseilData['councilors'] ?? 11) ?></strong></p>
-                <p>Prochaine élection : <strong><?= (int)($conseilData['next_election'] ?? 2026) ?></strong></p>
+                <p style="margin-bottom:0.25rem;">Conseillers : <strong><?= (int)($conseilData['councilors'] ?? 11) ?></strong></p>
+                <p style="margin:0;">Prochaine élection : <strong><?= (int)($conseilData['next_election'] ?? 2026) ?></strong></p>
             </section>
 
             <section class="vie-section section-comptes">
