@@ -102,9 +102,8 @@ $dateStr = $ts ? date('d', $ts) . ' ' . $months[(int)date('m', $ts)] . ' ' . dat
                         }
                         if (!empty($coms)):
                         ?>
-                        <p class="delegation" style="font-weight:600;margin-top:0.75rem;font-size:0.85rem;">Commissions municipales</p>
                         <?php foreach ($coms as $c): ?>
-                        <p class="delegation"><?= $c ?></p>
+                        <span class="delegation" style="display:inline-block;font-size:0.8rem;margin-right:0.4rem;"><?= $c ?></span>
                         <?php endforeach; ?>
                         <?php endif; ?>
                     </div>
