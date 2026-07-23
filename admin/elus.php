@@ -29,7 +29,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($action === 'add' || $action === 'edit') {
         $name = trim($_POST['name'] ?? '');
         $role = trim($_POST['role'] ?? '');
-        $delegation = trim($_POST['delegation'] ?? '');
+        $delegation1 = trim($_POST['delegation1'] ?? '');
+        $delegation2 = trim($_POST['delegation2'] ?? '');
+        $delegation3 = trim($_POST['delegation3'] ?? '');
+        $delegation4 = trim($_POST['delegation4'] ?? '');
         if ($name === '' || $role === '') {
             $error = 'Le nom et le rôle sont obligatoires.';
         } else {
@@ -45,12 +48,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($action === 'add') {
                 $maxId = 0;
                 foreach ($items as $e) { if ($e['id'] > $maxId) $maxId = $e['id']; }
-                $items[] = ['id' => $maxId + 1, 'name' => $name, 'role' => $role, 'delegation' => $delegation, 'photo' => $photo];
+                $items[] = ['id' => $maxId + 1, 'name' => $name, 'role' => $role, 'delegation1' => $delegation1, 'delegation2' => $delegation2, 'delegation3' => $delegation3, 'delegation4' => $delegation4, 'photo' => $photo];
             } else {
                 $editId = (int)($_POST['id'] ?? 0);
                 foreach ($items as &$e) {
                     if ($e['id'] === $editId) {
-                        $e['name'] = $name; $e['role'] = $role; $e['delegation'] = $delegation;
+                        $e['name'] = $name; $e['role'] = $role; $e['delegation1'] = $delegation1; $e['delegation2'] = $delegation2; $e['delegation3'] = $delegation3; $e['delegation4'] = $delegation4;
                         if ($photo) {
                             if (!empty($e['photo'])) {
                                 $pp = strpos($e['photo'], 'serve.php?f=') === 0 ? UPLOADS_DIR . '/' . substr($e['photo'], 12) : null;
@@ -109,9 +112,23 @@ if (isset($_GET['edit'])) {
                         <input type="text" id="role" name="role" class="form-control" value="<?= $editItem ? htmlspecialchars($editItem['role']) : '' ?>" required placeholder="Maire, Adjoint, Conseiller...">
                     </div>
                 </div>
-                <div class="form-group">
-                    <label for="delegation">Délégation (optionnel)</label>
-                    <input type="text" id="delegation" name="delegation" class="form-control" value="<?= $editItem ? htmlspecialchars($editItem['delegation']) : '' ?>" placeholder="Ex: Travaux et urbanisme">
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+                    <div class="form-group">
+                        <label for="delegation1">Commission 1</label>
+                        <input type="text" id="delegation1" name="delegation1" class="form-control" value="<?= $editItem ? htmlspecialchars($editItem['delegation1'] ?? '') : '' ?>">
+                    </div>
+                    <div class="form-group">
+                        <label for="delegation2">Commission 2</label>
+                        <input type="text" id="delegation2" name="delegation2" class="form-control" value="<?= $editItem ? htmlspecialchars($editItem['delegation2'] ?? '') : '' ?>">
+                    </div>
+                    <div class="form-group">
+                        <label for="delegation3">Commission 3</label>
+                        <input type="text" id="delegation3" name="delegation3" class="form-control" value="<?= $editItem ? htmlspecialchars($editItem['delegation3'] ?? '') : '' ?>">
+                    </div>
+                    <div class="form-group">
+                        <label for="delegation4">Commission 4</label>
+                        <input type="text" id="delegation4" name="delegation4" class="form-control" value="<?= $editItem ? htmlspecialchars($editItem['delegation4'] ?? '') : '' ?>">
+                    </div>
                 </div>
                 <div class="form-group">
                     <label for="photo">Photo (optionnelle, jpg/png/webp)</label>
@@ -129,14 +146,21 @@ if (isset($_GET['edit'])) {
                 <p style="color:var(--gray-400);">Aucun membre.</p>
             <?php else: ?>
                 <table class="admin-table">
-                    <thead><tr><th>Photo</th><th>Nom</th><th>Rôle</th><th>Délégation</th><th>Actions</th></tr></thead>
+                    <thead><tr><th>Photo</th><th>Nom</th><th>Rôle</th><th>Commissions</th><th>Actions</th></tr></thead>
                     <tbody>
                         <?php foreach ($items as $e): ?>
                         <tr>
                             <td><?php if (!empty($e['photo'])): ?><img src="<?= htmlspecialchars(fileUrl($e['photo'])) ?>" style="width:40px;height:40px;object-fit:cover;border-radius:50%;"><?php else: ?><i class="fas fa-user" style="font-size:1.2rem;color:var(--gray-400);"></i><?php endif; ?></td>
                             <td><strong><?= htmlspecialchars($e['name']) ?></strong></td>
                             <td><?= htmlspecialchars($e['role']) ?></td>
-                            <td><?= htmlspecialchars($e['delegation']) ?></td>
+                            <td style="font-size:0.85rem;"><?php
+                                $coms = [];
+                                for ($i = 1; $i <= 4; $i++) {
+                                    $k = 'delegation' . $i;
+                                    if (!empty($e[$k])) $coms[] = htmlspecialchars($e[$k]);
+                                }
+                                echo implode('<br>', $coms) ?: '-';
+                            ?></td>
                             <td>
                                 <div class="admin-actions">
                                     <a href="elus.php?edit=<?= $e['id'] ?>" style="background:var(--green-100);color:var(--green-700);"><i class="fas fa-edit"></i></a>

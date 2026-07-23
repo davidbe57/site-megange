@@ -94,8 +94,18 @@ $dateStr = $ts ? date('d', $ts) . ' ' . $months[(int)date('m', $ts)] . ' ' . dat
                         <div class="team-avatar"><?php if (!empty($member['photo'])): ?><img src="<?= htmlspecialchars(fileUrl($member['photo'])) ?>" alt="<?= htmlspecialchars($member['name']) ?>"><?php else: ?><i class="fas fa-user"></i><?php endif; ?></div>
                         <h3><?= htmlspecialchars($member['name']) ?></h3>
                         <p class="role"><?= htmlspecialchars($member['role']) ?></p>
-                        <?php if (!empty($member['delegation'])): ?>
-                        <p class="delegation"><?= htmlspecialchars($member['delegation']) ?></p>
+                        <?php
+                        $coms = [];
+                        for ($i = 1; $i <= 4; $i++) {
+                            $k = 'delegation' . $i;
+                            if (!empty($member[$k])) $coms[] = htmlspecialchars($member[$k]);
+                        }
+                        if (!empty($coms)):
+                        ?>
+                        <p class="delegation" style="font-weight:600;margin-top:0.75rem;font-size:0.85rem;">Commissions municipales</p>
+                        <?php foreach ($coms as $c): ?>
+                        <p class="delegation"><?= $c ?></p>
+                        <?php endforeach; ?>
                         <?php endif; ?>
                     </div>
                     <?php endforeach; ?>
